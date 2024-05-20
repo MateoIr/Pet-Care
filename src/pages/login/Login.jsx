@@ -1,8 +1,8 @@
-import { Box, Grid, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import foot from "../../images/foot.jpg";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import { Box, Grid, Typography } from "@mui/material";
 import "./Login.css";
 const Login = () => {
   return (
@@ -36,7 +36,7 @@ const Login = () => {
               }}
             >
               <Grid item xs={4}>
-                <Typography className="text" sx={{ fontSize: "20px" }}>
+                <Typography className="text" sx={{ fontSize: "17px" }}>
                   Correo:
                 </Typography>
               </Grid>
@@ -44,7 +44,7 @@ const Login = () => {
                 <CustomTextBox type="text" />
               </Grid>
               <Grid item xs={4}>
-                <Typography className="text" sx={{ fontSize: "20px" }}>
+                <Typography className="text" sx={{ fontSize: "17px" }}>
                   Contraseña:
                 </Typography>
               </Grid>
