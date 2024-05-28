@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Alert, Box, Grid } from "@mui/material";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import * as yup from "yup";
@@ -36,7 +36,6 @@ const UserCreateUser = ({ setUser }) => {
   const [userExist, setUserExist] = useState(null);
   const { isLoading, createUser, error } = useUserCreate({
     setUserExist,
-    setUser,
   });
 
   const onSubmit = (data) => {
@@ -60,7 +59,6 @@ const UserCreateUser = ({ setUser }) => {
       password,
       token,
     };
-    console.log("as");
     createUser(user);
   };
   return (
@@ -89,7 +87,14 @@ const UserCreateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
+          {error && (
+            <Alert severity="error">
+              Error al conectarce con la base de datos
+            </Alert>
+          )}
+          {userExist && <Alert severity="error">El usuario ya existe</Alert>}
           <Box className="titlePage">Usuarios / Crear usuario</Box>
+
           <Box>
             <Grid
               container
@@ -151,7 +156,7 @@ const UserCreateUser = ({ setUser }) => {
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomTextBox
-                  type="text"
+                  type="password"
                   register={register}
                   name="password"
                 />
@@ -165,7 +170,11 @@ const UserCreateUser = ({ setUser }) => {
               </Grid>
               <Grid item xs={6} className="textInput"></Grid>
               <Grid item xs={6} md={4} sx={{ mb: 2 }}>
-                <CustomButton onClick={handleSubmit(onSubmit)} text="Guardar" />
+                <CustomButton
+                  onClick={handleSubmit(onSubmit)}
+                  text="Guardar"
+                  isLoading={isLoading}
+                />
               </Grid>
             </Grid>
           </Box>

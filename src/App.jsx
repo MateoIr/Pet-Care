@@ -21,7 +21,10 @@ function App() {
             path="/user/createUser"
             element={<UserCreateUser setUser={setUser} />}
           />
-          <Route path="/user" element={<UserList setUser={setUser} />} />
+          <Route
+            path="/user/userList"
+            element={<UserList setUser={setUser} />}
+          />
           <Route path="/register" element={<Register setUser={setUser} />} />
         </Route>
         <Route

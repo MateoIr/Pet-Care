@@ -21,6 +21,28 @@
       "userType": "1",
       "password": "12345",
       "token": "ey123345"
+    },
+    {
+      "id": "6b17",
+      "name": "mateoa",
+      "lastName": "aaaa",
+      "email": "a@aa",
+      "phoneNumber": "11a",
+      "birthdate": "111a",
+      "userType": "2",
+      "password": "1111a",
+      "token": 972522
+    },
+    {
+      "id": "9f54",
+      "name": "a",
+      "lastName": "aaa",
+      "email": "a@aaa",
+      "phoneNumber": "11a",
+      "birthdate": "01 14 2020",
+      "userType": "1",
+      "password": "123123",
+      "token": 198501
     }
   ]
 }

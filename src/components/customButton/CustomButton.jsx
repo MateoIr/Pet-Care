@@ -1,17 +1,23 @@
 import PropTypes from "prop-types";
-import { Button } from "@mui/material";
 import "./CustomButton.css";
+import { LoadingButton } from "@mui/lab";
 
-const CustomButton = ({ text, onClick }) => {
+const CustomButton = ({ text, onClick, isLoading }) => {
   return (
-    <Button variant="contained" className="BtnStyle" onClick={onClick}>
-      {text}
-    </Button>
+    <LoadingButton
+      variant="contained"
+      className="BtnStyle"
+      loading={isLoading}
+      onClick={onClick}
+    >
+      {!isLoading ? text : ""}
+    </LoadingButton>
   );
 };
 
 CustomButton.propTypes = {
-  text: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
+  text: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 

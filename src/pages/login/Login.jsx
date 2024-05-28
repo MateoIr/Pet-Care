@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Box, Grid, Typography } from "@mui/material";
+import { Alert, Box, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -13,7 +13,7 @@ import useLogin from "../../hooks/useLogin";
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  useLogin({ email, password, setUser });
+  const { error, isLoading } = useLogin({ email, password, setUser });
   const schema = yup.object().shape({
     email: yup.string().email("it must be a e-mail").required("insert value"),
     password: yup
@@ -29,6 +29,7 @@ const Login = ({ setUser }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  console.log(error);
 
   const onSubmit = ({ email, password }) => {
     setEmail(email);
@@ -54,6 +55,11 @@ const Login = ({ setUser }) => {
               marginTop: 6,
             }}
           >
+            {error && (
+              <Alert severity="error">
+                Error al conectarce con la base de datos
+              </Alert>
+            )}
             <Grid
               spacing={3}
               container
@@ -91,7 +97,8 @@ const Login = ({ setUser }) => {
           <Box sx={{ paddingTop: 3, paddingBottom: 2, paddingX: 4 }}>
             <CustomButton
               onClick={handleSubmit(onSubmit)}
-              text="Iniciar sesión"
+              text="Iniciar Sesión"
+              isLoading={isLoading}
             />
           </Box>
           <Link href="#" className="link">

@@ -14,7 +14,8 @@ const getUserSelected = async (email, password) => {
     });
     return response.data;
   } catch (error) {
-    return null;
+    console.error("Error registrando usuario:", error);
+    throw error;
   }
 };
 const getUserEmail = async (email) => {
@@ -40,10 +41,8 @@ const registerUser = async ({
   password,
   token,
 }) => {
-  console.log("puta");
   try {
     const userEmails = await getUserEmail(email);
-
     if (userEmails.length === 0) {
       const response = await apiClient.post("/users", {
         name,
@@ -65,5 +64,16 @@ const registerUser = async ({
   }
 };
 
-export { getUserSelected, registerUser };
+const getAllUsers = async () => {
+  try {
+    const response = await apiClient.get("/users");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+export { getUserSelected, registerUser, getAllUsers };
 export default apiClient;
