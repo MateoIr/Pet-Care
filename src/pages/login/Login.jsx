@@ -1,16 +1,45 @@
 import { Link } from "react-router-dom";
-import foot from "../../images/foot.jpg";
-import CustomButton from "../../components/customButton/CustomButton";
-import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import { Box, Grid, Typography } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import CustomButton from "../../components/customButton/CustomButton";
+import foot from "../../images/foot.jpg";
 import "./Login.css";
-const Login = () => {
+import { useState } from "react";
+import useLogin from "../../hooks/useLogin";
+
+const Login = ({ setUser }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  useLogin({ email, password, setUser });
+  const schema = yup.object().shape({
+    email: yup.string().email("it must be a e-mail").required("insert value"),
+    password: yup
+      .string()
+      .min(4, "It must have 4 characters")
+      .max(20, "It must be less than 20 characters")
+      .required("insert value"),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = ({ email, password }) => {
+    setEmail(email);
+    setPassword(password);
+  };
   return (
     <>
-      <Box className="footLeft">
+      <Box className="footLeftLogin">
         <img src={foot} alt="foot image 1" />
       </Box>
-      <Box className="footRight">
+      <Box className="footRightLogin">
         <img src={foot} alt="foot image 2" />
       </Box>
       <Box className="dysplayContainer">
@@ -41,7 +70,8 @@ const Login = () => {
                 </Typography>
               </Grid>
               <Grid item xs={8}>
-                <CustomTextBox type="text" />
+                <CustomTextBox type="text" register={register} name="email" />
+                <p className="errorText">{errors.email?.message}</p>
               </Grid>
               <Grid item xs={4}>
                 <Typography className="text" sx={{ fontSize: "17px" }}>
@@ -49,12 +79,20 @@ const Login = () => {
                 </Typography>
               </Grid>
               <Grid item xs={8}>
-                <CustomTextBox type="password" />
+                <CustomTextBox
+                  type="password"
+                  register={register}
+                  name="password"
+                />
+                <p className="errorText">{errors.password?.message}</p>
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{ paddingTop: 3, paddingBottom: 2 }}>
-            <CustomButton text="Iniciar sesión" />
+          <Box sx={{ paddingTop: 3, paddingBottom: 2, paddingX: 4 }}>
+            <CustomButton
+              onClick={handleSubmit(onSubmit)}
+              text="Iniciar sesión"
+            />
           </Box>
           <Link href="#" className="link">
             Olvidé mi contraseña

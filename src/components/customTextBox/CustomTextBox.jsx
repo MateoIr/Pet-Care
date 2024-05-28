@@ -19,7 +19,7 @@ const CssTextField = styled(TextField)({
   },
 });
 
-const customTextBox = ({ type }) => {
+const CustomTextBox = ({ type, register, name }) => {
   return (
     <Box
       component="form"
@@ -33,6 +33,7 @@ const customTextBox = ({ type }) => {
       <CssTextField
         id="custom-css-outlined-input"
         variant="outlined"
+        {...register(name)}
         type={type}
         InputProps={{
           style: {
@@ -47,4 +48,4 @@ const customTextBox = ({ type }) => {
   );
 };
 
-export default customTextBox;
+export default CustomTextBox;

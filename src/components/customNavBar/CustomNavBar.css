@@ -1,14 +1,47 @@
-.NavBar {
-  background-color: #fff9ee;
-  height: 100vh;
+.bigContainer {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: space-between;
+  background-color: #fff9ee;
   box-shadow: 2px 0px 1px rgba(0, 0, 0, 0.1);
 }
-.Container {
-  flex: 1;
+.Header {
+  background-color: #fff9ee;
+  height: 50px;
   width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.HeaderMenuOpen,
+.HeaderMenuClosed {
+  opacity: 1;
+  transition: opacity 0.3s ease, height 0s ease; /* Transición para opacidad y altura */
+  width: 100%;
+  overflow: hidden; /* Ocultar el contenido que desborda */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.HeaderMenuOpen {
+  height: 90%; /* Altura automática para contenido variable */
+}
+
+.HeaderMenuClosed {
+  opacity: 0;
+  height: 0; /* Altura inicial cero */
+  visibility: hidden; /* Ocultar el elemento, pero conservar el espacio */
+}
+.NavBar {
+  display: flex;
+  flex-direction: column;
 }
 
 .butomNavBar {
@@ -27,5 +60,5 @@
 }
 
 .butomNavBar:hover {
-  background-color: #d6ae85; /* Cambiamos el color de fondo al pasar el mouse */
+  background-color: #d6ae85;
 }

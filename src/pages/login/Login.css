@@ -4,18 +4,17 @@
   align-items: center;
   height: 100vh;
 }
-.footLeft {
+.footLeftLogin {
   position: fixed;
   left: 10vw;
-  top: 70vh;
+  top: 55vh;
   z-index: -1;
 }
-.footRight {
+.footRightLogin {
   position: fixed;
   right: 10vw;
   top: 10vh;
-  bottom: -30vh;
-  z-index: -1;
+  z-index: -2;
 }
 .titleLogin {
   font-family: "Staatliches", sans-serif !important;
@@ -31,4 +30,8 @@ a.link {
   font-family: "Scada", sans-serif;
   font-weight: 700 !important;
   font-style: normal !important;
+}
+.errorText {
+  color: red;
+  margin-top: 2px;
 }

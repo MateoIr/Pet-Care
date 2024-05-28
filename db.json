@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "juan",
+      "lastName": "perex",
+      "email": "juan@gmail.com",
+      "phoneNumber": "351222222",
+      "birthdate": "20/12/2000",
+      "userType": "1",
+      "password": "12345",
+      "token": "ey123345"
+    },
+    {
+      "id": "1",
+      "name": "juan",
+      "lastName": "perex",
+      "email": "a@a",
+      "phoneNumber": "351222222",
+      "birthdate": "20/12/2000",
+      "userType": "1",
+      "password": "12345",
+      "token": "ey123345"
+    }
+  ]
+}
