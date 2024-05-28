@@ -13,7 +13,7 @@ import useLogin from "../../hooks/useLogin";
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { error, isLoading } = useLogin({ email, password, setUser });
+  const { error, isLoading, user } = useLogin({ email, password, setUser });
   const schema = yup.object().shape({
     email: yup.string().email("it must be a e-mail").required("insert value"),
     password: yup
@@ -101,6 +101,9 @@ const Login = ({ setUser }) => {
               isLoading={isLoading}
             />
           </Box>
+          {user && (
+            <p className="errorText">Usuario o contraseña incorrecta!</p>
+          )}
           <Link href="#" className="link">
             Olvidé mi contraseña
           </Link>
