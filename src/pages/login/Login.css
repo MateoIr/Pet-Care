@@ -1,0 +1,37 @@
+.dysplayContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.footLeftLogin {
+  position: fixed;
+  left: 10vw;
+  top: 55vh;
+  z-index: -1;
+}
+.footRightLogin {
+  position: fixed;
+  right: 10vw;
+  top: 10vh;
+  z-index: -2;
+}
+.titleLogin {
+  font-family: "Staatliches", sans-serif !important;
+  font-style: normal;
+}
+a.link {
+  color: #805454;
+  font-size: small;
+  font-weight: 700;
+}
+
+.text {
+  font-family: "Scada", sans-serif;
+  font-weight: 700 !important;
+  font-style: normal !important;
+}
+.errorText {
+  color: red;
+  margin-top: 2px;
+}

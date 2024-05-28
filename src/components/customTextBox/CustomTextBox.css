@@ -1,0 +1,25 @@
+/* Custom styles for the TextField component */
+.custom-textfield .MuiInputBase-root {
+  color: #805454 !important; /* Color del texto */
+  background-color: #ffdfae !important; /* Color de fondo del input */
+}
+
+.custom-textfield .MuiInput-underline:before {
+  border-bottom-color: #805454 !important; /* Color del borde antes del enfoque */
+}
+
+.custom-textfield .MuiInput-underline:after {
+  border-bottom-color: #d6ae85 !important; /* Color del borde después del enfoque */
+}
+
+.custom-textfield .MuiInput-underline:hover:not(.Mui-disabled):before {
+  border-bottom-color: #d6ae85 !important; /* Color del borde al pasar el mouse */
+}
+
+.custom-textfield .MuiFormLabel-root {
+  color: #805454 !important; /* Color del label */
+}
+
+.custom-textfield .MuiFormLabel-root.Mui-focused {
+  color: #d6ae85 !important; /* Color del label cuando está enfocado */
+}

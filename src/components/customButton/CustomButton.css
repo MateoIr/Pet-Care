@@ -1,0 +1,13 @@
+.BtnStyle {
+  color: #805454 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01px !important;
+  width: 100%;
+  margin: 2px;
+  height: 25px;
+  text-transform: none;
+  background-color: #ffdfae !important;
+}
+.BtnStyle:hover {
+  background-color: #d6ae85 !important;
+}
