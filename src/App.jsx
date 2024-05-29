@@ -2,11 +2,11 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
-import Register from "./pages/register/Register";
 import UserCreateUser from "./pages/usersCreateUser/UserCreateUser";
 import UserList from "./pages/userList/UserList";
 import { useLocalStorage } from "react-use";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import ClientesRegistroMascota from "./pages/clientesRegistroMascota/ClientesRegistroMascota";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -18,6 +18,11 @@ function App() {
         >
           <Route path="/home" element={<Home setUser={setUser} />} />
           <Route
+            path="/client/pet/register"
+            element={<ClientesRegistroMascota setUser={setUser} />}
+          />
+
+          <Route
             path="/user/createUser"
             element={<UserCreateUser setUser={setUser} />}
           />
@@ -25,7 +30,6 @@ function App() {
             path="/user/userList"
             element={<UserList setUser={setUser} />}
           />
-          <Route path="/register" element={<Register setUser={setUser} />} />
         </Route>
         <Route
           element={<ProtectedRoute canActivate={!user} redirectPath="/home" />}

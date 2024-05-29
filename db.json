@@ -44,5 +44,94 @@
       "password": "123123",
       "token": 198501
     }
+  ],
+  "race": [
+    {
+      "idRaza": "1",
+      "descripcion": "Otro",
+      "id": "1b60"
+    },
+    {
+      "idRaza": "2",
+      "descripcion": "caniche",
+      "id": "4533"
+    },
+    {
+      "idRaza": "3",
+      "descripcion": "boxer",
+      "id": "ae2a"
+    },
+    {
+      "idRaza": "4",
+      "descripcion": "border colie",
+      "id": "5499"
+    }
+  ],
+  "animal": [
+    {
+      "idAnimal": "1",
+      "descripcion": "Otro",
+      "id": "1cb6"
+    },
+    {
+      "idAnimal": "2",
+      "descripcion": "Gato",
+      "id": "b4b3"
+    },
+    {
+      "idAnimal": "3",
+      "descripcion": "Perro",
+      "id": "5051"
+    },
+    {
+      "idAnimal": "4",
+      "descripcion": "Loro",
+      "id": "da0b"
+    }
+  ],
+  "pet": [
+    {
+      "id": "1",
+      "name": "mateo",
+      "animal": "2",
+      "race": "3",
+      "size": "1231231",
+      "weight": "70",
+      "birthdate": "1231231",
+      "owner": "mateo"
+    },
+    {
+      "id": "dc10",
+      "name": "lolo",
+      "animal": "2",
+      "race": "",
+      "size": "grande",
+      "weight": "10",
+      "sex": "F",
+      "birthdate": "10 10 10",
+      "owner": "lolo"
+    },
+    {
+      "id": "183f",
+      "name": "lolo",
+      "animal": "3",
+      "race": "",
+      "size": "",
+      "weight": "",
+      "sex": "M",
+      "birthdate": "",
+      "owner": "lolo"
+    },
+    {
+      "id": "f04c",
+      "name": "sfrsdffd",
+      "animal": "",
+      "race": "",
+      "size": "",
+      "weight": "",
+      "sex": "M",
+      "birthdate": "",
+      "owner": "tryt"
+    }
   ]
 }
