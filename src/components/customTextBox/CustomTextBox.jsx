@@ -31,7 +31,7 @@ const CustomTextBox = ({ type, register, name }) => {
       }}
     >
       <CssTextField
-        id="custom-css-outlined-input"
+        id={name}
         variant="outlined"
         {...register(name)}
         type={type}

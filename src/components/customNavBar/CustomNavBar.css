@@ -31,13 +31,13 @@
 }
 
 .HeaderMenuOpen {
-  height: 90%; /* Altura automática para contenido variable */
+  height: 90%;
 }
 
 .HeaderMenuClosed {
   opacity: 0;
-  height: 0; /* Altura inicial cero */
-  visibility: hidden; /* Ocultar el elemento, pero conservar el espacio */
+  height: 0;
+  visibility: hidden;
 }
 .NavBar {
   display: flex;

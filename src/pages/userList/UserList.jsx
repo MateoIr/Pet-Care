@@ -1,5 +1,6 @@
 import {
   Box,
+  IconButton,
   Grid,
   Table,
   TableBody,
@@ -7,11 +8,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Alert,
 } from "@mui/material";
-import React from "react";
+
+import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
+import "./UserList.css";
+import useGetAllUsers from "../../hooks/useGetAllUsers";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const UserList = () => {
+  const { user, isLoading, error } = useGetAllUsers();
+
   return (
     <Grid
       container
@@ -34,53 +43,61 @@ const UserList = () => {
           height: "90%",
         }}
       >
-        <Box className="titlePage">Usuarios </Box>
+        {error && (
+          <Alert severity="error">
+            No es posible conectarse con la base de datos
+          </Alert>
+        )}
+        <Box className="titlePage">Usuarios</Box>
         <Box>
-          <Grid
-            container
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              maxWidth: "900px",
-              width: "auto",
-              paddingX: "20px",
-            }}
-            rowGap={2}
-          >
+          <Grid container className="tableContainer" rowGap={2}>
             <TableContainer>
-              <Table sx={{ border: "2px dotted grey" }}>
+              <Table className="tableCellTitle">
                 <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Nombre
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Apellido
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Email
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Opciones
-                    </TableCell>
+                  <TableRow className="tableCellTitle">
+                    <TableCell className="tableCellTitle">Nombre</TableCell>
+                    <TableCell className="tableCellTitle">Apellido</TableCell>
+                    <TableCell className="tableCellTitle">Email</TableCell>
+                    <TableCell className="tableCellTitle">Opciones</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Juan
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Lopez
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      juan@gmail
-                    </TableCell>
-                    <TableCell sx={{ border: "2px dotted grey" }}>
-                      Bla bla bla
-                    </TableCell>
-                  </TableRow>
+                  {isLoading && (
+                    <TableRow>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {user?.map((user, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="tableCell">{user.name}</TableCell>
+                      <TableCell className="tableCell">
+                        {user.lastName}
+                      </TableCell>
+                      <TableCell className="tableCell">{user.email}</TableCell>
+                      <TableCell className="tableCell">
+                        <Box className="containerOptions">
+                          <IconButton aria-label="edit">
+                            <EditIcon />
+                          </IconButton>
+
+                          <IconButton aria-label="delete">
+                            <DeleteIcon />
+                          </IconButton>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
