@@ -25,6 +25,38 @@ const getAllAnimals = async () => {
     );
   }
 };
+const getAllLocalidades = async () => {
+  try {
+    const response = await apiClient.get("/localidad");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getAllPaises = async () => {
+  try {
+    const response = await apiClient.get("/pais");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getAllProvincias = async () => {
+  try {
+    const response = await apiClient.get("/provincias");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
 
 const getUserAnimal = async (name, animal, sex, owner) => {
   try {
@@ -77,4 +109,11 @@ const registerAnimal = async ({
     throw error;
   }
 };
-export { getAllRace, getAllAnimals, registerAnimal };
+export {
+  getAllPaises,
+  getAllProvincias,
+  getAllRace,
+  getAllAnimals,
+  registerAnimal,
+  getAllLocalidades,
+};
