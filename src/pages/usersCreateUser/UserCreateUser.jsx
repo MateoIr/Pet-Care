@@ -7,9 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import { useUserCreate } from "../../hooks/useUserCreate";
 import foot from "../../images/foot.jpg";
-import "./UserCreateUser.css";
-import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
 import { useState } from "react";
+import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
+import "./UserCreateUser.css";
 
 const UserCreateUser = ({ setUser }) => {
   const schema = yup.object().shape({
@@ -111,6 +111,7 @@ const UserCreateUser = ({ setUser }) => {
                 <CustomTextBox type="text" register={register} name="name" />
                 <p className="errorText">{errors.name?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
                 Apellido:
               </Grid>

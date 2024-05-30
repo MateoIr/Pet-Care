@@ -133,5 +133,185 @@
       "birthdate": "",
       "owner": "tryt"
     }
+  ],
+  "provincias": [
+    {
+      "id": 1,
+      "descripcion": "Buenos Aires"
+    },
+    {
+      "id": 2,
+      "descripcion": "Catamarca"
+    },
+    {
+      "id": 3,
+      "descripcion": "Chaco"
+    },
+    {
+      "id": 4,
+      "descripcion": "Chubut"
+    },
+    {
+      "id": 5,
+      "descripcion": "Córdoba"
+    },
+    {
+      "id": 6,
+      "descripcion": "Corrientes"
+    },
+    {
+      "id": 7,
+      "descripcion": "Entre Ríos"
+    },
+    {
+      "id": 8,
+      "descripcion": "Formosa"
+    },
+    {
+      "id": 9,
+      "descripcion": "Jujuy"
+    },
+    {
+      "id": 10,
+      "descripcion": "La Pampa"
+    },
+    {
+      "id": 11,
+      "descripcion": "La Rioja"
+    },
+    {
+      "id": 12,
+      "descripcion": "Mendoza"
+    },
+    {
+      "id": 13,
+      "descripcion": "Misiones"
+    },
+    {
+      "id": 14,
+      "descripcion": "Neuquén"
+    },
+    {
+      "id": 15,
+      "descripcion": "Río Negro"
+    },
+    {
+      "id": 16,
+      "descripcion": "Salta"
+    },
+    {
+      "id": 17,
+      "descripcion": "San Juan"
+    },
+    {
+      "id": 18,
+      "descripcion": "San Luis"
+    },
+    {
+      "id": 19,
+      "descripcion": "Santa Cruz"
+    },
+    {
+      "id": 20,
+      "descripcion": "Santa Fe"
+    },
+    {
+      "id": 21,
+      "descripcion": "Santiago del Estero"
+    },
+    {
+      "id": 22,
+      "descripcion": "Tierra del Fuego"
+    },
+    {
+      "id": 23,
+      "descripcion": "Tucumán"
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "descripcion": "Argentina"
+    },
+    {
+      "id": 2,
+      "descripcion": "Uruguay"
+    },
+    {
+      "id": 3,
+      "descripcion": "Brasil"
+    },
+    {
+      "id": 4,
+      "descripcion": "Chile"
+    }
+  ],
+  "localidad": [
+    { "id": 1, "descripcion": "La Plata" },
+    { "id": 2, "descripcion": "Mar del Plata" },
+    { "id": 3, "descripcion": "Bahía Blanca" },
+    { "id": 4, "descripcion": "San Fernando del Valle de Catamarca" },
+    { "id": 5, "descripcion": "Valle Viejo" },
+    { "id": 6, "descripcion": "Belén" },
+    { "id": 7, "descripcion": "Resistencia" },
+    { "id": 8, "descripcion": "Sáenz Peña" },
+    { "id": 9, "descripcion": "Villa Ángela" },
+    { "id": 10, "descripcion": "Rawson" },
+    { "id": 11, "descripcion": "Comodoro Rivadavia" },
+    { "id": 12, "descripcion": "Trelew" },
+    { "id": 13, "descripcion": "Córdoba" },
+    { "id": 14, "descripcion": "Villa Carlos Paz" },
+    { "id": 15, "descripcion": "Río Cuarto" },
+    { "id": 16, "descripcion": "Corrientes" },
+    { "id": 17, "descripcion": "Goya" },
+    { "id": 18, "descripcion": "Monte Caseros" },
+    { "id": 19, "descripcion": "Paraná" },
+    { "id": 20, "descripcion": "Concordia" },
+    { "id": 21, "descripcion": "Gualeguaychú" },
+    { "id": 22, "descripcion": "Formosa" },
+    { "id": 23, "descripcion": "Clorinda" },
+    { "id": 24, "descripcion": "Pirané" },
+    { "id": 25, "descripcion": "San Salvador de Jujuy" },
+    { "id": 26, "descripcion": "Palpalá" },
+    { "id": 27, "descripcion": "San Pedro de Jujuy" },
+    { "id": 28, "descripcion": "Santa Rosa" },
+    { "id": 29, "descripcion": "General Pico" },
+    { "id": 30, "descripcion": "Toay" },
+    { "id": 31, "descripcion": "La Rioja" },
+    { "id": 32, "descripcion": "Chilecito" },
+    { "id": 33, "descripcion": "Aimogasta" },
+    { "id": 34, "descripcion": "Mendoza" },
+    { "id": 35, "descripcion": "San Rafael" },
+    { "id": 36, "descripcion": "Godoy Cruz" },
+    { "id": 37, "descripcion": "Posadas" },
+    { "id": 38, "descripcion": "Oberá" },
+    { "id": 39, "descripcion": "Eldorado" },
+    { "id": 40, "descripcion": "Neuquén" },
+    { "id": 41, "descripcion": "San Martín de los Andes" },
+    { "id": 42, "descripcion": "Zapala" },
+    { "id": 43, "descripcion": "Salta" },
+    { "id": 44, "descripcion": "Tartagal" },
+    { "id": 45, "descripcion": "Orán" },
+    { "id": 46, "descripcion": "San Juan" },
+    { "id": 47, "descripcion": "Rawson" },
+    { "id": 48, "descripcion": "Caucete" },
+    { "id": 49, "descripcion": "San Luis" },
+    { "id": 50, "descripcion": "Villa Mercedes" },
+    { "id": 51, "descripcion": "Merlo" },
+    { "id": 52, "descripcion": "Río Gallegos" },
+    { "id": 53, "descripcion": "Caleta Olivia" },
+    { "id": 54, "descripcion": "El Calafate" },
+    { "id": 55, "descripcion": "Santa Fe" },
+    { "id": 56, "descripcion": "Rosario" },
+    { "id": 57, "descripcion": "Rafaela" },
+    { "id": 58, "descripcion": "Santiago del Estero" },
+    { "id": 59, "descripcion": "La Banda" },
+    { "id": 60, "descripcion": "Termas de Río Hondo" },
+    { "id": 61, "descripcion": "Ushuaia" },
+    { "id": 62, "descripcion": "Río Grande" },
+    { "id": 63, "descripcion": "Tolhuin" },
+    { "id": 64, "descripcion": "San Miguel de Tucumán" },
+    { "id": 65, "descripcion": "Concepción" },
+    { "id": 66, "descripcion": "Tafí Viejo" }
   ]
 }
