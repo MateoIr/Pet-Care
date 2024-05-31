@@ -5,12 +5,11 @@ const apiClient = axios.create({
 });
 
 const getUserSelected = async (email, password) => {
+  console.log("aca");
   try {
-    const response = await apiClient.get("/users", {
-      params: {
-        email,
-        password,
-      },
+    const response = await apiClient.post("/users", {
+      email,
+      password,
     });
     return response.data;
   } catch (error) {
@@ -18,6 +17,7 @@ const getUserSelected = async (email, password) => {
     throw error;
   }
 };
+
 const getUserEmail = async (email) => {
   try {
     const response = await apiClient.get("/users", {
