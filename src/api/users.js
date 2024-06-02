@@ -1,20 +1,25 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "http://localhost:8080",
 });
 
 const getUserSelected = async (email, password) => {
-  console.log("aca");
   try {
-    const response = await apiClient.post("/users", {
-      email,
-      password,
+    const persona = {
+      email: email.email,
+      password: email.password,
+    };
+    console.log(persona);
+    const response = await axios.post("http://localhost:8080/login/ingresar", {
+      email: email.email,
+      password: email.password,
     });
     return response.data;
   } catch (error) {
-    console.error("Error registrando usuario:", error);
-    throw error;
+    return response
+      .status(401)
+      .json({ error: "Usuario o contraseña incorrectas" });
   }
 };
 

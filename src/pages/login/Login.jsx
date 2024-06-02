@@ -14,6 +14,7 @@ const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { error, isLoading, user } = useLogin({ email, password, setUser });
+  console.log(user);
   const schema = yup.object().shape({
     email: yup.string().email("it must be a e-mail").required("insert value"),
     password: yup
@@ -54,11 +55,11 @@ const Login = ({ setUser }) => {
               marginTop: 6,
             }}
           >
-            {error && (
+            {/* {error && (
               <Alert severity="error">
                 Error al conectarce con la base de datos
               </Alert>
-            )}
+            )} */}
             <Grid
               spacing={3}
               container
@@ -100,7 +101,7 @@ const Login = ({ setUser }) => {
               isLoading={isLoading}
             />
           </Box>
-          {user && (
+          {error && (
             <p className="errorText">Usuario o contraseña incorrecta!</p>
           )}
           <Link href="#" className="link">

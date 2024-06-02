@@ -12,7 +12,6 @@ const useLogin = ({ email, password, setUser }) => {
   } = useMutation({
     mutationFn: getUserSelected,
   });
-
   useEffect(() => {
     if (email && password) {
       mutate({ email, password });
@@ -21,15 +20,15 @@ const useLogin = ({ email, password, setUser }) => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (user && user.length > 0) {
-      const { email: emailSelected, password: passwordSelected } = user[0];
-      if (emailSelected === email && passwordSelected === password) {
-        window.localStorage.setItem("userType", user[0].userType);
-        setUser(user[0].token);
+    console.log("error: " + error);
+    if (user != undefined) {
+      if (!error) {
+        window.localStorage.setItem("userType", user.denominacion);
+        setUser(user.email);
         navigate("/home");
       }
     }
-  }, [user, email, password, navigate, setUser]);
+  }, [user, error, email, password, navigate, setUser]);
 
   return {
     user,
