@@ -80,11 +80,10 @@ const UserList = () => {
                   )}
                   {user?.map((user, index) => (
                     <TableRow key={index}>
-                      <TableCell className="tableCell">{user.name}</TableCell>
-                      <TableCell className="tableCell">
-                        {user.lastName}
+                      <TableCell className="tableCell">{user.idpersona.nombre}</TableCell>
+                      <TableCell className="tableCell">{user.idpersona.apellido}
                       </TableCell>
-                      <TableCell className="tableCell">{user.email}</TableCell>
+                      <TableCell className="tableCell">{user.idpersona.email}</TableCell>
                       <TableCell className="tableCell">
                         <Box className="containerOptions">
                           <IconButton aria-label="edit">

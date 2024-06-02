@@ -71,7 +71,7 @@ const registerUser = async ({
 
 const getAllUsers = async () => {
   try {
-    const response = await apiClient.get("/users");
+    const response = await apiClient.get("/login/usuarios");
     return response.data;
   } catch (error) {
     throw new Error(
