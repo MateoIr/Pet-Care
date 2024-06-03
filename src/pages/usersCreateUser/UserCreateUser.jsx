@@ -48,7 +48,7 @@ const UserCreateUser = ({ setUser }) => {
       userType,
       password,
     } = data;
-   
+
     const user = {
       name,
       lastName,
@@ -86,14 +86,13 @@ const UserCreateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
-          {/* {error && (
+          {error && (
             <Alert severity="error">
-          {error}
+              Ya existe un usuario creado con este correo!
             </Alert>
-          )} */}
+          )}
           {/* {userExist && <Alert severity="error">El usuario ya existe</Alert>} */}
           <Box className="titlePage">Usuarios / Crear usuario</Box>
-
           <Box>
             <Grid
               container

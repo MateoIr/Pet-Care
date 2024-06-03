@@ -18,7 +18,7 @@ const CustomButton = ({ text, onClick, isLoading }) => {
 CustomButton.propTypes = {
   isLoading: PropTypes.bool,
   text: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default CustomButton;

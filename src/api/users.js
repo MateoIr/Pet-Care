@@ -5,6 +5,7 @@ const apiClient = axios.create({
 });
 
 const getUserSelected = async (email, password) => {
+  const response = "";
   try {
     const persona = {
       email: email.email,
@@ -46,21 +47,20 @@ const registerUser = async ({
   password,
 }) => {
   try {
-   
-      const response = await apiClient.post("/login/registrar", {
-        nombre: name,
-        apellido: lastName,
-        email: email,
-        telefono: phoneNumber,
-        fechaDeNacimiento: birthdate,
-        idTipoUsuario: userType,
-        contrasena: password,
-      });
-      return response.data;
-    
+    const response = await apiClient.post("/login/registrar", {
+      nombre: name,
+      apellido: lastName,
+      email: email,
+      telefono: phoneNumber,
+      fechaDeNacimiento: birthdate,
+      idTipoUsuario: userType,
+      contrasena: password,
+    });
+    return response.data;
   } catch (error) {
-    console.error("Error registrando usuario:", error);
-    throw error;
+    return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
   }
 };
 
