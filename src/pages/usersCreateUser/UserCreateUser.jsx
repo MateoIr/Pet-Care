@@ -48,7 +48,7 @@ const UserCreateUser = ({ setUser }) => {
       userType,
       password,
     } = data;
-    const token = Math.floor(100000 + Math.random() * 900000);
+
     const user = {
       name,
       lastName,
@@ -57,7 +57,6 @@ const UserCreateUser = ({ setUser }) => {
       birthdate,
       userType,
       password,
-      token,
     };
     createUser(user);
   };
@@ -89,12 +88,11 @@ const UserCreateUser = ({ setUser }) => {
         >
           {error && (
             <Alert severity="error">
-              Error al conectarce con la base de datos
+              Ya existe un usuario creado con este correo!
             </Alert>
           )}
-          {userExist && <Alert severity="error">El usuario ya existe</Alert>}
+          {/* {userExist && <Alert severity="error">El usuario ya existe</Alert>} */}
           <Box className="titlePage">Usuarios / Crear usuario</Box>
-
           <Box>
             <Grid
               container
@@ -146,7 +144,7 @@ const UserCreateUser = ({ setUser }) => {
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomTextBox
-                  type="text"
+                  type="date"
                   register={register}
                   name="birthdate"
                 />

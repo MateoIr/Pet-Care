@@ -12,14 +12,12 @@ export const useUserCreate = ({ setUserExist }) => {
   } = useMutation({
     mutationFn: registerUser,
     onSuccess: (data) => {
+      console.log("data" + data);
       if (data?.error) {
-        setUserExist(data.error);
+        setUserExist(error.data);
       } else {
         navigate("/home");
       }
-    },
-    onError: (error) => {
-      console.error("Error registering user:", error);
     },
   });
 

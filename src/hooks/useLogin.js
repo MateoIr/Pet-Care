@@ -1,30 +1,34 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getUserSelected } from "../api/users";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useLogin = ({ email, password, setUser }) => {
   const {
+    mutate,
     data: user,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["users", email, password],
-    queryFn: () => getUserSelected(email, password),
-    enabled: !!email && !!password,
+  } = useMutation({
+    mutationFn: getUserSelected,
   });
+  useEffect(() => {
+    if (email && password) {
+      mutate({ email, password });
+    }
+  }, [email, password, mutate]);
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (user && user.length > 0) {
-      const { email: emailSelected, password: passwordSelected } = user[0];
-      if (emailSelected === email && passwordSelected === password) {
-        window.localStorage.setItem("userType", user[0].userType);
-        setUser(user[0].token);
+    console.log("error: " + error);
+    if (user != undefined) {
+      if (!error) {
+        window.localStorage.setItem("userType", user.denominacion);
+        setUser(user.email);
         navigate("/home");
       }
     }
-  }, [user, email, password, navigate, setUser]);
+  }, [user, error, email, password, navigate, setUser]);
 
   return {
     user,
