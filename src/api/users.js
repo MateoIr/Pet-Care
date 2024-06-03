@@ -13,7 +13,7 @@ const getUserSelected = async (email, password) => {
     console.log(persona);
     const response = await axios.post("http://localhost:8080/login/ingresar", {
       email: email.email,
-      password: email.password,
+      contrasena: email.password,
     });
     return response.data;
   } catch (error) {
@@ -44,25 +44,20 @@ const registerUser = async ({
   birthdate,
   userType,
   password,
-  token,
 }) => {
   try {
-    const userEmails = await getUserEmail(email);
-    if (userEmails.length === 0) {
-      const response = await apiClient.post("/users", {
-        name,
-        lastName,
-        email,
-        phoneNumber,
-        birthdate,
-        userType,
-        password,
-        token,
+   
+      const response = await apiClient.post("/login/registrar", {
+        nombre: name,
+        apellido: lastName,
+        email: email,
+        telefono: phoneNumber,
+        fechaDeNacimiento: birthdate,
+        idTipoUsuario: userType,
+        contrasena: password,
       });
       return response.data;
-    } else {
-      return { error: "El usuario ya existe." };
-    }
+    
   } catch (error) {
     console.error("Error registrando usuario:", error);
     throw error;

@@ -13,13 +13,13 @@ export const useUserCreate = ({ setUserExist }) => {
     mutationFn: registerUser,
     onSuccess: (data) => {
       if (data?.error) {
-        setUserExist(data.error);
+        setUserExist(error.data);
       } else {
         navigate("/home");
       }
     },
     onError: (error) => {
-      console.error("Error registering user:", error);
+      console.error("Error registering user:", error.data);
     },
   });
 
