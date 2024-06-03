@@ -15,18 +15,32 @@ const CustomSelect = styled(Select)({
   },
 });
 
-const CustomSelectTectBox2 = ({ register, name, list, valueKey, labelKey }) => {
-  const [defaltType, setDefaultType] = useState("");
+const CustomSelectTectBox2 = ({
+  register,
+  name,
+  list,
+  valueKey,
+  labelKey,
+  filtro,
+}) => {
+  const [defaultType, setDefaultType] = useState("");
 
   const handleChange = (event) => {
     setDefaultType(event.target.value);
+    if (filtro) {
+      filtro(event.target.value);
+    }
   };
 
   useEffect(() => {
     if (list && list.length > 0) {
       setDefaultType(list[0][valueKey]);
     }
-  }, [list, valueKey]);
+  }, [valueKey]);
+
+  useEffect(() => {
+    setDefaultType("");
+  }, [list]);
 
   return (
     <FormControl fullWidth>
@@ -35,14 +49,14 @@ const CustomSelectTectBox2 = ({ register, name, list, valueKey, labelKey }) => {
         {...register(name)}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={defaltType}
+        value={defaultType || ""}
         label="User"
         onChange={handleChange}
         variant="outlined"
       >
-        {list?.map((race) => (
-          <MenuItem key={race[valueKey]} value={race[valueKey]}>
-            {race[labelKey]}
+        {list?.map((element) => (
+          <MenuItem key={element[valueKey]} value={element[valueKey]}>
+            {element[labelKey]}
           </MenuItem>
         ))}
       </CustomSelect>

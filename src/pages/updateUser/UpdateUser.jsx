@@ -5,13 +5,13 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
-import { useUserCreate } from "../../hooks/users/useUserCreate";
 import foot from "../../images/foot.jpg";
 import { useState } from "react";
 import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
-import "./UserCreateUser.css";
+import { useParams } from "react-router-dom";
+import useSelectedUser from "../../hooks/users/useSelectedUser";
 
-const UserCreateUser = ({ setUser }) => {
+const UpdateUser = ({ setUser }) => {
   const schema = yup.object().shape({
     name: yup.string().required("ingrese un valor"),
     lastName: yup.string().required("ingrese un valor"),
@@ -19,13 +19,17 @@ const UserCreateUser = ({ setUser }) => {
       .string()
       .email("it must be a e-mail")
       .required("ingrese un valor"),
-    phoneNumber: yup.string().required("ingrese un valor"),
+    phoneNumber: yup
+      .string()
+      .required("ingrese un valor")
+      .required("ingrese un valor")
+      .matches(/^[0-9]+$/, "solo acepta caracteres numericos"),
     birthdate: yup.string().required("ingrese un valor"),
     userType: yup.string().required("ingrese un valor"),
     password: yup
       .string()
-      .min(4, "It must have 4 characters")
-      .max(20, "It must be less than 20 characters")
+      .min(4, "debe tener mas de 4 caracteres")
+      .max(20, "debe tener menos de 20 caracteres")
       .required("ingrese un valor"),
   });
   const {
@@ -36,10 +40,9 @@ const UserCreateUser = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
 
-  const [userExist, setUserExist] = useState(null);
-  const { isLoading, createUser, error } = useUserCreate({
-    setUserExist,
-  });
+  const { id } = useParams();
+  const { userSlected, isLoading, error } = useSelectedUser({ id }); //no se si va entre corchetes o no
+  // const { isLoading, updateUser, error } = useUpdateUser();
 
   const onSubmit = (data) => {
     const {
@@ -53,6 +56,7 @@ const UserCreateUser = ({ setUser }) => {
     } = data;
 
     const user = {
+      id,
       name,
       lastName,
       email,
@@ -61,7 +65,7 @@ const UserCreateUser = ({ setUser }) => {
       userType,
       password,
     };
-    createUser(user);
+    updateUser(user);
   };
   return (
     <>
@@ -89,13 +93,7 @@ const UserCreateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
-          {error && (
-            <Alert severity="error">
-              Ya existe un usuario creado con este correo!
-            </Alert>
-          )}
-          {/* {userExist && <Alert severity="error">El usuario ya existe</Alert>} */}
-          <Box className="titlePage">Usuarios / Crear usuario</Box>
+          <Box className="titlePage">Modificar Usuario</Box>
           <Box>
             <Grid
               container
@@ -186,4 +184,4 @@ const UserCreateUser = ({ setUser }) => {
   );
 };
 
-export default UserCreateUser;
+export default UpdateUser;

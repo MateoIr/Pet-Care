@@ -8,7 +8,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonIcon from "@mui/icons-material/Person";
 import "./CustomNavBar.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomNavBar = ({ setUser }) => {
   const [containerClass, setContainerClass] = useState("HeaderMenuOpen");
@@ -35,7 +35,27 @@ const CustomNavBar = ({ setUser }) => {
         }}
       >
         <Box className="Header">
-          <Box sx={{ width: "80%" }}>PET-CARE</Box>
+          <Box
+            sx={{
+              width: "80%",
+              fontSize: {
+                xs: 32,
+                sm: 18,
+                md: 25,
+              },
+            }}
+          >
+            <Link
+              to="/home"
+              style={{
+                textDecoration: "none",
+                color: "inherit", // Maintain the current text color
+                fontSize: "inherit",
+              }}
+            >
+              PET-CARE
+            </Link>
+          </Box>
           <Box sx={{ width: "20%", alignItems: "center", display: "flex" }}>
             <MenuIcon onClick={handleOpenNavMenu} />
           </Box>
@@ -133,7 +153,7 @@ const CustomNavBar = ({ setUser }) => {
                 <Box
                   sx={{ width: "70%", alignItems: "center", display: "flex" }}
                 >
-                  Clientes
+                  Usuarios
                 </Box>
               </Box>
             </Box>

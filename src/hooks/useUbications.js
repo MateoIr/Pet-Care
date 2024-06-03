@@ -28,7 +28,7 @@ const useGetPais = () => {
     isLoading,
     error: error,
   } = useQuery({
-    queryKey: ["animal"],
+    queryKey: ["pais"],
     queryFn: () => getAllPaises(),
   });
 

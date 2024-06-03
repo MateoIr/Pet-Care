@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "http://localhost:8080",
 });
 
 const getAllRace = async () => {
@@ -38,7 +38,7 @@ const getAllLocalidades = async () => {
 
 const getAllPaises = async () => {
   try {
-    const response = await apiClient.get("/pais");
+    const response = await apiClient.get("/clientes/pais");
     return response.data;
   } catch (error) {
     throw new Error(
@@ -49,7 +49,7 @@ const getAllPaises = async () => {
 
 const getAllProvincias = async () => {
   try {
-    const response = await apiClient.get("/provincias");
+    const response = await apiClient.get("/clientes/provincia");
     return response.data;
   } catch (error) {
     throw new Error(

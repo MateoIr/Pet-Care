@@ -11,14 +11,14 @@ import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/Cust
 import { useState } from "react";
 const ClientesRegistroMascota = ({ setUser }) => {
   const schema = yup.object().shape({
-    name: yup.string().required("insert value"),
+    name: yup.string().required("ingrese un valor"),
     animal: yup.string(),
     race: yup.string(),
     size: yup.string(),
     weight: yup.string(),
-    sex: yup.string().required("insert value"),
+    sex: yup.string().required("ingrese un valor"),
     birthdate: yup.string(),
-    owner: yup.string().required("insert value"),
+    owner: yup.string().required("ingrese un valor"),
   });
   const {
     register,

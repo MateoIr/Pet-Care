@@ -14,13 +14,13 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import "./UserList.css";
-import useGetAllUsers from "../../hooks/useGetAllUsers";
+import useGetAllUsers from "../../hooks/users/useGetAllUsers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { Link } from "react-router-dom";
 
 const UserList = () => {
   const { user, isLoading, error } = useGetAllUsers();
-
   return (
     <Grid
       container
@@ -80,16 +80,22 @@ const UserList = () => {
                   )}
                   {user?.map((user, index) => (
                     <TableRow key={index}>
-                      <TableCell className="tableCell">{user.idpersona.nombre}</TableCell>
-                      <TableCell className="tableCell">{user.idpersona.apellido}
+                      <TableCell className="tableCell">
+                        {user.idpersona.nombre}
                       </TableCell>
-                      <TableCell className="tableCell">{user.idpersona.email}</TableCell>
+                      <TableCell className="tableCell">
+                        {user.idpersona.apellido}
+                      </TableCell>
+                      <TableCell className="tableCell">
+                        {user.idpersona.email}
+                      </TableCell>
                       <TableCell className="tableCell">
                         <Box className="containerOptions">
-                          <IconButton aria-label="edit">
-                            <EditIcon />
-                          </IconButton>
-
+                          <Link to={`/user/updateUser/${index}`}>
+                            <IconButton aria-label="edit">
+                              <EditIcon />
+                            </IconButton>
+                          </Link>
                           <IconButton aria-label="delete">
                             <DeleteIcon />
                           </IconButton>
