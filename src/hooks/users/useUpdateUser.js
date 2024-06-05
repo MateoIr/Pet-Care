@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "../../api/users";
+import { updateUserSelected } from "../../api/users";
 import { useNavigate } from "react-router-dom";
 
 const useUpdateUser = () => {
@@ -8,15 +8,15 @@ const useUpdateUser = () => {
   const {
     isPending: isLoading,
     error,
-    mutate: createUser,
+    mutate: updateUser,
   } = useMutation({
-    mutationFn: registerUser,
+    mutationFn: updateUserSelected,
     onSuccess: () => {
       navigate("/home");
     },
   });
 
-  return { isLoading, error, createUser };
+  return { isLoading, error, updateUser };
 };
 
 export default useUpdateUser;

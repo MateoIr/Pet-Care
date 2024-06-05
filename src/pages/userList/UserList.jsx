@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -9,8 +10,13 @@ import {
   TableHead,
   TableRow,
   Alert,
+  Dialog,
+  DialogActions,
+  Button,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
 } from "@mui/material";
-
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import "./UserList.css";
@@ -18,9 +24,52 @@ import useGetAllUsers from "../../hooks/users/useGetAllUsers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
+import useDropUser from "../../hooks/users/useDropUser";
 
 const UserList = () => {
-  const { user, isLoading, error } = useGetAllUsers();
+  const [usuarioEliminar, setUsuarioEliminar] = useState("");
+  const { user, isLoading, error, refetch } = useGetAllUsers();
+  const [usersList, setUsersList] = useState([]);
+  const { deleteUser, status } = useDropUser();
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUsersList(user);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchUpdatedUsers = async () => {
+      if (status === "success") {
+        const updatedUsers = await refetch();
+        setUsersList(updatedUsers.data);
+      }
+    };
+
+    fetchUpdatedUsers();
+  }, [status, refetch]);
+
+  const handleDeleteUser = (userId) => {
+    setUsuarioEliminar(userId);
+    setOpenDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsDeleting(true);
+    await deleteUser(usuarioEliminar);
+    setIsDeleting(false);
+    setOpenDialog(false);
+    setUsuarioEliminar(null);
+  };
+
+  const handleCloseDialog = () => {
+    setUsuarioEliminar(null);
+    setOpenDialog(false);
+  };
+
   return (
     <Grid
       container
@@ -78,7 +127,7 @@ const UserList = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {user?.map((user, index) => (
+                  {usersList?.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell className="tableCell">
                         {user.idpersona.nombre}
@@ -91,12 +140,15 @@ const UserList = () => {
                       </TableCell>
                       <TableCell className="tableCell">
                         <Box className="containerOptions">
-                          <Link to={`/user/updateUser/${index}`}>
+                          <Link to={`/user/updateUser/${user.id}`}>
                             <IconButton aria-label="edit">
                               <EditIcon />
                             </IconButton>
                           </Link>
-                          <IconButton aria-label="delete">
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => handleDeleteUser(user.id)}
+                          >
                             <DeleteIcon />
                           </IconButton>
                         </Box>
@@ -109,6 +161,29 @@ const UserList = () => {
           </Grid>
         </Box>
       </Grid>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirmar eliminación"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que deseas eliminar este usuario?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

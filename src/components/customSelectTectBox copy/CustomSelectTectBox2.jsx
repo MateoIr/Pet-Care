@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -14,6 +14,10 @@ const CustomSelect = styled(Select)({
     backgroundColor: "#d9d9d9",
   },
 });
+
+const getNestedValue = (obj, path) => {
+  return path.split(".").reduce((value, key) => value && value[key], obj);
+};
 
 const CustomSelectTectBox2 = ({
   register,
@@ -36,7 +40,7 @@ const CustomSelectTectBox2 = ({
     if (list && list.length > 0) {
       setDefaultType(list[0][valueKey]);
     }
-  }, [valueKey]);
+  }, [valueKey, list]);
 
   useEffect(() => {
     setDefaultType("");
@@ -50,13 +54,13 @@ const CustomSelectTectBox2 = ({
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={defaultType || ""}
-        label="User"
+        label={name}
         onChange={handleChange}
         variant="outlined"
       >
         {list?.map((element) => (
           <MenuItem key={element[valueKey]} value={element[valueKey]}>
-            {element[labelKey]}
+            {getNestedValue(element, labelKey)}
           </MenuItem>
         ))}
       </CustomSelect>

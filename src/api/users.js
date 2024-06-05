@@ -51,6 +51,33 @@ const registerUser = async ({
   }
 };
 
+const updateUserSelected = async ({
+  name,
+  lastName,
+  email,
+  phoneNumber,
+  birthdate,
+  userType,
+  password,
+}) => {
+  try {
+    const response = await apiClient.post("/login/modificar", {
+      nombre: name,
+      apellido: lastName,
+      email: email,
+      telefono: phoneNumber,
+      fechaDeNacimiento: birthdate,
+      idTipoUsuario: userType,
+      contrasena: password,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(500)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
+
 const registerCustomer = async ({
   nombre,
   apellido,
@@ -101,14 +128,27 @@ const getAllUsers = async () => {
 };
 const getUser = async (id) => {
   try {
-    const response = await apiClient.get(`/login/usuarios`, {
-      params: { id },
+    const response = await apiClient.post(`/login/idusuarios`, {
+      id,
     });
     return response.data;
   } catch (error) {
-    throw new Error(
-      error.response ? error.response.data.message : "Network Error"
-    );
+    return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
+
+const dropUser = async (id) => {
+  try {
+    const response = await apiClient.post(`/login/delete`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
   }
 };
 
@@ -118,5 +158,7 @@ export {
   registerUser,
   getAllUsers,
   registerCustomer,
+  updateUserSelected,
+  dropUser,
 };
 export default apiClient;

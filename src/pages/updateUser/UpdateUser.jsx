@@ -6,22 +6,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
 import { useParams } from "react-router-dom";
 import useSelectedUser from "../../hooks/users/useSelectedUser";
+import useUpdateUser from "../../hooks/users/useUpdateUser";
 
 const UpdateUser = ({ setUser }) => {
   const schema = yup.object().shape({
     name: yup.string().required("ingrese un valor"),
     lastName: yup.string().required("ingrese un valor"),
-    email: yup
-      .string()
-      .email("it must be a e-mail")
-      .required("ingrese un valor"),
     phoneNumber: yup
       .string()
-      .required("ingrese un valor")
       .required("ingrese un valor")
       .matches(/^[0-9]+$/, "solo acepta caracteres numericos"),
     birthdate: yup.string().required("ingrese un valor"),
@@ -40,20 +36,18 @@ const UpdateUser = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
 
+  const [email, setEmail] = useState(null);
   const { id } = useParams();
-  const { userSlected, isLoading, error } = useSelectedUser({ id }); //no se si va entre corchetes o no
-  // const { isLoading, updateUser, error } = useUpdateUser();
+  const { userSelected, isLoading, error } = useSelectedUser(id);
+  useEffect(() => {
+    if (userSelected?.idpersona?.email)
+      setEmail(userSelected?.idpersona?.email);
+  }, [userSelected]);
+
+  const { updateUser } = useUpdateUser();
 
   const onSubmit = (data) => {
-    const {
-      name,
-      lastName,
-      email,
-      phoneNumber,
-      birthdate,
-      userType,
-      password,
-    } = data;
+    const { name, lastName, phoneNumber, birthdate, userType, password } = data;
 
     const user = {
       id,
@@ -107,7 +101,12 @@ const UpdateUser = ({ setUser }) => {
                 Nombre:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomTextBox type="text" register={register} name="name" />
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="name"
+                  placeholder={userSelected?.idpersona?.nombre || ""}
+                />
                 <p className="errorText">{errors.name?.message}</p>
               </Grid>
 
@@ -119,14 +118,27 @@ const UpdateUser = ({ setUser }) => {
                   type="text"
                   register={register}
                   name="lastName"
+                  placeholder={userSelected?.idpersona?.apellido || ""}
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.apellido}
+                </p>
                 <p className="errorText">{errors.lastName?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
                 Email:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomTextBox type="text" register={register} name="email" />
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="email"
+                  placeholder={userSelected?.idpersona?.email || ""}
+                  disabled={true}
+                />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  campo no editable
+                </p>
                 <p className="errorText">{errors.email?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -135,9 +147,13 @@ const UpdateUser = ({ setUser }) => {
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="text"
+                  placeholder={userSelected?.idpersona?.telefono || ""}
                   register={register}
                   name="phoneNumber"
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.telefono}
+                </p>
                 <p className="errorText">{errors.phoneNumber?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -146,9 +162,13 @@ const UpdateUser = ({ setUser }) => {
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="date"
+                  value={userSelected?.idpersona?.fechadenacimiento || ""}
                   register={register}
                   name="birthdate"
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.fechadenacimiento}
+                </p>
                 <p className="errorText">{errors.birthdate?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -159,7 +179,11 @@ const UpdateUser = ({ setUser }) => {
                   type="password"
                   register={register}
                   name="password"
+                  placeholder={userSelected?.contrasena}
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.contrasena}
+                </p>
                 <p className="errorText">{errors.password?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">

@@ -19,7 +19,14 @@ const CssTextField = styled(TextField)({
   },
 });
 
-const CustomTextBox = ({ type, register, name }) => {
+const CustomTextBox = ({
+  type,
+  register,
+  name,
+  placeholder,
+
+  disabled,
+}) => {
   return (
     <Box
       component="form"
@@ -31,8 +38,10 @@ const CustomTextBox = ({ type, register, name }) => {
       }}
     >
       <CssTextField
+        disabled={disabled}
         id={name}
         variant="outlined"
+        placeholder={placeholder}
         {...register(name)}
         type={type}
         InputProps={{

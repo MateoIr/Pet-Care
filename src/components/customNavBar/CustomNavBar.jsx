@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PetsIcon from "@mui/icons-material/Pets";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -7,17 +7,28 @@ import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonIcon from "@mui/icons-material/Person";
 import "./CustomNavBar.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const CustomNavBar = ({ setUser }) => {
   const [containerClass, setContainerClass] = useState("HeaderMenuOpen");
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    if (isSmScreen) {
+      setContainerClass("HeaderMenuClosed");
+    } else {
+      setContainerClass("HeaderMenuOpen");
+    }
+  }, [isSmScreen]);
+
   const handleOpenNavMenu = () => {
     setContainerClass((prevClass) =>
       prevClass === "HeaderMenuOpen" ? "HeaderMenuClosed" : "HeaderMenuOpen"
     );
   };
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     window.localStorage.removeItem("token");
@@ -32,6 +43,7 @@ const CustomNavBar = ({ setUser }) => {
         className="bigContainer"
         sx={{
           height: { xs: "auto", sm: "100vh" },
+          position: { xs: "relative", sm: "inherit" },
         }}
       >
         <Box className="Header">
@@ -75,7 +87,15 @@ const CustomNavBar = ({ setUser }) => {
                   />
                 </Box>
                 <Box
-                  sx={{ width: "70%", alignItems: "center", display: "flex" }}
+                  sx={{
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                    fontSize: {
+                      xs: "15px",
+                      md: "18px",
+                    },
+                  }}
                 >
                   Clientes
                 </Box>
@@ -94,7 +114,15 @@ const CustomNavBar = ({ setUser }) => {
                   />
                 </Box>
                 <Box
-                  sx={{ width: "70%", alignItems: "center", display: "flex" }}
+                  sx={{
+                    width: "70%",
+                    alignItems: "center",
+                    fontSize: {
+                      xs: "15px",
+                      md: "18px",
+                    },
+                    display: "flex",
+                  }}
                 >
                   Turnos
                 </Box>
@@ -113,7 +141,15 @@ const CustomNavBar = ({ setUser }) => {
                   />
                 </Box>
                 <Box
-                  sx={{ width: "70%", alignItems: "center", display: "flex" }}
+                  sx={{
+                    fontSize: {
+                      xs: "15px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
                 >
                   Productos
                 </Box>
@@ -132,7 +168,15 @@ const CustomNavBar = ({ setUser }) => {
                   />
                 </Box>
                 <Box
-                  sx={{ width: "70%", alignItems: "center", display: "flex" }}
+                  sx={{
+                    fontSize: {
+                      xs: "13px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
                 >
                   Proveedores
                 </Box>
@@ -151,7 +195,15 @@ const CustomNavBar = ({ setUser }) => {
                   />
                 </Box>
                 <Box
-                  sx={{ width: "70%", alignItems: "center", display: "flex" }}
+                  sx={{
+                    fontSize: {
+                      xs: "15px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
                 >
                   Usuarios
                 </Box>

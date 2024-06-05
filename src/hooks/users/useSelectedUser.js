@@ -1,19 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../../api/users";
+import { useNavigate } from "react-router-dom";
 
 const useSelectedUser = (id) => {
+  const navigate = useNavigate();
   const {
-    data: userSlected,
+    data: userSelected,
     isLoading,
     error,
   } = useQuery({
     queryKey: ["user", id],
     queryFn: () => getUser(id),
-    enabled: !!id, // Ensures the query runs only if id is provided
+    enabled: !!id,
   });
 
+  if (error) {
+    navigate("/");
+  }
+
   return {
-    userSlected,
+    userSelected,
     isLoading,
     error,
   };
