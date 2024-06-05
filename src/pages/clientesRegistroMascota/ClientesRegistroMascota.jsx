@@ -6,19 +6,22 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
-import { useGetAnimal, useGetRace, usePetCreate } from "../../hooks/usePet";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useState } from "react";
+import useGetRace from "../../hooks/pet/useGetRace";
+import useGetAnimal from "../../hooks/pet/useGetAnimal";
+import usePetCreate from "../../hooks/pet/usePetCreate";
+import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 const ClientesRegistroMascota = ({ setUser }) => {
   const schema = yup.object().shape({
-    name: yup.string().required("insert value"),
-    animal: yup.string(),
-    race: yup.string(),
+    name: yup.string().required("ingrese un valor"),
+    animal: yup.string().required("ingrese un valor"),
+    raza: yup.string().required("ingrese un valor"),
     size: yup.string(),
     weight: yup.string(),
-    sex: yup.string().required("insert value"),
+    sex: yup.string(),
     birthdate: yup.string(),
-    owner: yup.string().required("insert value"),
+    owner: yup.string().required("ingrese un valor"),
   });
   const {
     register,
@@ -28,18 +31,19 @@ const ClientesRegistroMascota = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
 
-  const { race } = useGetRace();
+  const { raza } = useGetRace();
   const { animal } = useGetAnimal();
+  const { clientes } = useGetAllCustomer();
   const [petExist, setPetExist] = useState(null);
   const { isLoading, createPet, error } = usePetCreate({
     setPetExist,
   });
   const onSubmit = (data) => {
-    const { name, animal, race, size, weight, sex, birthdate, owner } = data;
+    const { name, animal, raza, size, weight, sex, birthdate, owner } = data;
     const pet = {
       name,
       animal,
-      race,
+      raza,
       size,
       weight,
       sex,
@@ -115,7 +119,7 @@ const ClientesRegistroMascota = ({ setUser }) => {
                   register={register}
                   name="animal"
                   list={animal}
-                  valueKey="idAnimal"
+                  valueKey="id"
                   labelKey="descripcion"
                 />
                 <p className="errorText">{errors.animal?.message}</p>
@@ -126,9 +130,9 @@ const ClientesRegistroMascota = ({ setUser }) => {
               <Grid item xs={7} md={4}>
                 <CustomSelectTectBox2
                   register={register}
-                  name="race"
-                  list={race}
-                  valueKey="idRaza"
+                  name="raza"
+                  list={raza}
+                  valueKey="id"
                   labelKey="descripcion"
                 />
                 <p className="errorText">{errors.race?.message}</p>
@@ -153,7 +157,7 @@ const ClientesRegistroMascota = ({ setUser }) => {
               </Grid>
               <Grid item xs={7} md={4}>
                 <CustomTextBox
-                  type="text"
+                  type="date"
                   register={register}
                   name="birthdate"
                 />
@@ -163,7 +167,13 @@ const ClientesRegistroMascota = ({ setUser }) => {
                 Dueño:
               </Grid>
               <Grid item xs={7} md={4}>
-                <CustomTextBox type="text" register={register} name="owner" />
+                <CustomSelectTectBox2
+                  register={register}
+                  name="owner"
+                  list={clientes}
+                  valueKey="id"
+                  labelKey="idpersona.email"
+                />
                 <p className="errorText">{errors.owner?.message}</p>
               </Grid>
               <Grid item xs={3} md={9}></Grid>

@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { registerUser } from "../api/users";
 import { useNavigate } from "react-router-dom";
+import { registerCustomer } from "../api/users";
 
-export const useUserCreate = ({ setUserExist }) => {
+export const useRegisterCustomer = ({ setUserExist }) => {
   const navigate = useNavigate();
 
   const {
@@ -10,7 +10,7 @@ export const useUserCreate = ({ setUserExist }) => {
     error,
     mutate: createUser,
   } = useMutation({
-    mutationFn: registerUser,
+    mutationFn: registerCustomer,
     onSuccess: (data) => {
       console.log("data" + data);
       if (data?.error) {

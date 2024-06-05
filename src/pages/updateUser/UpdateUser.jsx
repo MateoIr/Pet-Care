@@ -5,27 +5,27 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
-import { useUserCreate } from "../../hooks/users/useUserCreate";
 import foot from "../../images/foot.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
-import "./UserCreateUser.css";
+import { useParams } from "react-router-dom";
+import useSelectedUser from "../../hooks/users/useSelectedUser";
+import useUpdateUser from "../../hooks/users/useUpdateUser";
 
-const UserCreateUser = ({ setUser }) => {
+const UpdateUser = ({ setUser }) => {
   const schema = yup.object().shape({
     name: yup.string().required("ingrese un valor"),
     lastName: yup.string().required("ingrese un valor"),
-    email: yup
+    phoneNumber: yup
       .string()
-      .email("it must be a e-mail")
-      .required("ingrese un valor"),
-    phoneNumber: yup.string().required("ingrese un valor"),
+      .required("ingrese un valor")
+      .matches(/^[0-9]+$/, "solo acepta caracteres numericos"),
     birthdate: yup.string().required("ingrese un valor"),
     userType: yup.string().required("ingrese un valor"),
     password: yup
       .string()
-      .min(4, "It must have 4 characters")
-      .max(20, "It must be less than 20 characters")
+      .min(4, "debe tener mas de 4 caracteres")
+      .max(20, "debe tener menos de 20 caracteres")
       .required("ingrese un valor"),
   });
   const {
@@ -36,23 +36,21 @@ const UserCreateUser = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
 
-  const [userExist, setUserExist] = useState(null);
-  const { isLoading, createUser, error } = useUserCreate({
-    setUserExist,
-  });
+  const [email, setEmail] = useState(null);
+  const { id } = useParams();
+  const { userSelected, isLoading, error } = useSelectedUser(id);
+  useEffect(() => {
+    if (userSelected?.idpersona?.email)
+      setEmail(userSelected?.idpersona?.email);
+  }, [userSelected]);
+
+  const { updateUser } = useUpdateUser();
 
   const onSubmit = (data) => {
-    const {
-      name,
-      lastName,
-      email,
-      phoneNumber,
-      birthdate,
-      userType,
-      password,
-    } = data;
+    const { name, lastName, phoneNumber, birthdate, userType, password } = data;
 
     const user = {
+      id,
       name,
       lastName,
       email,
@@ -61,7 +59,7 @@ const UserCreateUser = ({ setUser }) => {
       userType,
       password,
     };
-    createUser(user);
+    updateUser(user);
   };
   return (
     <>
@@ -89,13 +87,7 @@ const UserCreateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
-          {error && (
-            <Alert severity="error">
-              Ya existe un usuario creado con este correo!
-            </Alert>
-          )}
-          {/* {userExist && <Alert severity="error">El usuario ya existe</Alert>} */}
-          <Box className="titlePage">Usuarios / Crear usuario</Box>
+          <Box className="titlePage">Modificar Usuario</Box>
           <Box>
             <Grid
               container
@@ -109,7 +101,12 @@ const UserCreateUser = ({ setUser }) => {
                 Nombre:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomTextBox type="text" register={register} name="name" />
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="name"
+                  placeholder={userSelected?.idpersona?.nombre || ""}
+                />
                 <p className="errorText">{errors.name?.message}</p>
               </Grid>
 
@@ -121,14 +118,27 @@ const UserCreateUser = ({ setUser }) => {
                   type="text"
                   register={register}
                   name="lastName"
+                  placeholder={userSelected?.idpersona?.apellido || ""}
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.apellido}
+                </p>
                 <p className="errorText">{errors.lastName?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
                 Email:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomTextBox type="text" register={register} name="email" />
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="email"
+                  placeholder={userSelected?.idpersona?.email || ""}
+                  disabled={true}
+                />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  campo no editable
+                </p>
                 <p className="errorText">{errors.email?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -137,9 +147,13 @@ const UserCreateUser = ({ setUser }) => {
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="text"
+                  placeholder={userSelected?.idpersona?.telefono || ""}
                   register={register}
                   name="phoneNumber"
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.telefono}
+                </p>
                 <p className="errorText">{errors.phoneNumber?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -148,9 +162,13 @@ const UserCreateUser = ({ setUser }) => {
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="date"
+                  value={userSelected?.idpersona?.fechadenacimiento || ""}
                   register={register}
                   name="birthdate"
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.fechadenacimiento}
+                </p>
                 <p className="errorText">{errors.birthdate?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -161,7 +179,11 @@ const UserCreateUser = ({ setUser }) => {
                   type="password"
                   register={register}
                   name="password"
+                  placeholder={userSelected?.contrasena}
                 />
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.contrasena}
+                </p>
                 <p className="errorText">{errors.password?.message}</p>
               </Grid>
               <Grid item xs={6} className="textInput">
@@ -186,4 +208,4 @@ const UserCreateUser = ({ setUser }) => {
   );
 };
 
-export default UserCreateUser;
+export default UpdateUser;

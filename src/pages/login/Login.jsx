@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Alert, Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,7 +7,7 @@ import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
 import "./Login.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useLogin from "../../hooks/useLogin";
 
 const Login = ({ setUser }) => {
@@ -16,12 +16,11 @@ const Login = ({ setUser }) => {
   const { error, isLoading, user } = useLogin({ email, password, setUser });
   console.log(user);
   const schema = yup.object().shape({
-    email: yup.string().email("it must be a e-mail").required("insert value"),
-    password: yup
+    email: yup
       .string()
-      .min(4, "It must have 4 characters")
-      .max(20, "It must be less than 20 characters")
-      .required("insert value"),
+      .email("debe ser un e-mail")
+      .required("ingrese un valor"),
+    password: yup.string().required("ingresar un valor"),
   });
   const {
     register,
@@ -35,6 +34,22 @@ const Login = ({ setUser }) => {
     setEmail(email);
     setPassword(password);
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+        handleSubmit(onSubmit)();
+      }
+    };
+
+    document.addEventListener("keypress", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [handleSubmit, onSubmit]);
+
   return (
     <>
       <Box className="footLeftLogin">
@@ -55,11 +70,6 @@ const Login = ({ setUser }) => {
               marginTop: 6,
             }}
           >
-            {/* {error && (
-              <Alert severity="error">
-                Error al conectarce con la base de datos
-              </Alert>
-            )} */}
             <Grid
               spacing={3}
               container
