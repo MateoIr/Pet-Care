@@ -15,6 +15,7 @@ export const useRegisterProduct = ({ setUserExist }) => {
       if (data?.error) {
         setUserExist(error.data);
       } else {
+        //aca se deberia agregar un mensajito de exito
         navigate("/home");
       }
     },

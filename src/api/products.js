@@ -32,8 +32,9 @@ const registerProduct = async ({
       });
       return response.data;
     } catch (error) {
-      console.error("Error registrando producto:", error);
-      throw error;
+      return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
     }
   };
   export {

@@ -90,6 +90,7 @@ const RegisterProduct = ({ setProduct }) => {
               Este codigo pertenece a un producto existente
             </Alert>
           )}
+          
           {productExist && <Alert severity="error">El producto ya existe</Alert>}
           <Box className="titlePage">Producto / Registrar producto</Box>
 
