@@ -8,6 +8,7 @@ import { useLocalStorage } from "react-use";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import ClientesRegistroMascota from "./pages/clientesRegistroMascota/ClientesRegistroMascota";
 import RegisterCustomer from "./pages/registerCustomer/RegisterCustomer";
+import RegisterProduct from "./pages/registerProduct/RegisterProduct";
 import UpdateUser from "./pages/updateUser/UpdateUser";
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -35,6 +36,10 @@ function App() {
           <Route
             path="/client/register"
             element={<RegisterCustomer setUser={setUser} />}
+          />
+          <Route
+            path="/product/register"
+            element={<RegisterProduct setUser={setUser} />}
           />
         </Route>
         <Route path="/user/updateUser/:id" element={<UpdateUser />} />
