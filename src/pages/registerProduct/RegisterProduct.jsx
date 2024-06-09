@@ -15,13 +15,12 @@ import useGetCategory from "../../hooks/useGetCategory";
 const RegisterProduct = ({ setProduct }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
-    codproducto: yup.string().required("ingrese un valor"),
+    codigoproducto: yup.string().required("ingrese un valor"),
     precio: yup.string().required("ingrese un valor"),
     stock: yup.string().required("ingrese un valor"),
-    categoria: yup.string().required("ingrese un valor"),
+    idcategoria: yup.string().required("ingrese un valor"),
   });
 
-  const { categoria } = useGetCategory();
 
   const {
     register,
@@ -31,29 +30,33 @@ const RegisterProduct = ({ setProduct }) => {
     resolver: yupResolver(schema),
   });
 
+  const { categorias } = useGetCategory();
+
+
   const [productExist, setProductExist] = useState(null);
   const { isLoading, createProduct, error } = useRegisterProduct({
     setProductExist,
   });
 
   const onSubmit = (data) => {
+    
     const {
       nombre,
       codigoproducto,
       precio,
       stock,
-      categoria,
+      idcategoria,
     } = data;
-
-    const producto = {
+    
+    const product = {
         nombre,
         codigoproducto,
         precio,
         stock,
-        categoria,
+        idcategoria,
     };
 
-    createProduct(producto);
+    createProduct(product);
   };
 
   return (
@@ -113,9 +116,9 @@ const RegisterProduct = ({ setProduct }) => {
                 <CustomTextBox
                   type="text"
                   register={register}
-                  name="codproducto"
+                  name="codigoproducto"
                 />
-                <p className="errorText">{errors.codproducto?.message}</p>
+                <p className="errorText">{errors.codigoproducto?.message}</p>
               </Grid>
               <Grid item xs={6} md={3} className="textInput">
                 Precio:
@@ -135,20 +138,22 @@ const RegisterProduct = ({ setProduct }) => {
                 />
                 <p className="errorText">{errors.stock?.message}</p>
               </Grid>
-              
-              <Grid item xs={7} md={4}>
+              <Grid item xs={6} md={3} className="textInput">
+                Categoría:
+              </Grid>
+              <Grid item xs={6} md={3}>
                 <CustomSelectTectBox2
                   register={register}
-                  name="Categoria"
-                  list={categoria}
+                  name="idcategoria"
+                  list={categorias}
                   valueKey="id"
                   labelKey="nombrecategoria"
                 />
-                <p className="errorText">{errors.C?.message}</p>
+                <p className="errorText">{errors.idcategoria?.message}</p>
               </Grid>
               
-              
-              <Grid item xs={6} md={3} sx={{ mb: 2 }}>
+              <Grid item xs={3} md={9}></Grid>
+              <Grid item xs={12} md={3} sx={{ mb: 2 }}>
                 <CustomButton
                   onClick={handleSubmit(onSubmit)}
                   text="Guardar"

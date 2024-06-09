@@ -4,17 +4,18 @@ import {
   } from "../api/products";
 
 const useGetCategory = () => {
+
   const {
-    data: nombrecategoria,
+    data: categorias,
     isLoading,
     error: error,
   } = useQuery({
-    queryKey: ["nombrecategoria"],
+    queryKey: ["categorias"],
     queryFn: () => getAllCategory(),
   });
 
   return {
-    nombrecategoria,
+    categorias,
     isLoading,
     error,
   };
