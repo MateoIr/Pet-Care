@@ -64,6 +64,11 @@ const Home = ({ setUser }) => {
                   <CustomButton text="Registrar producto"></CustomButton>
                 </Link>
               </Grid>
+              <Grid item md={12} rowGap={3}>
+                <Link to="/product/sell">
+                  <CustomButton text="Registrar venta"></CustomButton>
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Grid>

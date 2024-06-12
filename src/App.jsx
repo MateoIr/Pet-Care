@@ -10,47 +10,64 @@ import ClientesRegistroMascota from "./pages/clientesRegistroMascota/ClientesReg
 import RegisterCustomer from "./pages/registerCustomer/RegisterCustomer";
 import RegisterProduct from "./pages/registerProduct/RegisterProduct";
 import UpdateUser from "./pages/updateUser/UpdateUser";
+import RegisterSell from "./pages/registerSell/RegisterSell";
+import StoreProvider from "./store/StoreProvider";
+import ProductList from "./pages/productList/ProductList";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route
-          element={<ProtectedRoute canActivate={user} redirectPath="/login" />}
-        >
-          <Route path="/home" element={<Home setUser={setUser} />} />
+    <StoreProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
           <Route
-            path="/client/pet/register"
-            element={<ClientesRegistroMascota setUser={setUser} />}
-          />
+            element={
+              <ProtectedRoute canActivate={user} redirectPath="/login" />
+            }
+          >
+            <Route path="/home" element={<Home setUser={setUser} />} />
+            <Route
+              path="/client/pet/register"
+              element={<ClientesRegistroMascota setUser={setUser} />}
+            />
 
+            <Route
+              path="/user/createUser"
+              element={<UserCreateUser setUser={setUser} />}
+            />
+            <Route
+              path="/user/userList"
+              element={<UserList setUser={setUser} />}
+            />
+            <Route
+              path="/user/productList"
+              element={<ProductList setUser={setUser} />}
+            />
+            <Route
+              path="/client/register"
+              element={<RegisterCustomer setUser={setUser} />}
+            />
+            <Route
+              path="/product/register"
+              element={<RegisterProduct setUser={setUser} />}
+            />
+            <Route
+              path="/product/sell"
+              element={<RegisterSell setUser={setUser} />}
+            />
+          </Route>
+          <Route path="/user/updateUser/:id" element={<UpdateUser />} />
           <Route
-            path="/user/createUser"
-            element={<UserCreateUser setUser={setUser} />}
-          />
-          <Route
-            path="/user/userList"
-            element={<UserList setUser={setUser} />}
-          />
-          <Route
-            path="/client/register"
-            element={<RegisterCustomer setUser={setUser} />}
-          />
-          <Route
-            path="/product/register"
-            element={<RegisterProduct setUser={setUser} />}
-          />
-        </Route>
-        <Route path="/user/updateUser/:id" element={<UpdateUser />} />
-        <Route
-          element={<ProtectedRoute canActivate={!user} redirectPath="/home" />}
-        >
-          <Route path="/login" element={<Login setUser={setUser} />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/home" />} />
-      </Routes>
-    </BrowserRouter>
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/home" />} />
+        </Routes>
+      </BrowserRouter>
+    </StoreProvider>
   );
 }
 
