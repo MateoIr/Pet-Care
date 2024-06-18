@@ -20,6 +20,7 @@ import useGetProducts from "../../hooks/produts/useGetProducts";
 import { StoreContext } from "../../store/StoreProvider";
 import { types } from "../../store/StoreReducer";
 import { useNavigate } from "react-router-dom";
+import CustomButton from "../../components/customButton/CustomButton";
 
 const ProductList = () => {
   const { products, isLoading, error } = useGetProducts();
@@ -62,10 +63,12 @@ const ProductList = () => {
       dispatch({
         type: types.productAdd,
         payload: {
+          id: product.id,
           codigoproducto: product.codigoproducto,
           nombre: product.nombre,
           precio: product.precio,
-          cantidad: quantities[product.codigoproducto] || 1, // Default to 1 if not selected
+          stock: product.stock,
+          cantidad: quantities[product.codigoproducto] || 1,
         },
       });
     });
@@ -166,13 +169,14 @@ const ProductList = () => {
                           <MenuItem value="" disabled>
                             Seleccionar
                           </MenuItem>
-                          {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                            (value) => (
-                              <MenuItem key={value} value={value}>
-                                {value}
-                              </MenuItem>
-                            )
-                          )}
+                          {Array.from(
+                            { length: product.stock },
+                            (_, i) => i + 1
+                          ).map((value) => (
+                            <MenuItem key={value} value={value}>
+                              {value}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </TableCell>
                     </TableRow>
@@ -180,7 +184,10 @@ const ProductList = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <button onClick={handleAddProducts}>Agregar Productos</button>
+            <CustomButton
+              text="Agregar Productos"
+              onClick={handleAddProducts}
+            />
           </Grid>
         </Box>
       </Grid>

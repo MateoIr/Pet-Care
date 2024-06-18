@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { registerProduct } from "../api/products";
+import { registerProduct } from "../../api/products";
 
 export const useRegisterProduct = ({ setUserExist }) => {
   const navigate = useNavigate();

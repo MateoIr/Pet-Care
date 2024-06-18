@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Grid,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -9,6 +10,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveIcon from "@mui/icons-material/Remove";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useState } from "react";
@@ -17,13 +21,18 @@ import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
-import usePetCreate from "../../hooks/pet/usePetCreate";
+import useSellCreate from "../../hooks/produts/useSellCreate";
 import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 import foot from "../../images/foot.jpg";
 import * as yup from "yup";
-import { types } from "../../store/StoreReducer";
+import {
+  decrementProduct,
+  deleteProduct,
+  incrementProduct,
+} from "../../store/StoreReducer";
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
+import dayjs from "dayjs";
 
 const RegisterSell = ({ setUser }) => {
   const [store, dispatch] = useContext(StoreContext);
@@ -42,13 +51,19 @@ const RegisterSell = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
   const { clientes } = useGetAllCustomer();
+  const today = dayjs().format("YYYY-MM-DD");
+  console.log(store);
   const [petExist, setPetExist] = useState(null);
-  const { isLoading, createPet, error } = usePetCreate({
+  const [selectedDate, setSelectedDate] = useState(today);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  const { isLoading, createSell, error } = useSellCreate({
     setPetExist,
   });
   const onSubmit = (data) => {
     const { name, animal, raza, size, weight, sex, birthdate, owner } = data;
-    const pet = {
+    const sell = {
       name,
       animal,
       raza,
@@ -58,12 +73,22 @@ const RegisterSell = ({ setUser }) => {
       birthdate,
       owner,
     };
-    createPet(pet);
+    createSell(sell);
   };
   const navigate = useNavigate();
   const Agregar = () => {
     navigate("/user/productList");
   };
+  const handleDelete = (id) => {
+    dispatch(deleteProduct(id));
+  };
+  const handleDecrement = (id) => {
+    dispatch(decrementProduct(id));
+  };
+  const handleIncrement = (id) => {
+    dispatch(incrementProduct(id));
+  };
+
   return (
     <>
       <Box className="footRight">
@@ -114,6 +139,10 @@ const RegisterSell = ({ setUser }) => {
               </Grid>
               <Grid item xs={7} md={4}>
                 <CustomTextBox
+                  value={selectedDate}
+                  onChange={(date) =>
+                    handleDateChange(dayjs(date).format("YYYY-MM-DD"))
+                  }
                   type="date"
                   register={register}
                   name="fechadepedido"
@@ -132,12 +161,12 @@ const RegisterSell = ({ setUser }) => {
                 <p className="errorText">{errors.formadepago?.message}</p>
               </Grid>
               <Grid item xs={5} md={2} className="textInput">
-                Dueño:
+                Cliente:
               </Grid>
               <Grid item xs={7} md={4}>
                 <CustomSelectTectBox2
                   register={register}
-                  name="owner"
+                  name="Cliente"
                   list={clientes}
                   valueKey="id"
                   labelKey="idpersona.email"
@@ -174,6 +203,9 @@ const RegisterSell = ({ setUser }) => {
                         <TableCell className="tableCellTitle">
                           Cantidad
                         </TableCell>
+                        <TableCell className="tableCellTitle">
+                          Opciones
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -192,11 +224,45 @@ const RegisterSell = ({ setUser }) => {
                           <TableCell className="tableCell">
                             {product.nombre}
                           </TableCell>
-                          <TableCell className="tableCell">
+                          <TableCell
+                            className="tableCell"
+                            sx={{ textAlign: "center" }}
+                          >
                             ${product.precio}
                           </TableCell>
-                          <TableCell className="tableCell">
+                          <TableCell
+                            className="tableCell"
+                            sx={{ textAlign: "center" }}
+                          >
                             {product.cantidad}
+                          </TableCell>
+                          <TableCell className="tableCell" width={120}>
+                            <Grid container width={"100%"}>
+                              <Grid item xs={4}>
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() => handleDelete(product.id)}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <IconButton
+                                  aria-label="add"
+                                  onClick={() => handleIncrement(product.id)}
+                                >
+                                  <AddIcon />
+                                </IconButton>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <IconButton
+                                  aria-label="remove"
+                                  onClick={() => handleDecrement(product.id)}
+                                >
+                                  <RemoveIcon />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
                           </TableCell>
                         </TableRow>
                       ))}

@@ -1,6 +1,6 @@
 import { Alert, Box, Grid } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useRegisterProduct } from "../../hooks/useRegisterProduct";
+import { useState } from "react";
+import { useRegisterProduct } from "../../hooks/produts/useRegisterProduct";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,7 +12,7 @@ import "./RegisterProduct.css";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import useGetCategory from "../../hooks/useGetCategory";
 
-const RegisterProduct = ({ setProduct }) => {
+const RegisterProduct = ({ setUser }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
     codigoproducto: yup.string().required("ingrese un valor"),
@@ -20,7 +20,6 @@ const RegisterProduct = ({ setProduct }) => {
     stock: yup.string().required("ingrese un valor"),
     idcategoria: yup.string().required("ingrese un valor"),
   });
-
 
   const {
     register,
@@ -32,28 +31,20 @@ const RegisterProduct = ({ setProduct }) => {
 
   const { categorias } = useGetCategory();
 
-
   const [productExist, setProductExist] = useState(null);
   const { isLoading, createProduct, error } = useRegisterProduct({
     setProductExist,
   });
 
   const onSubmit = (data) => {
-    
-    const {
+    const { nombre, codigoproducto, precio, stock, idcategoria } = data;
+
+    const product = {
       nombre,
       codigoproducto,
       precio,
       stock,
       idcategoria,
-    } = data;
-    
-    const product = {
-        nombre,
-        codigoproducto,
-        precio,
-        stock,
-        idcategoria,
     };
 
     createProduct(product);
@@ -74,7 +65,7 @@ const RegisterProduct = ({ setProduct }) => {
       >
         <Grid item xs={12} sm={2}>
           <Box>
-            <CustomNavBar setProduct={setProduct} />
+            <CustomNavBar setUser={setUser} />
           </Box>
         </Grid>
         <Grid
@@ -90,8 +81,10 @@ const RegisterProduct = ({ setProduct }) => {
               Este codigo pertenece a un producto existente
             </Alert>
           )}
-          
-          {productExist && <Alert severity="error">El producto ya existe</Alert>}
+
+          {productExist && (
+            <Alert severity="error">El producto ya existe</Alert>
+          )}
           <Box className="titlePage">Producto / Registrar producto</Box>
 
           <Box>
@@ -132,11 +125,7 @@ const RegisterProduct = ({ setProduct }) => {
                 Stock:
               </Grid>
               <Grid item xs={6} md={3}>
-                <CustomTextBox
-                  type="text"
-                  register={register}
-                  name="stock"
-                />
+                <CustomTextBox type="text" register={register} name="stock" />
                 <p className="errorText">{errors.stock?.message}</p>
               </Grid>
               <Grid item xs={6} md={3} className="textInput">
@@ -152,7 +141,7 @@ const RegisterProduct = ({ setProduct }) => {
                 />
                 <p className="errorText">{errors.idcategoria?.message}</p>
               </Grid>
-              
+
               <Grid item xs={3} md={9}></Grid>
               <Grid item xs={12} md={3} sx={{ mb: 2 }}>
                 <CustomButton

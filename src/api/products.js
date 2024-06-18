@@ -47,4 +47,33 @@ const registerProduct = async ({
       .json({ error: "El ususario con ese correo ya se encuentra registrado" });
   }
 };
-export { registerProduct, getAllCategory, getAllProducts };
+
+const registerSell = async ({
+  name,
+  animal,
+  raza,
+  size,
+  weight,
+  sex,
+  birthdate,
+  owner,
+}) => {
+  try {
+    const response = await apiClient.post("/mascota/registrar", {
+      nombre: name,
+      peso: weight,
+      fechaDeNacimiento: birthdate,
+      idanimal: animal,
+      idraza: raza,
+      tamano: size,
+      sexo: sex,
+      idcliente: owner,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registrando usuario:", error);
+    throw error;
+  }
+};
+
+export { registerProduct, getAllCategory, getAllProducts, registerSell };

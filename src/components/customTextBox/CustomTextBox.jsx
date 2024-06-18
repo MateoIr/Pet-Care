@@ -18,13 +18,13 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-
 const CustomTextBox = ({
+  onChange,
   type,
   register,
   name,
   placeholder,
-
+  value,
   disabled,
 }) => {
   return (
@@ -38,18 +38,23 @@ const CustomTextBox = ({
       }}
     >
       <CssTextField
+        onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         id={name}
         variant="outlined"
+        value={value}
         placeholder={placeholder}
         {...register(name)}
         type={type}
+        InputLabelProps={{
+          shrink: true, // Asegura que la etiqueta no cubra el contenido del campo.
+        }}
         InputProps={{
           style: {
             height: "38px",
             backgroundColor: "#d9d9d9",
             width: "100%",
-            pl: 2,
+            paddingLeft: "8px",
           },
         }}
       />
