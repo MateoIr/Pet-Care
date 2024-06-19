@@ -52,28 +52,22 @@ const RegisterSell = ({ setUser }) => {
   });
   const { clientes } = useGetAllCustomer();
   const today = dayjs().format("YYYY-MM-DD");
-  console.log(store);
-  const [petExist, setPetExist] = useState(null);
   const [selectedDate, setSelectedDate] = useState(today);
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  const { isLoading, createSell, error } = useSellCreate({
-    setPetExist,
-  });
+  const { isLoading, createSell, error } = useSellCreate({});
   const onSubmit = (data) => {
-    const { name, animal, raza, size, weight, sex, birthdate, owner } = data;
+    const { fechadepedido, formadepago, observaciones, owner } = data;
     const sell = {
-      name,
-      animal,
-      raza,
-      size,
-      weight,
-      sex,
-      birthdate,
+      fechadepedido,
+      formadepago,
+      observaciones,
       owner,
+      store,
     };
-    createSell(sell);
+    console.log(sell);
+    // createSell(sell);
   };
   const navigate = useNavigate();
   const Agregar = () => {
@@ -120,7 +114,6 @@ const RegisterSell = ({ setUser }) => {
               Error al conectarce con la base de datos
             </Alert>
           )}
-          {petExist && <Alert severity="error">El usuario ya existe</Alert>}
           <Box className="titlePage">Productos / Registrar productos</Box>
 
           <Box>
@@ -166,7 +159,7 @@ const RegisterSell = ({ setUser }) => {
               <Grid item xs={7} md={4}>
                 <CustomSelectTectBox2
                   register={register}
-                  name="Cliente"
+                  name="owner"
                   list={clientes}
                   valueKey="id"
                   labelKey="idpersona.email"
