@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -26,24 +26,33 @@ const CustomSelectTectBox2 = ({
   valueKey,
   labelKey,
   filtro,
+  selectedItem,
 }) => {
-  const [defaultType, setDefaultType] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
 
+  // Maneja el cambio de selección
   const handleChange = (event) => {
-    setDefaultType(event.target.value);
+    const newValue = event.target.value;
+    setSelectedValue(newValue);
     if (filtro) {
-      filtro(event.target.value);
+      filtro(newValue);
     }
   };
 
+  // Inicializa selectedValue con selectedItem si está presente, sino, lo deja vacío
   useEffect(() => {
-    if (list && list.length > 0) {
-      setDefaultType(list[0][valueKey]);
+    if (selectedItem) {
+      setSelectedValue(selectedItem);
+    } else {
+      setSelectedValue("");
     }
-  }, [valueKey, list]);
+  }, [selectedItem]);
 
+  // Restablece selectedValue a una cadena vacía si la lista cambia
   useEffect(() => {
-    setDefaultType("");
+    if (list && list.length === 0) {
+      setSelectedValue("");
+    }
   }, [list]);
 
   return (
@@ -53,7 +62,7 @@ const CustomSelectTectBox2 = ({
         {...register(name)}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={defaultType || ""}
+        value={selectedValue}
         label={name}
         onChange={handleChange}
         variant="outlined"

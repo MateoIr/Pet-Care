@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../../store/StoreProvider";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
@@ -26,6 +26,7 @@ import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 import foot from "../../images/foot.jpg";
 import * as yup from "yup";
 import {
+  addToBill,
   decrementProduct,
   deleteProduct,
   incrementProduct,
@@ -36,7 +37,7 @@ import dayjs from "dayjs";
 
 const RegisterSell = ({ setUser }) => {
   const [store, dispatch] = useContext(StoreContext);
-  const { products } = store;
+  const { products, bill } = store;
   const schema = yup.object().shape({
     fechadepedido: yup.string().required("ingrese un valor"),
     formadepago: yup.string().required("ingrese un valor"),
@@ -46,6 +47,7 @@ const RegisterSell = ({ setUser }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -56,22 +58,46 @@ const RegisterSell = ({ setUser }) => {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  const { isLoading, createSell, error } = useSellCreate({});
+  const { isLoading, createSell, error } = useSellCreate();
   const onSubmit = (data) => {
     const { fechadepedido, formadepago, observaciones, owner } = data;
+    const idestado = 1;
+    const detalleVenta = products.map((producto) => {
+      return {
+        idproducto: producto.id,
+        cantidad: producto.cantidad,
+        precio: producto.precio,
+      };
+    });
+
     const sell = {
       fechadepedido,
-      formadepago,
       observaciones,
       owner,
-      store,
+      formadepago,
+      idestado,
+      detalleVenta,
     };
-    console.log(sell);
-    // createSell(sell);
+    createSell(sell);
   };
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (bill.length > 0) {
+      const { fechadepedido, formadepago, observaciones, owner } = bill[0];
+      setValue("fechadepedido", fechadepedido);
+      setValue("formadepago", formadepago);
+      setValue("observaciones", observaciones);
+      setValue("owner", owner);
+      setSelectedDate(fechadepedido);
+    }
+  }, [bill, setValue]);
+
   const Agregar = () => {
-    navigate("/user/productList");
+    handleSubmit((data) => {
+      dispatch(addToBill(data));
+      navigate("/user/productList");
+    })();
   };
   const handleDelete = (id) => {
     dispatch(deleteProduct(id));
@@ -163,6 +189,7 @@ const RegisterSell = ({ setUser }) => {
                   list={clientes}
                   valueKey="id"
                   labelKey="idpersona.email"
+                  selectedItem={bill[0]?.owner}
                 />
                 <p className="errorText">{errors.owner?.message}</p>
               </Grid>

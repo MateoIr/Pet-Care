@@ -49,26 +49,23 @@ const registerProduct = async ({
 };
 
 const registerSell = async ({
-  name,
-  animal,
-  raza,
-  size,
-  weight,
-  sex,
-  birthdate,
-  owner,
+  fechadepedido: fechapedido,
+  observaciones,
+  owner: idcliente,
+  formadepago,
+  idestado,
+  detalleVenta,
 }) => {
   try {
-    const response = await apiClient.post("/mascota/registrar", {
-      nombre: name,
-      peso: weight,
-      fechaDeNacimiento: birthdate,
-      idanimal: animal,
-      idraza: raza,
-      tamano: size,
-      sexo: sex,
-      idcliente: owner,
+    const response = await apiClient.post("/pedido/registro", {
+      fechapedido,
+      observaciones,
+      formadepago,
+      idcliente,
+      idestado,
+      detalleVenta,
     });
+
     return response.data;
   } catch (error) {
     console.error("Error registrando usuario:", error);
