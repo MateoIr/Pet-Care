@@ -29,6 +29,11 @@ const ProductList = () => {
   const [store, dispatch] = useContext(StoreContext);
   const navigate = useNavigate();
 
+  // Extrae los códigos de productos ya añadidos al store
+  const addedProductIds = store.products.map(
+    (product) => product.codigoproducto
+  );
+
   const handleCheckboxChange = (productId) => {
     setSelectedProducts((prevSelected) =>
       prevSelected.includes(productId)
@@ -39,7 +44,9 @@ const ProductList = () => {
 
   const handleSelectAllChange = (event) => {
     if (event.target.checked) {
-      const allProductIds = products.map((product) => product.codigoproducto);
+      const allProductIds = products
+        .filter((product) => !addedProductIds.includes(product.codigoproducto))
+        .map((product) => product.codigoproducto);
       setSelectedProducts(allProductIds);
     } else {
       setSelectedProducts([]);
@@ -110,15 +117,7 @@ const ProductList = () => {
               <Table className="tableCellTitle">
                 <TableHead>
                   <TableRow className="tableCellTitle">
-                    <TableCell className="tableCellTitle">
-                      <Checkbox
-                        onChange={handleSelectAllChange}
-                        checked={
-                          products?.length > 0 &&
-                          selectedProducts.length === products.length
-                        }
-                      />
-                    </TableCell>
+                    <TableCell className="tableCellTitle">Sumar</TableCell>
                     <TableCell className="tableCellTitle">
                       Código de producto
                     </TableCell>
@@ -137,56 +136,70 @@ const ProductList = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {products?.map((product, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="tableCell">
-                        <Checkbox
-                          checked={selectedProducts.includes(
-                            product.codigoproducto
-                          )}
-                          onChange={() =>
-                            handleCheckboxChange(product.codigoproducto)
-                          }
-                        />
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        {product.codigoproducto}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        {product.nombre}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        ${product.precio}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        <Select
-                          value={quantities[product.codigoproducto] || ""}
-                          onChange={(event) =>
-                            handleQuantityChange(product.codigoproducto, event)
-                          }
-                          displayEmpty
-                        >
-                          <MenuItem value="" disabled>
-                            Seleccionar
-                          </MenuItem>
-                          {Array.from(
-                            { length: product.stock },
-                            (_, i) => i + 1
-                          ).map((value) => (
-                            <MenuItem key={value} value={value}>
-                              {value}
+                  {products?.map((product, index) => {
+                    const isAdded = addedProductIds.includes(
+                      product.codigoproducto
+                    );
+                    return (
+                      <TableRow
+                        key={index}
+                        className={isAdded ? "rowDisabled" : ""}
+                      >
+                        <TableCell className="tableCell">
+                          <Checkbox
+                            checked={selectedProducts.includes(
+                              product.codigoproducto
+                            )}
+                            onChange={() =>
+                              handleCheckboxChange(product.codigoproducto)
+                            }
+                            disabled={isAdded}
+                          />
+                        </TableCell>
+                        <TableCell className="tableCell">
+                          {product.codigoproducto}
+                        </TableCell>
+                        <TableCell className="tableCell">
+                          {product.nombre}
+                        </TableCell>
+                        <TableCell className="tableCell">
+                          ${product.precio}
+                        </TableCell>
+                        <TableCell className="tableCell">
+                          <Select
+                            value={quantities[product.codigoproducto] || ""}
+                            onChange={(event) =>
+                              handleQuantityChange(
+                                product.codigoproducto,
+                                event
+                              )
+                            }
+                            displayEmpty
+                            disabled={isAdded}
+                          >
+                            <MenuItem value="" disabled>
+                              Seleccionar
                             </MenuItem>
-                          ))}
-                        </Select>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                            {Array.from(
+                              { length: product.stock },
+                              (_, i) => i + 1
+                            ).map((value) => (
+                              <MenuItem key={value} value={value}>
+                                {value}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
             <CustomButton
               text="Agregar Productos"
               onClick={handleAddProducts}
+              disabled={selectedProducts.length === 0}
             />
           </Grid>
         </Box>
