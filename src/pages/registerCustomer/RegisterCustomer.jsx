@@ -93,7 +93,6 @@ const RegisterCustomer = ({ setUser }) => {
       calle,
       numCalle,
     };
-
     createUser(cliente);
   };
 
@@ -277,13 +276,7 @@ const RegisterCustomer = ({ setUser }) => {
                 />
                 <p className="errorText">{errors.fechadenacimiento?.message}</p>
               </Grid>
-              <Grid item xs={6} md={3} className="textInput">
-                <CustomButton
-                  onClick={handleSubmit(onSubmit)}
-                  text="mascota"
-                  isLoading={isLoading}
-                />
-              </Grid>
+              <Grid item xs={6} md={3} className="textInput"></Grid>
               <Grid item xs={6} md={3} sx={{ mb: 2 }}>
                 <CustomButton
                   onClick={handleSubmit(onSubmit)}

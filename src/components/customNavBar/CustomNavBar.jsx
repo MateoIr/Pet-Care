@@ -43,7 +43,8 @@ const CustomNavBar = ({ setUser }) => {
         className="bigContainer"
         sx={{
           height: { xs: "auto", sm: "100vh" },
-          position: { xs: "relative", sm: "inherit" },
+          width: { sm: "17%" },
+          position: { xs: "relative", sm: "fixed" },
         }}
       >
         <Box className="Header">
