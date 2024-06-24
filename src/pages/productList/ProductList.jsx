@@ -110,7 +110,7 @@ const ProductList = () => {
             No es posible conectarse con la base de datos
           </Alert>
         )}
-        <Box className="titlePage">Productos</Box>
+        <Box className="titlePage">Productos / Listado de Productos</Box>
         <Box>
           <Grid container className="tableContainer" rowGap={2}>
             <TableContainer>

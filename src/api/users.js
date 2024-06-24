@@ -11,7 +11,6 @@ const getUserSelected = async (email, password) => {
       email: email.email,
       password: email.password,
     };
-    console.log(persona);
     const response = await apiClient.post("/login/ingresar", {
       email: email.email,
       contrasena: email.password,
@@ -107,7 +106,6 @@ const registerCustomer = async ({
       calle,
       numCalle,
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     return error

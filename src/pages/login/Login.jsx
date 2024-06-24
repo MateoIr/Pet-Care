@@ -13,8 +13,8 @@ import useLogin from "../../hooks/useLogin";
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { error, isLoading, user } = useLogin({ email, password, setUser });
-  console.log(user);
+  const { error, isLoading } = useLogin({ email, password, setUser });
+
   const schema = yup.object().shape({
     email: yup
       .string()

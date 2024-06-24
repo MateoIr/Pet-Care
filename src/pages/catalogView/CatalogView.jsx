@@ -1,4 +1,3 @@
-import { useContext, useState } from "react";
 import {
   Box,
   Grid,
@@ -9,23 +8,14 @@ import {
   TableHead,
   TableRow,
   Alert,
-  Checkbox,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import "./CatalogView.css";
 import useGetProducts from "../../hooks/produts/useGetProducts";
-import { StoreContext } from "../../store/StoreProvider";
-import { types } from "../../store/StoreReducer";
-import { useNavigate } from "react-router-dom";
-
-
 
 const ProductList = () => {
-    const { products, isLoading, error } = useGetProducts();
-
+  const { products, isLoading, error } = useGetProducts();
 
   return (
     <Grid
@@ -54,14 +44,16 @@ const ProductList = () => {
             No es posible conectarse con la base de datos
           </Alert>
         )}
-        <Box className="titlePage">Productos/Listado de productos</Box>
+        <Box className="titlePage">Productos / Listado de productos</Box>
         <Box>
           <Grid container className="tableContainer" rowGap={2}>
             <TableContainer>
               <Table className="tableCellTitle">
                 <TableHead>
                   <TableRow className="tableCellTitle">
-                    <TableCell className="tableCellTitle">Código de producto</TableCell>
+                    <TableCell className="tableCellTitle">
+                      Código de producto
+                    </TableCell>
                     <TableCell className="tableCellTitle">Título</TableCell>
                     <TableCell className="tableCellTitle">Precio</TableCell>
                     <TableCell className="tableCellTitle">Stock</TableCell>
@@ -97,7 +89,7 @@ const ProductList = () => {
                         {product.nombre}
                       </TableCell>
                       <TableCell className="tableCell">
-                        {product.precio}
+                        ${product.precio}
                       </TableCell>
                       <TableCell className="tableCell">
                         {product.stock}
@@ -105,7 +97,6 @@ const ProductList = () => {
                       <TableCell className="tableCell">
                         {product.idcategoria.nombrecategoria}
                       </TableCell>
-                      
                     </TableRow>
                   ))}
                 </TableBody>
@@ -114,7 +105,6 @@ const ProductList = () => {
           </Grid>
         </Box>
       </Grid>
-      
     </Grid>
   );
 };

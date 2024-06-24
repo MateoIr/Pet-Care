@@ -87,7 +87,7 @@ const UpdateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
-          <Box className="titlePage">Modificar Usuario</Box>
+          <Box className="titlePage">Usuarios / Modificar usuario</Box>
           <Box>
             <Grid
               container
@@ -108,6 +108,9 @@ const UpdateUser = ({ setUser }) => {
                   placeholder={userSelected?.idpersona?.nombre || ""}
                 />
                 <p className="errorText">{errors.name?.message}</p>
+                <p style={{ fontSize: "11px", color: "grey" }}>
+                  {userSelected?.idpersona?.nombre}
+                </p>
               </Grid>
 
               <Grid item xs={6} className="textInput">
@@ -162,7 +165,6 @@ const UpdateUser = ({ setUser }) => {
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="date"
-                  value={userSelected?.idpersona?.fechadenacimiento || ""}
                   register={register}
                   name="birthdate"
                 />

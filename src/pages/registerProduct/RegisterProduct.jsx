@@ -85,7 +85,7 @@ const RegisterProduct = ({ setUser }) => {
           {productExist && (
             <Alert severity="error">El producto ya existe</Alert>
           )}
-          <Box className="titlePage">Producto / Registrar producto</Box>
+          <Box className="titlePage">Productos / Registrar producto</Box>
 
           <Box>
             <Grid
@@ -143,7 +143,7 @@ const RegisterProduct = ({ setUser }) => {
               </Grid>
 
               <Grid item xs={3} md={9}></Grid>
-              <Grid item xs={12} md={3} sx={{ mb: 2 }}>
+              <Grid item xs={9} md={3} sx={{ mb: 2 }}>
                 <CustomButton
                   onClick={handleSubmit(onSubmit)}
                   text="Guardar"

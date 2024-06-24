@@ -140,7 +140,7 @@ const RegisterSell = ({ setUser }) => {
               Error al conectarce con la base de datos
             </Alert>
           )}
-          <Box className="titlePage">Productos / Registrar productos</Box>
+          <Box className="titlePage">Productos / Registrar pedido de venta</Box>
 
           <Box>
             <Grid

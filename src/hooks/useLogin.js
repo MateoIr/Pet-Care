@@ -20,7 +20,6 @@ const useLogin = ({ email, password, setUser }) => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("error: " + error);
     if (user != undefined) {
       if (!error) {
         window.localStorage.setItem("userType", user.denominacion);
