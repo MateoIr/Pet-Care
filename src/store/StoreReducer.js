@@ -4,8 +4,8 @@ const types = {
   productDelete: "product - delete",
   productDecrement: "product - decrement",
   productIncrement: "product - increment",
-  billAdd: "bill - add", // Nuevo tipo de acción para agregar datos a bill
-  billDeleteAll: "bill - delete all", // Nuevo tipo de acción para vaciar bill
+  billAdd: "bill - add",
+  billDeleteAll: "bill - delete all",
 };
 
 // Estado inicial de la tienda
