@@ -28,21 +28,29 @@ const UpdateUser = ({ setUser }) => {
       .max(20, "debe tener menos de 20 caracteres")
       .required("ingrese un valor"),
   });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue, // Permite establecer valores iniciales
   } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const [email, setEmail] = useState(null);
   const { id } = useParams();
   const { userSelected, isLoading, error } = useSelectedUser(id);
+
   useEffect(() => {
-    if (userSelected?.idpersona?.email)
-      setEmail(userSelected?.idpersona?.email);
-  }, [userSelected]);
+    if (userSelected) {
+      setValue("name", userSelected?.idpersona?.nombre || "");
+      setValue("lastName", userSelected?.idpersona?.apellido || "");
+      setValue("email", userSelected?.idpersona?.email || "");
+      setValue("phoneNumber", userSelected?.idpersona?.telefono || "");
+      setValue("birthdate", userSelected?.idpersona?.fechadenacimiento || "");
+      setValue("password", userSelected?.contrasena || "");
+    }
+  }, [userSelected, setValue]);
 
   const { updateUser } = useUpdateUser();
 
@@ -53,7 +61,7 @@ const UpdateUser = ({ setUser }) => {
       id,
       name,
       lastName,
-      email,
+      email: data.email, // Usando el valor del formulario
       phoneNumber,
       birthdate,
       userType,
@@ -61,6 +69,7 @@ const UpdateUser = ({ setUser }) => {
     };
     updateUser(user);
   };
+
   return (
     <>
       <Box className="footRight">
@@ -101,16 +110,8 @@ const UpdateUser = ({ setUser }) => {
                 Nombre:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomTextBox
-                  type="text"
-                  register={register}
-                  name="name"
-                  placeholder={userSelected?.idpersona?.nombre || ""}
-                />
+                <CustomTextBox type="text" register={register} name="name" />
                 <p className="errorText">{errors.name?.message}</p>
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  {userSelected?.idpersona?.nombre}
-                </p>
               </Grid>
 
               <Grid item xs={6} className="textInput">
@@ -121,13 +122,10 @@ const UpdateUser = ({ setUser }) => {
                   type="text"
                   register={register}
                   name="lastName"
-                  placeholder={userSelected?.idpersona?.apellido || ""}
                 />
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  {userSelected?.idpersona?.apellido}
-                </p>
                 <p className="errorText">{errors.lastName?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
                 Email:
               </Grid>
@@ -136,29 +134,23 @@ const UpdateUser = ({ setUser }) => {
                   type="text"
                   register={register}
                   name="email"
-                  placeholder={userSelected?.idpersona?.email || ""}
                   disabled={true}
                 />
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  campo no editable
-                </p>
                 <p className="errorText">{errors.email?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
                 Teléfono:
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="text"
-                  placeholder={userSelected?.idpersona?.telefono || ""}
                   register={register}
                   name="phoneNumber"
                 />
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  {userSelected?.idpersona?.telefono}
-                </p>
                 <p className="errorText">{errors.phoneNumber?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
                 Fecha de nacimiento:
               </Grid>
@@ -168,32 +160,28 @@ const UpdateUser = ({ setUser }) => {
                   register={register}
                   name="birthdate"
                 />
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  {userSelected?.idpersona?.fechadenacimiento}
-                </p>
                 <p className="errorText">{errors.birthdate?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
-                Contraseña
+                Contraseña:
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomTextBox
                   type="password"
                   register={register}
                   name="password"
-                  placeholder={userSelected?.contrasena}
                 />
-                <p style={{ fontSize: "11px", color: "grey" }}>
-                  {userSelected?.contrasena}
-                </p>
                 <p className="errorText">{errors.password?.message}</p>
               </Grid>
+
               <Grid item xs={6} className="textInput">
                 Tipo de usuario:
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomSelectTectBox register={register} name="userType" />
               </Grid>
+
               <Grid item xs={6} className="textInput"></Grid>
               <Grid item xs={6} md={4} sx={{ mb: 2 }}>
                 <CustomButton
