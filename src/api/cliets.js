@@ -15,6 +15,16 @@ const getAllRace = async () => {
   }
 };
 
+const getAllPets = async () => {
+  try {
+    const response = await apiClient.get("/mascota/mascotas");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
 const getAllCustomers = async () => {
   try {
     const response = await apiClient.get("/clientes/list");
@@ -96,6 +106,17 @@ const registerAnimal = async ({
     throw error;
   }
 };
+
+const deletePet = async (id) => {
+  try {
+    const response = await apiClient.delete(`/mascota/mascota/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error registrando usuario:", error);
+    throw error;
+  }
+};
+
 export {
   getAllPaises,
   getAllProvincias,
@@ -104,4 +125,6 @@ export {
   registerAnimal,
   getAllLocalidades,
   getAllCustomers,
+  deletePet,
+  getAllPets,
 };

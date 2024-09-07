@@ -13,7 +13,8 @@ import UpdateUser from "./pages/updateUser/UpdateUser";
 import RegisterSell from "./pages/registerSell/RegisterSell";
 import StoreProvider from "./store/StoreProvider";
 import ProductList from "./pages/productList/ProductList";
-import CatalogView  from "./pages/catalogView/CatalogView";
+import CatalogView from "./pages/catalogView/CatalogView";
+import PetList from "./pages/petList/PetList";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -31,7 +32,10 @@ function App() {
               path="/client/pet/register"
               element={<ClientesRegistroMascota setUser={setUser} />}
             />
-
+            <Route
+              path="/client/pet/petList"
+              element={<PetList setUser={setUser} />}
+            />
             <Route
               path="/user/createUser"
               element={<UserCreateUser setUser={setUser} />}
