@@ -127,30 +127,37 @@ const PetList = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {petList?.map((pet, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="tableCell">{pet.nombre}</TableCell>
-                      <TableCell className="tableCell">{pet.sexo}</TableCell>
-                      <TableCell className="tableCell">
-                        {pet.fechadenacimiento}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        <Box className="containerOptions">
-                          <Link to={`/pet/updatePet/${pet.id}`}>
-                            <IconButton aria-label="edit">
-                              <EditIcon />
-                            </IconButton>
-                          </Link>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => handleDeletePet(pet.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {petList?.map(
+                    (pet, index) =>
+                      pet.estado && (
+                        <TableRow key={index}>
+                          <TableCell className="tableCell">
+                            {pet.nombre}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {pet.sexo}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {pet.fechadenacimiento}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            <Box className="containerOptions">
+                              <Link to={`/pet/updatePet/${pet.id}`}>
+                                <IconButton aria-label="edit">
+                                  <EditIcon />
+                                </IconButton>
+                              </Link>
+                              <IconButton
+                                aria-label="delete"
+                                onClick={() => handleDeletePet(pet.id)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
