@@ -46,6 +46,18 @@ const getAllAnimals = async () => {
     );
   }
 };
+
+const getAllClients = async () => {
+  try {
+    const response = await apiClient.get("/clientes/list");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const getAllLocalidades = async () => {
   try {
     const response = await apiClient.get("/localidad");
@@ -112,7 +124,17 @@ const deletePet = async (id) => {
     const response = await apiClient.delete(`/mascota/mascota/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error registrando usuario:", error);
+    console.error("Error al eliminar mascota:", error);
+    throw error;
+  }
+};
+
+const deleteClient = async (id) => {
+  try {
+    const response = await apiClient.delete(`/clientes/cliente/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar cliente:", error);
     throw error;
   }
 };
@@ -123,8 +145,10 @@ export {
   getAllRace,
   getAllAnimals,
   registerAnimal,
+  getAllClients,
   getAllLocalidades,
   getAllCustomers,
   deletePet,
   getAllPets,
+  deleteClient,
 };

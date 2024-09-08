@@ -55,6 +55,11 @@ const Home = ({ setUser }) => {
                 </Link>
               </Grid>
               <Grid item md={12}>
+                <Link to="/client/clienteList">
+                  <CustomButton text="Lista de Clientes"></CustomButton>
+                </Link>
+              </Grid>
+              <Grid item md={12}>
                 <Link to="/user/userList">
                   <CustomButton text="Lista de usuarios"></CustomButton>
                 </Link>

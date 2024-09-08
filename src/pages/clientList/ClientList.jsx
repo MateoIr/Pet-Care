@@ -16,59 +16,63 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import "./PetList.css";
+import "./ClientList.css";
 import { useEffect, useState } from "react";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import { LoadingButton } from "@mui/lab";
-import useGetAllPets from "../../hooks/pet/getAllPets";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import useDeletePet from "../../hooks/pet/useDeletePet";
+import useGetClient from "../../hooks/pet/getAllClients";
+import useDeleteClient from "../../hooks/pet/useDeleteClient";
 
-const PetList = () => {
-  const [usuarioEliminar, setUsuarioEliminar] = useState("");
-  const { pet, isLoading, error, refetch } = useGetAllPets();
-  const [petList, setPetList] = useState([]);
-  const { deletedPet, status } = useDeletePet();
+const ClientList = () => {
+  const [clientEliminar, setClientEliminar] = useState("");
+  const { client, isLoading, error, refetch } = useGetClient(); // refetch para actualizar clientes
+  const [clientList, setClientList] = useState([]);
+  const { deletedClient, status } = useDeleteClient(); // status para saber el estado de la eliminación
 
   const [openDialog, setOpenDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    if (pet) {
-      setPetList(pet);
+    if (client) {
+      setClientList(client);
     }
-  }, [pet]);
+  }, [client]);
 
   useEffect(() => {
     const fetchUpdatedUsers = async () => {
       if (status === "success") {
         const updatedUsers = await refetch();
-        setPetList(updatedUsers.data);
+        setClientList(updatedUsers.data);
       }
     };
 
     fetchUpdatedUsers();
   }, [status, refetch]);
 
+  // Manejar la eliminación de un cliente
   const handleDeletePet = (userId) => {
-    setUsuarioEliminar(userId);
+    setClientEliminar(userId);
     setOpenDialog(true);
   };
 
+  // Confirmar y proceder con la eliminación
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
-    await deletedPet(usuarioEliminar);
+    await deletedClient(clientEliminar);
     await refetch();
     setIsDeleting(false);
     setOpenDialog(false);
-    setUsuarioEliminar(null);
+    setClientEliminar(null);
+
     await refetch();
   };
 
+  // Cerrar el diálogo sin eliminar
   const handleCloseDialog = () => {
-    setUsuarioEliminar(null);
+    setClientEliminar(null);
     setOpenDialog(false);
   };
 
@@ -107,9 +111,8 @@ const PetList = () => {
                 <TableHead>
                   <TableRow className="tableCellTitle">
                     <TableCell className="tableCellTitle">Nombre</TableCell>
-                    <TableCell className="tableCellTitle">Raza</TableCell>
-                    <TableCell className="tableCellTitle">Dueño</TableCell>
-                    <TableCell className="tableCellTitle">Sexo</TableCell>
+                    <TableCell className="tableCellTitle">Apellido</TableCell>
+                    <TableCell className="tableCellTitle">Email</TableCell>
                     <TableCell className="tableCellTitle">Opciones</TableCell>
                   </TableRow>
                 </TableHead>
@@ -130,32 +133,29 @@ const PetList = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {petList?.map(
-                    (pet, index) =>
-                      pet.estado && (
+                  {clientList?.map(
+                    (client, index) =>
+                      client.estado && (
                         <TableRow key={index}>
                           <TableCell className="tableCell">
-                            {pet.nombre}
+                            {client.idpersona.nombre}
                           </TableCell>
                           <TableCell className="tableCell">
-                            {pet.sexo}
+                            {client.idpersona.apellido}
                           </TableCell>
                           <TableCell className="tableCell">
-                            {pet.duenio}
-                          </TableCell>
-                          <TableCell className="tableCell">
-                            {pet.sexo}
+                            {client.idpersona.email}
                           </TableCell>
                           <TableCell className="tableCell">
                             <Box className="containerOptions">
-                              <Link to={`/pet/updatePet/${pet.id}`}>
+                              <Link to={`/pet/updatePet/${client.id}`}>
                                 <IconButton aria-label="edit">
                                   <EditIcon />
                                 </IconButton>
                               </Link>
                               <IconButton
                                 aria-label="delete"
-                                onClick={() => handleDeletePet(pet.id)}
+                                onClick={() => handleDeletePet(client.id)}
                               >
                                 <DeleteIcon />
                               </IconButton>
@@ -181,7 +181,7 @@ const PetList = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Estás seguro de que deseas eliminar esta mascota?
+            ¿Estás seguro de que deseas eliminar este usuario?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -197,4 +197,4 @@ const PetList = () => {
   );
 };
 
-export default PetList;
+export default ClientList;

@@ -1,23 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllPets } from "../../api/cliets";
+import { getAllClients } from "../../api/cliets";
 
-const useGetAnimal = () => {
+const useGetClient = () => {
   const {
-    data: pet,
+    data: client,
     isLoading,
     error: error,
     refetch,
   } = useQuery({
     queryKey: ["Pets"],
-    queryFn: () => getAllPets(),
+    queryFn: () => getAllClients(),
   });
 
   return {
-    pet,
+    refetch,
+    client,
     isLoading,
     error,
-    refetch,
   };
 };
 
-export default useGetAnimal;
+export default useGetClient;
