@@ -80,6 +80,11 @@ const Home = ({ setUser }) => {
                 </Link>
               </Grid>
               <Grid item md={12} rowGap={3}>
+                <Link to="/signature">
+                  <CustomButton text="Registrar Firma"></CustomButton>
+                </Link>
+              </Grid>
+              <Grid item md={12} rowGap={3}>
                 <Link to="/product/catalogView">
                   <CustomButton text="Ver productos"></CustomButton>
                 </Link>
