@@ -16,6 +16,7 @@ import ProductList from "./pages/productList/ProductList";
 import CatalogView from "./pages/catalogView/CatalogView";
 import PetList from "./pages/petList/PetList";
 import ClientList from "./pages/clientList/ClientList";
+import Signature from "./pages/signature/Signature";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -41,11 +42,16 @@ function App() {
               path="/client/clienteList"
               element={<ClientList setUser={setUser} />}
             />
+            <Route
+              path="/signature"
+              element={<Signature setUser={setUser} />}
+            />
 
             <Route
               path="/user/createUser"
               element={<UserCreateUser setUser={setUser} />}
             />
+
             <Route
               path="/user/userList"
               element={<UserList setUser={setUser} />}
