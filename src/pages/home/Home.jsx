@@ -89,6 +89,16 @@ const Home = ({ setUser }) => {
                   <CustomButton text="Ver productos"></CustomButton>
                 </Link>
               </Grid>
+              <Grid item md={12} rowGap={3}>
+                <Link to="/veterinario/register">
+                  <CustomButton text="reg. veterinario"></CustomButton>
+                </Link>
+              </Grid>
+              <Grid item md={12} rowGap={3}>
+                <Link to="/veterinario/clinica/register">
+                  <CustomButton text="reg. Clinica"></CustomButton>
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Grid>
