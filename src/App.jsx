@@ -10,6 +10,7 @@ import ClientesRegistroMascota from "./pages/clientesRegistroMascota/ClientesReg
 import RegisterCustomer from "./pages/registerCustomer/RegisterCustomer";
 import RegisterProduct from "./pages/registerProduct/RegisterProduct";
 import UpdateUser from "./pages/updateUser/UpdateUser";
+import UpdateProduct from "./pages/updateProduct/UpdateProduct";
 import RegisterSell from "./pages/registerSell/RegisterSell";
 import StoreProvider from "./store/StoreProvider";
 import ProductList from "./pages/productList/ProductList";
@@ -82,9 +83,18 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          >
+          >             
             <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
+          
+          <Route path="/product/updateProduct/:id" element={<UpdateProduct />} />
+          <Route
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          ><Route path="/login" element={<Login setUser={setUser} />} />
+          </Route>
+
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>
