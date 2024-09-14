@@ -3,6 +3,7 @@ import { getAllProducts } from "../../api/products";
 
 const useGetProducts = () => {
   const {
+    refetch,
     data: products,
     isLoading,
     error: error,
@@ -12,6 +13,7 @@ const useGetProducts = () => {
   });
 
   return {
+    refetch,
     products,
     isLoading,
     error,
