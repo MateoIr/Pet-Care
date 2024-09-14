@@ -6,13 +6,8 @@ const apiClient = axios.create({
 
 const registerSignature = async ({ signature }) => {
   try {
-    // Extrae el contenido base64 del dataURL
     const base64Data = signature.split(",")[1];
-
-    // Crea un objeto FormData
     const formData = new FormData();
-
-    // Agrega el campo 'firma' con el contenido base64 al FormData
     formData.append("firma", base64Data);
 
     // Envía la solicitud POST con FormData
@@ -21,7 +16,7 @@ const registerSignature = async ({ signature }) => {
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data", // Asegúrate de que el Content-Type sea multipart/form-data
+          "Content-Type": "multipart/form-data",
         },
       }
     );
@@ -29,7 +24,7 @@ const registerSignature = async ({ signature }) => {
     return response.data;
   } catch (error) {
     console.error("Error al guardar la firma:", error);
-    throw error; // Propaga el error para que `useMutation` pueda manejarlo
+    throw error;
   }
 };
 
