@@ -19,6 +19,7 @@ import ClientList from "./pages/clientList/ClientList";
 import Signature from "./pages/signature/Signature";
 import RegisterVeterinarian from "./pages/registerVeterinarian/RegisterVeterinarian";
 import RegisterClinic from "./pages/registerClinic/RegisterClinic";
+import ClinicList from "./pages/clinicList/ClinicList";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -91,6 +92,7 @@ function App() {
               element={<CatalogView setUser={setUser} />}
             />
           </Route>
+          <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
           <Route path="/user/updateUser/:id" element={<UpdateUser />} />
           <Route
             element={
