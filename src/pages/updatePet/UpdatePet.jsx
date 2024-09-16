@@ -44,7 +44,7 @@ const UpdatePet= ({ setUser }) => {
   useEffect(() => {
     if (petSelected) {
       setValue("id",petSelected?.id || "");
-      setValue("nombre", petSelected?.nombre || "");
+      setValue("name", petSelected?.nombre || "");
       setValue("animal", petSelected?.animal || "");
       setValue("raza", petSelected?.raza || "");
       setValue("size", petSelected?.tamano || "");

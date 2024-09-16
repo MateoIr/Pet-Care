@@ -79,7 +79,7 @@ const UpdateClient = ({ setUser }) => {
       setValue("departamento", clientSelected?.idpersona?.iddireccion?.departamento || "");
       setValue("calle", clientSelected?.idpersona?.iddireccion?.calle || "");
       setValue("numCalle", clientSelected?.idpersona?.iddireccion?.numero || "");
-      //setValue("idprovincia", clientSelected?.idpersona?.iddireccion?.idlocalidad?.idprovincia || "");
+      setValue("idprovincia", clientSelected?.idpersona?.iddireccion?.idlocalidad?.idprovincia || "");
       setValue("localidad", clientSelected?.idpersona?.iddireccion?.idlocalidad?.descripcion    || "");
       console.log(clientSelected);
     }
@@ -91,7 +91,8 @@ const UpdateClient = ({ setUser }) => {
   const onSubmit = (data) => {
     console.log(data);
     const {
-      id,
+      idcliente,
+      idpersona,
       nombre,
       apellido,
       email,
@@ -107,7 +108,8 @@ const UpdateClient = ({ setUser }) => {
     } = data;
 
     const cliente = {
-      id,
+      idcliente,
+      idpersona,
       nombre,
       apellido,
       fechadenacimiento,

@@ -142,7 +142,7 @@ const deleteClient = async (id) => {
 
 const getPet = async (id) => {
   try {
-    const response = await apiClient.post(`/mascotas/idmascota`, {
+    const response = await apiClient.post(`/mascota/idmascota`, {
       id,
     });
     return response.data;
@@ -167,7 +167,8 @@ const getClient = async (id) => {
 
 const updateClientSelected = async ({
   
-  id,
+  idcliente,
+  idpersona,
   nombre,
   apellido,
   fechadenacimiento,
@@ -183,7 +184,8 @@ const updateClientSelected = async ({
 }) => {
   try {
     const response = await apiClient.post(`/clientes/actualizarcliente`, {
-      id,
+      idcliente,
+      idpersona,
       nombre,
       apellido,
       email,
@@ -196,6 +198,7 @@ const updateClientSelected = async ({
       descripcionLocalidad: localidad,
       calle,
       numCalle,
+      
     });
     return response.data;
   } catch (error) {
