@@ -114,7 +114,7 @@ const registerAnimal = async ({
     });
     return response.data;
   } catch (error) {
-    console.error("Error registrando usuario:", error);
+    console.error("Error registrando mascota:", error);
     throw error;
   }
 };
@@ -139,6 +139,119 @@ const deleteClient = async (id) => {
   }
 };
 
+
+const getPet = async (id) => {
+  try {
+    const response = await apiClient.post(`/mascotas/idmascota`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "..Mascota con ese id no encontrado.." });
+  }
+};
+const getClient = async (id) => {
+  try {
+    const response = await apiClient.post(`/clientes/idcliente`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "..Cliente con ese id no encontrado.." });
+  }
+};
+
+const updateClientSelected = async ({
+  
+  id,
+  nombre,
+  apellido,
+  fechadenacimiento,
+  email,
+  telefono,
+  barrio,
+  piso,
+  departamento,
+  provincia,
+  localidad,
+  calle,
+  numCalle,
+}) => {
+  try {
+    const response = await apiClient.post(`/clientes/actualizarcliente`, {
+      id,
+      nombre,
+      apellido,
+      email,
+      telefono,
+      fechaDeNacimiento: fechadenacimiento,
+      barrio,
+      piso,
+      departamento,
+      idProvincia: provincia,
+      descripcionLocalidad: localidad,
+      calle,
+      numCalle,
+    });
+    return response.data;
+  } catch (error) {
+    
+    console.log("Entró al catch:", error); // Ver el error completo en consola
+
+    // Puedes devolver el error como un objeto, no usar .status() y .json() en el frontend
+    return {
+      status: error.response ? error.response.status : 500,
+      message:
+        error.response && error.response.data
+          ? error.response.data.error
+          : "Ocurrió un error desconocido.",
+    };
+  }
+};
+
+const updatePetSelected = async ({
+  id,
+  name,
+  animal,
+  raza,
+  size,
+  weight,
+  sex,
+  birthdate,
+  owner,
+}) => {
+  try {
+    const response = await apiClient.post(`/mascota/actualizarmascota`, {
+      id:id,
+      nombre: name,
+      peso: weight,
+      fechaDeNacimiento: birthdate,
+      idanimal: animal,
+      idraza: raza,
+      tamano: size,
+      sexo: sex,
+      idcliente: owner,
+    });
+    return response.data;
+  } catch (error) {
+    
+    console.log("Entró al catch:", error); // Ver el error completo en consola
+
+    // Puedes devolver el error como un objeto, no usar .status() y .json() en el frontend
+    return {
+      status: error.response ? error.response.status : 500,
+      message:
+        error.response && error.response.data
+          ? error.response.data.error
+          : "Ocurrió un error desconocido.",
+    };
+  }
+};
+
 export {
   getAllPaises,
   getAllProvincias,
@@ -151,4 +264,8 @@ export {
   deletePet,
   getAllPets,
   deleteClient,
+  updateClientSelected,
+  updatePetSelected,
+  getClient,
+  getPet,
 };
