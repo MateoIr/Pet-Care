@@ -1,4 +1,4 @@
-import { Alert, Box, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import * as yup from "yup";
@@ -7,14 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
 import { useEffect, useState } from "react";
-import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
 import { useParams } from "react-router-dom";
-import useSelectedUser from "../../hooks/users/useSelectedUser";
-import useUpdateUser from "../../hooks/users/useUpdateUser";
 import useGetSelectedVeterinarian from "../../hooks/veterinarian/useGetSelectedVeterinarian";
 import useGetAllClinics from "../../hooks/clinic/useGetAllClinics";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
+import useUpdateVeterinarian from "../../hooks/veterinarian/useUpdateVeterinarian";
 
 const UpdateVeterinarian = ({ setUser }) => {
   const schema = yup.object().shape({
@@ -25,19 +23,24 @@ const UpdateVeterinarian = ({ setUser }) => {
       .required("ingrese un valor")
       .matches(/^[0-9]+$/, "solo acepta caracteres numericos"),
     birthdate: yup.string().required("ingrese un valor"),
-    userType: yup.string().required("ingrese un valor"),
-    password: yup
+    matricula: yup.string().required("ingrese un valor"),
+    clinica: yup.string().required("ingrese un valor"),
+    calle: yup.string().required("ingrese un valor"),
+    departamento: yup.string().required("ingrese un valor"),
+    numCalle: yup
       .string()
-      .min(4, "debe tener mas de 4 caracteres")
-      .max(20, "debe tener menos de 20 caracteres")
-      .required("ingrese un valor"),
+      .required("ingrese un valor")
+      .matches(/^[0-9]+$/, "solo acepta caracteres numericos"),
+    barrio: yup.string().required("ingrese un valor"),
+    piso: yup.string().required("ingrese un valor"),
+    descripcionLocalidad: yup.string().required("ingrese un valor"),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, // Permite establecer valores iniciales
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -59,8 +62,7 @@ const UpdateVeterinarian = ({ setUser }) => {
   }, [county, provincias]);
 
   const { id } = useParams();
-  const { veterinarianSelected, isLoading, error } =
-    useGetSelectedVeterinarian(id);
+  const { veterinarianSelected, isLoading } = useGetSelectedVeterinarian(id);
 
   useEffect(() => {
     if (veterinarianSelected) {
@@ -70,31 +72,78 @@ const UpdateVeterinarian = ({ setUser }) => {
       setValue("phoneNumber", veterinarianSelected?.idpersona?.telefono || "");
       setValue("matricula", veterinarianSelected?.matricula || "");
       setValue("clinica", veterinarianSelected?.idclinica?.id || "");
-
+      setValue(
+        "calle",
+        veterinarianSelected?.idpersona?.iddireccion.calle || ""
+      );
+      setValue(
+        "departamento",
+        veterinarianSelected?.idpersona?.iddireccion.departamento || ""
+      );
+      setValue(
+        "numCalle",
+        veterinarianSelected?.idpersona?.iddireccion.numero || ""
+      );
+      setValue(
+        "barrio",
+        veterinarianSelected?.idpersona?.iddireccion.barrio || ""
+      );
+      setValue("piso", veterinarianSelected?.idpersona?.iddireccion.piso || "");
+      setValue(
+        "descripcionLocalidad",
+        veterinarianSelected?.idpersona?.iddireccion.idlocalidad.descripcion ||
+          ""
+      );
       setValue(
         "birthdate",
         veterinarianSelected?.idpersona?.fechadenacimiento || ""
       );
-      setValue("password", veterinarianSelected?.contrasena || "");
+      setValue(
+        "provincia",
+        veterinarianSelected?.idpersona.iddireccion.idlocalidad.idprovincia
+          .id || ""
+      );
     }
   }, [veterinarianSelected, setValue]);
 
-  const { updateUser } = useUpdateUser();
+  const { updateVeterinarian } = useUpdateVeterinarian();
 
   const onSubmit = (data) => {
-    const { name, lastName, phoneNumber, birthdate, userType, password } = data;
+    const {
+      name,
+      email,
+      lastName,
+      phoneNumber,
+      matricula,
+      birthdate,
+      clinica,
+      calle,
+      departamento,
+      numCalle,
+      barrio,
+      piso,
+      descripcionLocalidad,
+      provincia,
+    } = data;
 
     const user = {
       id,
       name,
       lastName,
-      email: data.email, // Usando el valor del formulario
+      email,
       phoneNumber,
       birthdate,
-      userType,
-      password,
+      matricula,
+      clinica,
+      calle,
+      departamento,
+      numCalle,
+      barrio,
+      piso,
+      descripcionLocalidad,
+      provincia,
     };
-    updateUser(user);
+    updateVeterinarian(user);
   };
 
   return (

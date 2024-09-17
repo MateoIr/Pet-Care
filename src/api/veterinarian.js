@@ -123,6 +123,52 @@ const getVeterinarian = async (id) => {
   }
 };
 
+const updateVeterinarianApi = async ({
+  id,
+  name: nombre,
+  email,
+  lastName: apellido,
+  phoneNumber: telefono,
+  matricula,
+  birthdate: fechaDeNacimiento,
+  clinica: idClinica,
+  calle,
+  departamento,
+  numCalle,
+  barrio,
+  piso,
+  descripcionLocalidad,
+  provincia: idProvincia,
+}) => {
+  try {
+    const response = await apiClient.post(
+      "/Veterinarios/actualizarveterinaria",
+      {
+        id,
+        nombre,
+        email,
+        apellido,
+        telefono,
+        matricula,
+        fechaDeNacimiento,
+        idClinica,
+        calle,
+        departamento,
+        numCalle,
+        barrio,
+        piso,
+        descripcionLocalidad,
+        idProvincia,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error
+      .status(500)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
+
 export {
   registerClinic,
   registerVeterinarian,
@@ -130,4 +176,5 @@ export {
   getAllVeterinarians,
   deleteVeterinarian,
   getVeterinarian,
+  updateVeterinarianApi,
 };
