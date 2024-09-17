@@ -53,7 +53,7 @@ const ClientList = () => {
   }, [status, refetch]);
 
   // Manejar la eliminación de un cliente
-  const handleDeletePet = (userId) => {
+  const handleDeleteClient = (userId) => {
     setClientEliminar(userId);
     setOpenDialog(true);
   };
@@ -103,7 +103,7 @@ const ClientList = () => {
             No es posible conectarse con la base de datos
           </Alert>
         )}
-        <Box className="titlePage">Usuarios</Box>
+        <Box className="titlePage">Clientes</Box>
         <Box>
           <Grid container className="tableContainer" rowGap={2}>
             <TableContainer>
@@ -148,14 +148,14 @@ const ClientList = () => {
                           </TableCell>
                           <TableCell className="tableCell">
                             <Box className="containerOptions">
-                              <Link to={`/pet/updatePet/${client.id}`}>
+                              <Link to={`/client/updateClient/${client.id}`}>
                                 <IconButton aria-label="edit">
                                   <EditIcon />
                                 </IconButton>
                               </Link>
                               <IconButton
                                 aria-label="delete"
-                                onClick={() => handleDeletePet(client.id)}
+                                onClick={() => handleDeleteClient(client.id)}
                               >
                                 <DeleteIcon />
                               </IconButton>
@@ -181,7 +181,7 @@ const ClientList = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            ¿Estás seguro de que deseas eliminar este usuario?
+            ¿Estás seguro de que deseas eliminar este cliente?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

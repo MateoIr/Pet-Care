@@ -1,32 +1,32 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateUserSelected } from "../../api/users";
+import { updateClientSelected } from "../../api/cliets";
 import { useNavigate } from "react-router-dom";
 import "toastify-js/src/toastify.css";
 import Toastify from "toastify-js";
 
-const useUpdateUser = () => {
+const useUpdateClient = () => {
   const navigate = useNavigate();
 
   const {
     isPending: isLoading,
     error,
-    mutate: updateUser,
+    mutate: updateClient,
   } = useMutation({
-    mutationFn: updateUserSelected,
+    mutationFn: updateClientSelected,
     onSuccess: () => {
       Toastify({
-        text: "¡El usuario se ha modificado correctamente!",
+        text: "¡El cliente se ha modificado correctamente!",
         duration: 3000,
         close: true,
         gravity: "top",
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/user/userList");
+      navigate("/client/clienteList");
     },
   });
 
-  return { isLoading, error, updateUser };
+  return { isLoading, error, updateClient };
 };
 
-export default useUpdateUser;
+export default useUpdateClient;

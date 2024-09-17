@@ -10,6 +10,7 @@ import ClientesRegistroMascota from "./pages/clientesRegistroMascota/ClientesReg
 import RegisterCustomer from "./pages/registerCustomer/RegisterCustomer";
 import RegisterProduct from "./pages/registerProduct/RegisterProduct";
 import UpdateUser from "./pages/updateUser/UpdateUser";
+import UpdateProduct from "./pages/updateProduct/UpdateProduct";
 import RegisterSell from "./pages/registerSell/RegisterSell";
 import StoreProvider from "./store/StoreProvider";
 import ProductList from "./pages/productList/ProductList";
@@ -19,9 +20,15 @@ import ClientList from "./pages/clientList/ClientList";
 import Signature from "./pages/signature/Signature";
 import RegisterVeterinarian from "./pages/registerVeterinarian/RegisterVeterinarian";
 import RegisterClinic from "./pages/registerClinic/RegisterClinic";
+
 import ClinicList from "./pages/clinicList/ClinicList";
 import VeterinarianList from "./pages/veterinarianList/VeterinarianList";
 import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
+
+import UpdateClient from "./pages/updateClient/UpdateCliente";
+import UpdatePet from "./pages/updatePet/UpdatePet";
+
+
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -102,9 +109,34 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          >
+          >             
             <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
+          
+          <Route path="/product/updateProduct/:id" element={<UpdateProduct />} />
+          <Route
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          ><Route path="/login" element={<Login setUser={setUser} />} />
+          </Route>
+
+          <Route path="/pet/updatePet/:id" element={<UpdatePet />} />
+          <Route
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          ><Route path="/login" element={<Login setUser={setUser} />} />
+          </Route>
+
+          <Route path="/client/updateClient/:id" element={<UpdateClient />} />
+          <Route
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          ><Route path="/login" element={<Login setUser={setUser} />} />
+          </Route>
+
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

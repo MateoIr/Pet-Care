@@ -1,18 +1,22 @@
 import { Alert, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRegisterCustomer } from "../../hooks/useRegisterCustomer";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 import * as yup from "yup";
 import foot from "../../images/foot.jpg";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
-import "./RegisterCustomer.css";
+import "./UpdateClient.css";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
+import useSelectedClient from "../../hooks/pet/useSelectedClient";
+import useUpdateClient from "../../hooks/pet/useUpdateClient";
 
-const RegisterCustomer = ({ setUser }) => {
+
+
+const UpdateClient = ({ setUser }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
     apellido: yup.string().required("ingrese un valor"),
@@ -38,6 +42,18 @@ const RegisterCustomer = ({ setUser }) => {
   const { provincias } = useGetProvincia();
   const { paises } = useGetPais();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue, // Permite establecer valores iniciales
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const { id } = useParams();
+  const { clientSelected, isLoading, error } = useSelectedClient(id);
+
   useEffect(() => {
     if (county != null) {
       const filtered = provincias.filter(
@@ -49,21 +65,34 @@ const RegisterCustomer = ({ setUser }) => {
     }
   }, [county, provincias]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  useEffect(() => {
+    if (clientSelected) {
+      setValue("idcliente", clientSelected?.id || "");
+      setValue("idpersona", clientSelected?.idpersona?.id || "");
+      setValue("nombre", clientSelected?.idpersona?.nombre || "");
+      setValue("apellido", clientSelected?.idpersona?.apellido || "");
+      setValue("email", clientSelected?.idpersona?.email || "");
+      setValue("telefono", clientSelected?.idpersona?.telefono || "");
+      setValue("fechadenacimiento", clientSelected?.idpersona?.fechadenacimiento || "");
+      setValue("barrio", clientSelected?.idpersona?.iddireccion?.barrio || "");
+      setValue("piso", clientSelected?.idpersona?.iddireccion?.piso || "");
+      setValue("departamento", clientSelected?.idpersona?.iddireccion?.departamento || "");
+      setValue("calle", clientSelected?.idpersona?.iddireccion?.calle || "");
+      setValue("numCalle", clientSelected?.idpersona?.iddireccion?.numero || "");
+      setValue("idprovincia", clientSelected?.idpersona?.iddireccion?.idlocalidad?.idprovincia || "");
+      setValue("localidad", clientSelected?.idpersona?.iddireccion?.idlocalidad?.descripcion    || "");
+      console.log(clientSelected);
+    }
+  }, [clientSelected, setValue]);
 
-  const [userExist, setUserExist] = useState(null);
-  const { isLoading, createUser, error } = useRegisterCustomer({
-    setUserExist,
-  });
+  const { updateClient} = useUpdateClient();
+
 
   const onSubmit = (data) => {
+    console.log(data);
     const {
+      idcliente,
+      idpersona,
       nombre,
       apellido,
       email,
@@ -79,10 +108,12 @@ const RegisterCustomer = ({ setUser }) => {
     } = data;
 
     const cliente = {
+      idcliente,
+      idpersona,
       nombre,
       apellido,
       fechadenacimiento,
-      email,
+      email:data.email,
       telefono,
       barrio,
       piso,
@@ -92,7 +123,7 @@ const RegisterCustomer = ({ setUser }) => {
       calle,
       numCalle,
     };
-    createUser(cliente);
+    updateClient(cliente);
   };
 
   return (
@@ -121,13 +152,7 @@ const RegisterCustomer = ({ setUser }) => {
             height: "90%",
           }}
         >
-          {error && (
-            <Alert severity="error">
-              Este correo ya peretenece a un cliente
-            </Alert>
-          )}
-          {userExist && <Alert severity="error">El usuario ya existe</Alert>}
-          <Box className="titlePage">Clientes / Registrar cliente</Box>
+          <Box className="titlePage">Clientes / Actualizar cliente</Box>
 
           <Box>
             <Grid
@@ -240,6 +265,7 @@ const RegisterCustomer = ({ setUser }) => {
                   list={paises}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.idpais.id}
                 />
                 <p className="errorText">{errors.pais?.message}</p>
               </Grid>
@@ -253,11 +279,12 @@ const RegisterCustomer = ({ setUser }) => {
                   list={filteredProvinces}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.id}
                 />
                 <p className="errorText">{errors.provincia?.message}</p>
               </Grid>
 
-             
+              
               <Grid item xs={6} md={3} className="textInput">
                 Fecha de Nacimiento:
               </Grid>
@@ -285,4 +312,4 @@ const RegisterCustomer = ({ setUser }) => {
   );
 };
 
-export default RegisterCustomer;
+export default UpdateClient;

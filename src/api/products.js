@@ -25,6 +25,8 @@ const getAllProducts = async () => {
   }
 };
 
+
+
 const registerProduct = async ({
   nombre,
   codigoproducto,
@@ -44,7 +46,53 @@ const registerProduct = async ({
   } catch (error) {
     return error
       .status(400)
-      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+      .json({ error: "El producto con ese código ya se encuentra registrado" });
+  }
+};
+
+const updateProductSelected = async ({
+  id,
+  nombre,
+  codigoproducto,
+  precio,
+  stock,
+  idcategoria,
+}) => {
+  try {
+    const response = await apiClient.post(`/producto/actualizarproducto`, {
+      id: id,
+      nombre: nombre,
+      precio: precio,
+      stock: stock,
+      codigoproducto: codigoproducto,
+      idcategoria: idcategoria,
+    });
+    return response.data;
+  } catch (error) {
+    
+    console.log("Entró al catch:", error); // Ver el error completo en consola
+
+    // Puedes devolver el error como un objeto, no usar .status() y .json() en el frontend
+    return {
+      status: error.response ? error.response.status : 500,
+      message:
+        error.response && error.response.data
+          ? error.response.data.error
+          : "Ocurrió un error desconocido.",
+    };
+  }
+};
+
+const getProduct = async (id) => {
+  try {
+    const response = await apiClient.post(`/producto/idproducto`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "..Producto con ese id no encontrado.." });
   }
 };
 
@@ -73,4 +121,17 @@ const registerSell = async ({
   }
 };
 
-export { registerProduct, getAllCategory, getAllProducts, registerSell };
+
+const dropProduct = async (id) => {
+  try {
+    const response = await apiClient.delete(`/producto/delete/${id}`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    
+      console.error("Error al eliminar cliente:", error);
+      throw error;
+  }
+};
+export { registerProduct, getAllCategory, getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
