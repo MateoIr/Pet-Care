@@ -1,6 +1,5 @@
 import { Alert, Box, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRegisterCustomer } from "../../hooks/useRegisterCustomer";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -131,11 +130,13 @@ const RegisterVeterinarian = (setUser) => {
         >
           {error && (
             <Alert severity="error">
-              Este correo ya peretenece a un cliente
+              Este correo ya peretenece a un Veterinario
             </Alert>
           )}
-          {userExist && <Alert severity="error">El usuario ya existe</Alert>}
-          <Box className="titlePage">Clientes / Registrar cliente</Box>
+          {userExist && (
+            <Alert severity="error">El Veterinario ya existe</Alert>
+          )}
+          <Box className="titlePage">Turnos / Registrar Veterinarios</Box>
 
           <Box>
             <Grid

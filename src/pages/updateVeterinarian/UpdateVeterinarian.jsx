@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
 import { useParams } from "react-router-dom";
 import useSelectedUser from "../../hooks/users/useSelectedUser";
@@ -14,6 +14,7 @@ import useUpdateUser from "../../hooks/users/useUpdateUser";
 import useGetSelectedVeterinarian from "../../hooks/veterinarian/useGetSelectedVeterinarian";
 import useGetAllClinics from "../../hooks/clinic/useGetAllClinics";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
+import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
 
 const UpdateVeterinarian = ({ setUser }) => {
   const schema = yup.object().shape({
@@ -42,6 +43,20 @@ const UpdateVeterinarian = ({ setUser }) => {
   });
 
   const { clinics } = useGetAllClinics();
+  const [county, setCounty] = useState(null);
+  const [filteredProvinces, setFilteredProvinces] = useState([]);
+  const { provincias } = useGetProvincia();
+  const { paises } = useGetPais();
+  useEffect(() => {
+    if (county != null) {
+      const filtered = provincias.filter(
+        (provincia) => provincia.idpais.id === county
+      );
+      setFilteredProvinces(filtered);
+    } else {
+      setFilteredProvinces(provincias);
+    }
+  }, [county, provincias]);
 
   const { id } = useParams();
   const { veterinarianSelected, isLoading, error } =
@@ -199,24 +214,98 @@ const UpdateVeterinarian = ({ setUser }) => {
                 />
                 <p className="errorText">{errors.birthdate?.message}</p>
               </Grid>
+              <Grid item xs={6} md={3} className="textInput">
+                Pais:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  filtro={setCounty}
+                  register={register}
+                  name="pais"
+                  list={paises}
+                  valueKey="id"
+                  labelKey="descripcion"
+                  selectedItem={
+                    veterinarianSelected?.idpersona.iddireccion.idlocalidad
+                      .idprovincia.idpais.id
+                  }
+                />
+                <p className="errorText">{errors.pais?.message}</p>
+              </Grid>
+              <Grid item xs={6} md={3} className="textInput">
+                Provincia:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="provincia"
+                  list={filteredProvinces}
+                  valueKey="id"
+                  labelKey="descripcion"
+                  selectedItem={
+                    veterinarianSelected?.idpersona.iddireccion.idlocalidad
+                      .idprovincia.id
+                  }
+                />
+                <p className="errorText">{errors.provincia?.message}</p>
+              </Grid>
 
               <Grid item xs={6} className="textInput">
-                Contraseña:
+                Calle:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomTextBox type="text" register={register} name="calle" />
+                <p className="errorText">{errors.calle?.message}</p>
+              </Grid>
+
+              <Grid item xs={6} className="textInput">
+                NumeroCalle:
               </Grid>
               <Grid item xs={6} md={4}>
                 <CustomTextBox
-                  type="password"
+                  type="text"
                   register={register}
-                  name="password"
+                  name="numCalle"
                 />
-                <p className="errorText">{errors.password?.message}</p>
+                <p className="errorText">{errors.numCalle?.message}</p>
               </Grid>
-
               <Grid item xs={6} className="textInput">
-                Tipo de usuario:
+                Departamento:
               </Grid>
               <Grid item xs={6} md={4}>
-                <CustomSelectTectBox register={register} name="userType" />
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="departamento"
+                />
+                <p className="errorText">{errors.departamento?.message}</p>
+              </Grid>
+              <Grid item xs={6} className="textInput">
+                Barrio:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomTextBox type="text" register={register} name="barrio" />
+                <p className="errorText">{errors.barrio?.message}</p>
+              </Grid>
+              <Grid item xs={6} className="textInput">
+                Piso:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomTextBox type="text" register={register} name="piso" />
+                <p className="errorText">{errors.piso?.message}</p>
+              </Grid>
+              <Grid item xs={6} className="textInput">
+                Localidad:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="descripcionLocalidad"
+                />
+                <p className="errorText">
+                  {errors.descripcionLocalidad?.message}
+                </p>
               </Grid>
 
               <Grid item xs={6} className="textInput"></Grid>
