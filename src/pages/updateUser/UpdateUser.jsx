@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import foot from "../../images/foot.jpg";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSelectTectBox";
 import { useParams } from "react-router-dom";
 import useSelectedUser from "../../hooks/users/useSelectedUser";
