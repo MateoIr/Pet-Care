@@ -86,4 +86,48 @@ const getAllClinics = async () => {
   }
 };
 
-export { registerClinic, registerVeterinarian, getAllClinics };
+const getAllVeterinarians = async () => {
+  try {
+    const response = await apiClient.get("/Veterinarios/listaveterinaios");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const deleteVeterinarian = async (id) => {
+  try {
+    const response = await apiClient.post(`/Veterinarios/borrar`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
+
+const getVeterinarian = async (id) => {
+  try {
+    const response = await apiClient.post(`/Veterinarios/idveterinario`, {
+      id,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(400)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
+
+export {
+  registerClinic,
+  registerVeterinarian,
+  getAllClinics,
+  getAllVeterinarians,
+  deleteVeterinarian,
+  getVeterinarian,
+};

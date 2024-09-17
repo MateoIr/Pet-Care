@@ -11,8 +11,11 @@ import CustomSelectTectBox from "../../components/customSelectTectBox/CustomSele
 import { useParams } from "react-router-dom";
 import useSelectedUser from "../../hooks/users/useSelectedUser";
 import useUpdateUser from "../../hooks/users/useUpdateUser";
+import useGetSelectedVeterinarian from "../../hooks/veterinarian/useGetSelectedVeterinarian";
+import useGetAllClinics from "../../hooks/clinic/useGetAllClinics";
+import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 
-const UpdateUser = ({ setUser }) => {
+const UpdateVeterinarian = ({ setUser }) => {
   const schema = yup.object().shape({
     name: yup.string().required("ingrese un valor"),
     lastName: yup.string().required("ingrese un valor"),
@@ -38,19 +41,28 @@ const UpdateUser = ({ setUser }) => {
     resolver: yupResolver(schema),
   });
 
+  const { clinics } = useGetAllClinics();
+
   const { id } = useParams();
-  const { userSelected, isLoading, error } = useSelectedUser(id);
+  const { veterinarianSelected, isLoading, error } =
+    useGetSelectedVeterinarian(id);
 
   useEffect(() => {
-    if (userSelected) {
-      setValue("name", userSelected?.idpersona?.nombre || "");
-      setValue("lastName", userSelected?.idpersona?.apellido || "");
-      setValue("email", userSelected?.idpersona?.email || "");
-      setValue("phoneNumber", userSelected?.idpersona?.telefono || "");
-      setValue("birthdate", userSelected?.idpersona?.fechadenacimiento || "");
-      setValue("password", userSelected?.contrasena || "");
+    if (veterinarianSelected) {
+      setValue("name", veterinarianSelected?.idpersona?.nombre || "");
+      setValue("lastName", veterinarianSelected?.idpersona?.apellido || "");
+      setValue("email", veterinarianSelected?.idpersona?.email || "");
+      setValue("phoneNumber", veterinarianSelected?.idpersona?.telefono || "");
+      setValue("matricula", veterinarianSelected?.matricula || "");
+      setValue("clinica", veterinarianSelected?.idclinica?.id || "");
+
+      setValue(
+        "birthdate",
+        veterinarianSelected?.idpersona?.fechadenacimiento || ""
+      );
+      setValue("password", veterinarianSelected?.contrasena || "");
     }
-  }, [userSelected, setValue]);
+  }, [veterinarianSelected, setValue]);
 
   const { updateUser } = useUpdateUser();
 
@@ -96,7 +108,7 @@ const UpdateUser = ({ setUser }) => {
             height: "90%",
           }}
         >
-          <Box className="titlePage">Usuarios / Modificar usuario</Box>
+          <Box className="titlePage">Modificar Veterinario</Box>
           <Box>
             <Grid
               container
@@ -106,6 +118,31 @@ const UpdateUser = ({ setUser }) => {
               }}
               rowGap={2}
             >
+              <Grid item xs={6} className="textInput">
+                Matricula:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomTextBox
+                  type="text"
+                  register={register}
+                  name="matricula"
+                />
+                <p className="errorText">{errors.matricula?.message}</p>
+              </Grid>
+              <Grid item xs={6} className="textInput">
+                Clinica:
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="clinics"
+                  list={clinics}
+                  valueKey="id"
+                  labelKey="nombre"
+                  selectedItem={veterinarianSelected?.idclinica?.id}
+                />
+                <p className="errorText">{errors.clinics?.message}</p>
+              </Grid>
               <Grid item xs={6} className="textInput">
                 Nombre:
               </Grid>
@@ -198,4 +235,4 @@ const UpdateUser = ({ setUser }) => {
   );
 };
 
-export default UpdateUser;
+export default UpdateVeterinarian;

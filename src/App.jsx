@@ -20,6 +20,8 @@ import Signature from "./pages/signature/Signature";
 import RegisterVeterinarian from "./pages/registerVeterinarian/RegisterVeterinarian";
 import RegisterClinic from "./pages/registerClinic/RegisterClinic";
 import ClinicList from "./pages/clinicList/ClinicList";
+import VeterinarianList from "./pages/veterinarianList/VeterinarianList";
+import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -94,6 +96,8 @@ function App() {
           </Route>
           <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
           <Route path="/user/updateUser/:id" element={<UpdateUser />} />
+          <Route path="/veterinarian/:id" element={<UpdateVeterinarian />} />
+          <Route path="/veterinarians" element={<VeterinarianList />} />
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />

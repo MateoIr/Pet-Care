@@ -104,6 +104,11 @@ const Home = ({ setUser }) => {
                   <CustomButton text="Clinicas lista"></CustomButton>
                 </Link>
               </Grid>
+              <Grid item md={12} rowGap={3}>
+                <Link to="/veterinarians">
+                  <CustomButton text="Veterinarios Lista"></CustomButton>
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Grid>
