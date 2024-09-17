@@ -45,13 +45,13 @@ const UpdatePet= ({ setUser }) => {
     if (petSelected) {
       setValue("id",petSelected?.id || "");
       setValue("name", petSelected?.nombre || "");
-      setValue("animal", petSelected?.animal || "");
-      setValue("raza", petSelected?.raza || "");
+      setValue("animal", petSelected?.idanimal.id || "");
+      setValue("raza", petSelected?.idraza.id || "");
       setValue("size", petSelected?.tamano || "");
       setValue("weight", petSelected?.peso || "");
       setValue("sex", petSelected?.sexo || "");
       setValue("birthdate", petSelected?.fechadenacimiento || "");
-      setValue("owner", petSelected?.idcliente || "");
+      setValue("owner", petSelected?.idcliente.idpersona.id || "");
 
       
     }
@@ -144,6 +144,7 @@ const UpdatePet= ({ setUser }) => {
                   list={animal}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={petSelected?.idanimal.id}
                 />
                 <p className="errorText">{errors.animal?.message}</p>
               </Grid>
@@ -157,6 +158,7 @@ const UpdatePet= ({ setUser }) => {
                   list={raza}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={petSelected?.idraza.id}
                 />
                 <p className="errorText">{errors.race?.message}</p>
               </Grid>
@@ -196,6 +198,7 @@ const UpdatePet= ({ setUser }) => {
                   list={clientes}
                   valueKey="id"
                   labelKey="idpersona.email"
+                  selectedItem={petSelected?.idcliente.id}
                 />
                 <p className="errorText">{errors.owner?.message}</p>
               </Grid>

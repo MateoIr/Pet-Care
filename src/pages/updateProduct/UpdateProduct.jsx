@@ -47,6 +47,7 @@ const UpdateProduct = ({ setProduct }) => {
       setValue("codigoproducto", productSelected?.codigoproducto || "");
       setValue("precio", productSelected?.precio || "");
       setValue("stock", productSelected?.stock || "");
+      setValue("idcategoria",productSelected?.idcategoria || "");
       
     }
   }, [productSelected, setValue]);
@@ -150,6 +151,7 @@ const UpdateProduct = ({ setProduct }) => {
                   list={categorias}
                   valueKey="id"
                   labelKey="nombrecategoria"
+                  selectedItem={productSelected?.idcategoria.id}
                 />
                 <p className="errorText">{errors.idcategoria?.message}</p>
               </Grid>

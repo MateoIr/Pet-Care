@@ -265,6 +265,7 @@ const UpdateClient = ({ setUser }) => {
                   list={paises}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.idpais.id}
                 />
                 <p className="errorText">{errors.pais?.message}</p>
               </Grid>
@@ -278,6 +279,7 @@ const UpdateClient = ({ setUser }) => {
                   list={filteredProvinces}
                   valueKey="id"
                   labelKey="descripcion"
+                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.id}
                 />
                 <p className="errorText">{errors.provincia?.message}</p>
               </Grid>
