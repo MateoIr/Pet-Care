@@ -3,6 +3,7 @@ import { getAllVeterinarians } from "../../api/veterinarian";
 
 const useGetVeterinarians = () => {
   const {
+    refetch,
     data: veterinarians,
     isLoading,
     error: error,
@@ -12,6 +13,7 @@ const useGetVeterinarians = () => {
   });
 
   return {
+    refetch,
     veterinarians,
     isLoading,
     error,

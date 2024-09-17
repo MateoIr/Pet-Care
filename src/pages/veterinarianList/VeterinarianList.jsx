@@ -59,13 +59,19 @@ const VeterinarianList = () => {
   // Confirmar y proceder con la eliminación
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
-    await dropVeterinarian(veterinarianDrop);
-    await refetch();
-    setIsDeleting(false);
-    setOpenDialog(false);
-    setVeterinarianDrop(null);
 
-    await refetch();
+    try {
+      await dropVeterinarian(veterinarianDrop);
+      await refetch(); // Refrescar la lista de veterinarios después de eliminar
+
+      // Restablecer estados
+      setVeterinarianDrop(null);
+      setOpenDialog(false);
+    } catch (error) {
+      console.error("Error deleting veterinarian:", error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   // Cerrar el diálogo sin eliminar
