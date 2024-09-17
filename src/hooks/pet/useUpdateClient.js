@@ -1,32 +1,32 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateProductSelected } from "../../api/products";
+import { updateClientSelected } from "../../api/cliets";
 import { useNavigate } from "react-router-dom";
 import "toastify-js/src/toastify.css";
 import Toastify from "toastify-js";
 
-const useUpdateProduct = () => {
+const useUpdateClient = () => {
   const navigate = useNavigate();
 
   const {
     isPending: isLoading,
     error,
-    mutate: updateProduct,
+    mutate: updateClient,
   } = useMutation({
-    mutationFn: updateProductSelected,
+    mutationFn: updateClientSelected,
     onSuccess: () => {
       Toastify({
-        text: "¡El producto se ha modificado correctamente!",
+        text: "¡El cliente se ha modificado correctamente!",
         duration: 3000,
         close: true,
         gravity: "top",
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/product/catalogView");
+      navigate("/client/clienteList");
     },
   });
 
-  return { isLoading, error, updateProduct };
+  return { isLoading, error, updateClient };
 };
 
-export default useUpdateProduct;
+export default useUpdateClient;

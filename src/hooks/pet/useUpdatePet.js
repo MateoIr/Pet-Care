@@ -1,32 +1,32 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateProductSelected } from "../../api/products";
+import { updatePetSelected } from "../../api/cliets";
 import { useNavigate } from "react-router-dom";
 import "toastify-js/src/toastify.css";
 import Toastify from "toastify-js";
 
-const useUpdateProduct = () => {
+const useUpdatePet = () => {
   const navigate = useNavigate();
 
   const {
     isPending: isLoading,
     error,
-    mutate: updateProduct,
+    mutate: updatePet,
   } = useMutation({
-    mutationFn: updateProductSelected,
+    mutationFn: updatePetSelected,
     onSuccess: () => {
       Toastify({
-        text: "¡El producto se ha modificado correctamente!",
+        text: "¡La mascota se ha modificado correctamente!",
         duration: 3000,
         close: true,
         gravity: "top",
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/product/catalogView");
+      navigate("/pet/PetList");
     },
   });
 
-  return { isLoading, error, updateProduct };
+  return { isLoading, error, updatePet };
 };
 
-export default useUpdateProduct;
+export default useUpdatePet;
