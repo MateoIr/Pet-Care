@@ -15,10 +15,19 @@ const RegisterClinic = (setUser) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
     calle: yup.string().required("ingrese un valor"),
-    numCalle: yup.string().required("ingrese un valor"),
+    numCalle: yup
+      .string()
+      .matches(/^\d+$/, "Debe contener solo números")
+      .required("El número de teléfono es requerido"),
     barrio: yup.string().required("ingrese un valor"),
-    departamento: yup.string().required("ingrese un valor"),
-    piso: yup.string(),
+    departamento: yup
+      .string()
+      .matches(/^\d+$/, "Debe contener solo números")
+      .required("El número de teléfono es requerido"),
+    piso: yup
+      .string()
+      .matches(/^\d+$/, "Debe contener solo números")
+      .required("El número de teléfono es requerido"),
     localidad: yup.string().required("ingrese un valor"),
     provincia: yup.string().required("ingrese un valor"),
     pais: yup.string().required("ingrese un valor"),
