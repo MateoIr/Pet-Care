@@ -27,6 +27,7 @@ import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 
 import UpdateClient from "./pages/updateClient/UpdateCliente";
 import UpdatePet from "./pages/updatePet/UpdatePet";
+import { ClientSection } from "./pages/clientesSection/ClientSection";
 
 
 function App() {
@@ -37,9 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
-            element={
-              <ProtectedRoute canActivate={user} redirectPath="/login" />
-            }
+            
           >
             <Route path="/home" element={<Home setUser={setUser} />} />
             <Route
@@ -99,6 +98,10 @@ function App() {
             <Route
               path="/product/catalogView"
               element={<CatalogView setUser={setUser} />}
+            />
+            <Route
+              path="/home/clients/"
+              element={<ClientSection setUser={setUser} />}
             />
           </Route>
           <Route path="/clinics" element={<ClinicList setUser={setUser} />} />

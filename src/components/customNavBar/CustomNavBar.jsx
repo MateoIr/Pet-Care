@@ -30,6 +30,8 @@ const CustomNavBar = ({ setUser }) => {
     );
   };
 
+  
+
   const handleLogout = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("user");
@@ -75,7 +77,7 @@ const CustomNavBar = ({ setUser }) => {
         </Box>
         <Box className={containerClass}>
           <Box className="NavBar">
-            <Box>
+            <Box onClick={() => navigate("/home/clients")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <PetsIcon
