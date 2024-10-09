@@ -36,7 +36,6 @@ import SellSection from "./pages/nav/sellSection/SellSection";
 
 import TrunRegister from "./pages/turnRegister/TrunRegister";
 
-
 function App() {
   const [user, setUser] = useLocalStorage("token");
   return (
@@ -45,9 +44,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
-            element={
-              <ProtectedRoute canActivate={user} redirectPath="/login" />
-            }
+          // element={
+          //   <ProtectedRoute canActivate={user} redirectPath="/login" />
+          // }
           >
             <Route path="/home" element={<Home setUser={setUser} />} />
             <Route

@@ -20,6 +20,8 @@ import * as yup from "yup";
 import CustomButton from "../../components/customButton/CustomButton";
 import Hairdressing from "./Hairdressing";
 import Vet from "./Vet";
+import Calendar from "./Calendar";
+import Daycare from "./Daycare";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -204,7 +206,9 @@ const TrunRegister = ({ setUser }) => {
                   />
                 </TabList>
               </Box>
-              <TabPanel value="1">Item One</TabPanel>
+              <TabPanel value="1">
+                <Daycare />
+              </TabPanel>
               <TabPanel value="2">
                 <Vet></Vet>
               </TabPanel>
