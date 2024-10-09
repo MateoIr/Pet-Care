@@ -27,11 +27,15 @@ import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 
 import UpdateClient from "./pages/updateClient/UpdateCliente";
 import UpdatePet from "./pages/updatePet/UpdatePet";
+
 import ClientSection from "./pages/nav/clientesSection/ClientSection";
 import ProductSection from "./pages/nav/productosSection/ProductSection";
 import UserSection from "./pages/nav/userSection/UserSection";
 import ConfigurationSection from "./pages/nav/configurations/ConfigurationSection";
 import SellSection from "./pages/nav/sellSection/SellSection";
+
+import TrunRegister from "./pages/turnRegister/TrunRegister";
+
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -165,6 +169,11 @@ function App() {
           </Route>
 
           <Route path="*" element={<Navigate to="/home" />} />
+
+          <Route
+            path="/turn/register"
+            element={<TrunRegister setUser={setUser} />}
+          />
         </Routes>
       </BrowserRouter>
     </StoreProvider>
