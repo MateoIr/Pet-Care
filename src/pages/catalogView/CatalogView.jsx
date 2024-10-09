@@ -71,7 +71,6 @@ const ProductList = () => {
     setOpenDialog(false);
   };
 
-
   return (
     <Grid
       container
@@ -106,7 +105,9 @@ const ProductList = () => {
               <Table className="tableCellTitle">
                 <TableHead>
                   <TableRow className="tableCellTitle">
-                    <TableCell className="tableCellTitle">Código de producto</TableCell>
+                    <TableCell className="tableCellTitle">
+                      Código de producto
+                    </TableCell>
                     <TableCell className="tableCellTitle">Título</TableCell>
                     <TableCell className="tableCellTitle">Precio</TableCell>
                     <TableCell className="tableCellTitle">Stock</TableCell>
@@ -133,39 +134,43 @@ const ProductList = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {products?.map((product, index) => product.estado &&(
-                    <TableRow key={index}>
-                      <TableCell className="tableCell">
-                        {product.codigoproducto}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        {product.nombre}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        ${product.precio}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        {product.stock}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        {product.idcategoria.nombrecategoria}
-                      </TableCell>
-                      <TableCell className="tableCell">
-                        <Box className="containerOptions">
-                          <Link to={`/product/updateProduct/${product.id}`}>
-                            <IconButton aria-label="edit">
-                              <EditIcon />
-                            </IconButton>
-                          </Link>
-                          <IconButton 
-                            aria-label="delete" 
-                            onClick={() => handleDeleteProduct(product.id)}>
-                            <DeleteIcon />
-                          </IconButton>
-                        </Box>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {products?.map(
+                    (product, index) =>
+                      product.estado && (
+                        <TableRow key={index}>
+                          <TableCell className="tableCell">
+                            {product.codigoproducto}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.nombre}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            ${product.precio}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.stock}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.idcategoria.nombrecategoria}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            <Box className="containerOptions">
+                              <Link to={`/product/updateProduct/${product.id}`}>
+                                <IconButton aria-label="edit">
+                                  <EditIcon />
+                                </IconButton>
+                              </Link>
+                              <IconButton
+                                aria-label="delete"
+                                onClick={() => handleDeleteProduct(product.id)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

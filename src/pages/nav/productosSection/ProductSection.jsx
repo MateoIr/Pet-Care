@@ -1,20 +1,14 @@
 import { Box, Grid } from "@mui/material";
 import CustomNavBar from "../../../components/customNavBar/CustomNavBar";
 import { CustomNavCard } from "../../../components/customNavCard/CustomNavCard";
+import productoImg from "../../../images/productos.png";
 import foot from "../../../images/foot.jpg";
-import clientImg from "../../../images/clientes.png";
-import mascotasImg from "../../../images/mascotas.png";
-import "./ClientSection.css";
+import "./ProductSection.css";
 
-const ClientSection = ({ setUser }) => {
-  const clients = [
-    { name: "Registrar Cliente", link: "/client/register" },
-    { name: "Lista de Clientes", link: "/client/clienteList" },
-  ];
-
-  const animals = [
-    { name: "Registrar Mascota", link: "/client/pet/register" },
-    { name: "Lista de Mascotas", link: "/client/pet/petList" },
+const ProductSection = ({ setUser }) => {
+  const products = [
+    { name: "Registrar Producto", link: "/product/register" },
+    { name: "Lista de Productos", link: "/products" },
   ];
 
   return (
@@ -74,21 +68,10 @@ const ClientSection = ({ setUser }) => {
             alignItems="center"
             p="10px"
           >
-            <CustomNavCard items={clients} text={"Cliente"} image={clientImg} />
-          </Grid>
-          <Grid
-            item
-            sm={12}
-            md={5}
-            display={"flex"}
-            justifyContent="center" // Centrado horizontal
-            alignItems="center"
-            p="10px"
-          >
             <CustomNavCard
-              items={animals}
-              text={"Mascotas"}
-              image={mascotasImg}
+              items={products}
+              text={"Productos"}
+              image={productoImg}
             />
           </Grid>
         </Grid>
@@ -97,4 +80,4 @@ const ClientSection = ({ setUser }) => {
   );
 };
 
-export default ClientSection;
+export default ProductSection;

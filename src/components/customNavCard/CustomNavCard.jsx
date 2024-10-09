@@ -31,7 +31,9 @@ export const CustomNavCard = ({ image, items, text }) => {
             src={image}
             alt="Descripción de la imagen" // Cambia esto según corresponda
             style={{
+              borderRadius: "3px",
               backgroundColor: "red",
+              border: "2px solid #805454",
               maxHeight: "110px",
               maxWidth: "100%",
               objectFit: "contain",

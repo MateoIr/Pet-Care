@@ -40,23 +40,6 @@ const Home = ({ setUser }) => {
           >
             <Grid container rowSpacing={2}>
               <Grid item md={12} rowGap={3}>
-                <Link to="/user/createUser">
-                  <CustomButton text="Crear usuario"></CustomButton>
-                </Link>
-              </Grid>
-
-              <Grid item md={12}>
-                <Link to="/user/userList">
-                  <CustomButton text="Lista de usuarios"></CustomButton>
-                </Link>
-              </Grid>
-
-              <Grid item md={12} rowGap={3}>
-                <Link to="/product/register">
-                  <CustomButton text="Registrar producto"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
                 <Link to="/product/sell">
                   <CustomButton text="Registrar venta"></CustomButton>
                 </Link>
@@ -64,31 +47,6 @@ const Home = ({ setUser }) => {
               <Grid item md={12} rowGap={3}>
                 <Link to="/signature">
                   <CustomButton text="Registrar Firma"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
-                <Link to="/product/catalogView">
-                  <CustomButton text="Ver productos"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
-                <Link to="/veterinario/register">
-                  <CustomButton text="reg. veterinario"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
-                <Link to="/veterinario/clinica/register">
-                  <CustomButton text="reg. Clinica"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
-                <Link to="/clinics">
-                  <CustomButton text="Clinicas lista"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12} rowGap={3}>
-                <Link to="/veterinarians">
-                  <CustomButton text="Veterinarios Lista"></CustomButton>
                 </Link>
               </Grid>
             </Grid>
