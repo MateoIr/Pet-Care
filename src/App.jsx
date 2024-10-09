@@ -27,7 +27,7 @@ import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 
 import UpdateClient from "./pages/updateClient/UpdateCliente";
 import UpdatePet from "./pages/updatePet/UpdatePet";
-
+import TrunRegister from "./pages/turnRegister/TrunRegister";
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -109,16 +109,20 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          >             
+          >
             <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
-          
-          <Route path="/product/updateProduct/:id" element={<UpdateProduct />} />
+
+          <Route
+            path="/product/updateProduct/:id"
+            element={<UpdateProduct />}
+          />
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="/pet/updatePet/:id" element={<UpdatePet />} />
@@ -126,7 +130,8 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="/client/updateClient/:id" element={<UpdateClient />} />
@@ -134,10 +139,16 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/home" />} />
+
+          <Route
+            path="/turn/register"
+            element={<TrunRegister setUser={setUser} />}
+          />
         </Routes>
       </BrowserRouter>
     </StoreProvider>
