@@ -44,31 +44,13 @@ const Home = ({ setUser }) => {
                   <CustomButton text="Crear usuario"></CustomButton>
                 </Link>
               </Grid>
-              <Grid item md={12}>
-                <Link to="/client/pet/register">
-                  <CustomButton text="Registrar Mascota"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12}>
-                <Link to="/client/pet/petList">
-                  <CustomButton text="Lista de mascotas"></CustomButton>
-                </Link>
-              </Grid>
-              <Grid item md={12}>
-                <Link to="/client/clienteList">
-                  <CustomButton text="Lista de Clientes"></CustomButton>
-                </Link>
-              </Grid>
+
               <Grid item md={12}>
                 <Link to="/user/userList">
                   <CustomButton text="Lista de usuarios"></CustomButton>
                 </Link>
               </Grid>
-              <Grid item md={12}>
-                <Link to="/client/register">
-                  <CustomButton text="Registrar Cliente"></CustomButton>
-                </Link>
-              </Grid>
+
               <Grid item md={12} rowGap={3}>
                 <Link to="/product/register">
                   <CustomButton text="Registrar producto"></CustomButton>

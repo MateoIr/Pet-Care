@@ -27,8 +27,7 @@ import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 
 import UpdateClient from "./pages/updateClient/UpdateCliente";
 import UpdatePet from "./pages/updatePet/UpdatePet";
-import { ClientSection } from "./pages/clientesSection/ClientSection";
-
+import ClientSection from "./pages/nav/clientesSection/ClientSection";
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -37,9 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
-          <Route
-            
-          >
+          <Route>
             <Route path="/home" element={<Home setUser={setUser} />} />
             <Route
               path="/client/pet/register"
@@ -112,16 +109,20 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          >             
+          >
             <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
-          
-          <Route path="/product/updateProduct/:id" element={<UpdateProduct />} />
+
+          <Route
+            path="/product/updateProduct/:id"
+            element={<UpdateProduct />}
+          />
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="/pet/updatePet/:id" element={<UpdatePet />} />
@@ -129,7 +130,8 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="/client/updateClient/:id" element={<UpdateClient />} />
@@ -137,7 +139,8 @@ function App() {
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
-          ><Route path="/login" element={<Login setUser={setUser} />} />
+          >
+            <Route path="/login" element={<Login setUser={setUser} />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/home" />} />
