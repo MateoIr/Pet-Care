@@ -1,0 +1,85 @@
+.foot1 {
+  position: fixed;
+  right: 10vw;
+  top: 15vh;
+  z-index: -1;
+  rotate: -105deg;
+  animation: invisible 3s infinite;
+  animation-delay: 0.5s; /* Comienza después de 0.5 segundos */
+}
+.foot2 {
+  position: fixed;
+  right: 25vw;
+  top: 5vh;
+  z-index: -1;
+  rotate: -75deg;
+  animation: invisible 4s infinite;
+  animation-delay: 1s; /* Comienza después de 1 segundo */
+}
+.foot3 {
+  position: fixed;
+  right: 40vw;
+  top: 15vh;
+  z-index: -1;
+  rotate: -105deg;
+  animation: invisible 4s infinite;
+  animation-delay: 1.5s; /* Comienza después de 1.5 segundos */
+}
+
+.foot4 {
+  position: fixed;
+  right: 55vw;
+  top: 5vh;
+  z-index: -1;
+  rotate: -75deg;
+  animation: invisible 4s infinite;
+  animation-delay: 2s; /* Comienza después de 2 segundos */
+}
+.foot5 {
+  position: fixed;
+  right: 70vw;
+  top: 15vh;
+  z-index: -1;
+  rotate: -105deg;
+  animation: invisible 4s infinite;
+  animation-delay: 2.5s; /* Comienza después de 2.5 segundos */
+}
+
+.foot6 {
+  position: fixed;
+  right: -4vw;
+  top: 5vh;
+  z-index: -1;
+  rotate: -75deg;
+  animation: invisible 4s infinite;
+  animation-delay: 0s; /* Comienza inmediatamente */
+}
+
+.foot7 {
+  position: fixed;
+  right: 80vw;
+  top: 5vh;
+  z-index: -1;
+  rotate: -75deg;
+  animation: invisible 4s infinite;
+  animation-delay: 3s; /* Comienza después de 3 segundos */
+}
+
+.invisible {
+  animation: invisible 4s infinite;
+}
+
+@keyframes invisible {
+  0% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0;
+  }
+  67% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

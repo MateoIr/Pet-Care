@@ -1,7 +1,7 @@
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import PetsIcon from "@mui/icons-material/Pets";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -75,7 +75,7 @@ const CustomNavBar = ({ setUser }) => {
         </Box>
         <Box className={containerClass}>
           <Box className="NavBar">
-            <Box>
+            <Box onClick={() => navigate("/home/clientSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <PetsIcon
@@ -102,10 +102,10 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
-            <Box>
+            <Box onClick={() => navigate("/home/sellSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
-                  <CalendarTodayIcon
+                  <AttachMoneyIcon
                     sx={{
                       fontSize: {
                         xs: "2rem",
@@ -125,11 +125,11 @@ const CustomNavBar = ({ setUser }) => {
                     display: "flex",
                   }}
                 >
-                  Turnos
+                  Ventas
                 </Box>
               </Box>
             </Box>
-            <Box>
+            <Box onClick={() => navigate("/home/productSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <ShoppingCartIcon
@@ -156,7 +156,7 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
-            <Box>
+            <Box onClick={() => navigate("/home/configurationSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <MenuBookTwoToneIcon
@@ -179,11 +179,11 @@ const CustomNavBar = ({ setUser }) => {
                     display: "flex",
                   }}
                 >
-                  Proveedores
+                  Configuracion
                 </Box>
               </Box>
             </Box>
-            <Box>
+            <Box onClick={() => navigate("/home/userSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <PersonIcon

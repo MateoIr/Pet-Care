@@ -27,7 +27,15 @@ import UpdateVeterinarian from "./pages/updateVeterinarian/UpdateVeterinarian";
 
 import UpdateClient from "./pages/updateClient/UpdateCliente";
 import UpdatePet from "./pages/updatePet/UpdatePet";
+
+import ClientSection from "./pages/nav/clientesSection/ClientSection";
+import ProductSection from "./pages/nav/productosSection/ProductSection";
+import UserSection from "./pages/nav/userSection/UserSection";
+import ConfigurationSection from "./pages/nav/configurations/ConfigurationSection";
+import SellSection from "./pages/nav/sellSection/SellSection";
+
 import TrunRegister from "./pages/turnRegister/TrunRegister";
+
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -88,17 +96,34 @@ function App() {
               path="/veterinario/clinica/register"
               element={<RegisterClinic setUser={setUser} />}
             />
-            <Route
-              path="/product/catalogView"
-              element={<CatalogView setUser={setUser} />}
-            />
+
             <Route
               path="/product/sell"
               element={<RegisterSell setUser={setUser} />}
             />
             <Route
-              path="/product/catalogView"
+              path="/products"
               element={<CatalogView setUser={setUser} />}
+            />
+            <Route
+              path="/home/clientSection"
+              element={<ClientSection setUser={setUser} />}
+            />
+            <Route
+              path="/home/productSection"
+              element={<ProductSection setUser={setUser} />}
+            />
+            <Route
+              path="/home/userSection"
+              element={<UserSection setUser={setUser} />}
+            />
+            <Route
+              path="/home/configurationSection"
+              element={<ConfigurationSection setUser={setUser} />}
+            />
+            <Route
+              path="/home/sellSection"
+              element={<SellSection setUser={setUser} />}
             />
           </Route>
           <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
