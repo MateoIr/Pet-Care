@@ -4,14 +4,16 @@ const apiClient = axios.create({
   baseURL: "http://localhost:8080",
 });
 
-const getAllVservices = async () => {
+const getAllServices = async ({ id }) => {
   try {
-    const response = await apiClient.get("/producto/listaproductos");
+    const response = await apiClient.post(
+      `/turno/listatiposervicioportipoturno/${id}`
+    );
     return response.data;
   } catch (error) {
-    throw new Error(
-      error.response ? error.response.data.message : "Network Error"
-    );
+    return error
+      .status(400)
+      .json({ error: "El producto con ese código ya se encuentra registrado" });
   }
 };
 
@@ -26,4 +28,4 @@ const getAllDservices = async () => {
   }
 };
 
-export { getAllVservices, getAllDservices };
+export { getAllServices, getAllDservices };

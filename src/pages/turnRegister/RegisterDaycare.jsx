@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import useGetServices from "../../hooks/turn/useGetServices";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -30,6 +31,21 @@ const RegisterDaycare = () => {
     setValue(newValue);
   };
 
+  const [servicios, setServicios] = useState();
+  const { data, createProduct } = useGetServices({ id: 1 });
+
+  useEffect(() => {
+    // Solo llamamos a createProduct si aún no tenemos datos
+    if (!data || data.length === 0) {
+      createProduct({ id: 1 });
+    }
+
+    // Solo actualizamos los servicios si `data` es válida
+    if (data && data.length > 0) {
+      setServicios(data);
+      setLeft(data);
+    }
+  }, [data]); // Dependemos solo de `data`
   const today = new Date().setHours(0, 0, 0, 0); // Eliminar la parte de la hora para comparar solo la fecha
 
   const schema = yup.object().shape({
@@ -110,18 +126,18 @@ const RegisterDaycare = () => {
   const customList = (items) => (
     <Paper sx={{ width: "auto", height: "auto", overflow: "initial" }}>
       <List dense component="div" role="list">
-        {items.map((value) => {
-          const labelId = `transfer-list-item-${value}-label`;
+        {items.map((item) => {
+          const labelId = `transfer-list-item-${item.id}-label`;
 
           return (
             <ListItemButton
-              key={value}
+              key={item.id}
               role="listitem"
-              onClick={handleToggle(value)}
+              onClick={handleToggle(item)}
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={checked.includes(value)}
+                  checked={checked.includes(item)}
                   tabIndex={-1}
                   disableRipple
                   inputProps={{
@@ -129,7 +145,8 @@ const RegisterDaycare = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              {/* Aquí pintamos el campo "name" del servicio */}
+              <ListItemText id={labelId} primary={item.nombre} />
             </ListItemButton>
           );
         })}
