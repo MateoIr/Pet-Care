@@ -16,6 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
 
+
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
 }
@@ -157,6 +158,7 @@ const RegisterDaycare = () => {
     <Grid
       container
       sx={{
+    
         alignItems: "start",
         width: { xs: "90%" },
       }}

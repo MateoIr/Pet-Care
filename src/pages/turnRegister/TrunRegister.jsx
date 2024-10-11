@@ -22,6 +22,8 @@ import Hairdressing from "./Hairdressing";
 import Vet from "./Vet";
 import Calendar from "./Calendar";
 import Daycare from "./Daycare";
+import fondo from  "../../images/fondo1.png"
+import RegisterDaycare from "./RegisterDaycare";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -144,8 +146,14 @@ const TrunRegister = ({ setUser }) => {
   return (
     <>
       <Grid
+      
         container
         sx={{
+          backgroundImage: `url(${fondo})`, // Corregir aquí
+          backgroundSize: 'auto', // Ajusta según necesites (puedes usar 'contain' o un tamaño específico)
+          backgroundPosition: 'bottom center', // Coloca la imagen en la parte inferior
+          backgroundRepeat: 'no-repeat', // No repetir la imagen
+          
           width: "100%",
           alignItems: "start",
           textAlign: "center",
@@ -207,7 +215,7 @@ const TrunRegister = ({ setUser }) => {
                 </TabList>
               </Box>
               <TabPanel value="1">
-                <Daycare />
+              <RegisterDaycare /> 
               </TabPanel>
               <TabPanel value="2">
                 <Vet></Vet>

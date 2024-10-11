@@ -6,6 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonIcon from "@mui/icons-material/Person";
+import BuildIcon from '@mui/icons-material/Build';
 import "./CustomNavBar.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -159,6 +160,33 @@ const CustomNavBar = ({ setUser }) => {
             <Box onClick={() => navigate("/home/configurationSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
+                  <BuildIcon
+                    sx={{
+                      fontSize: {
+                        xs: "2rem",
+                        md: "2.5rem",
+                      },
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: {
+                      xs: "13px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  Configuracion
+                </Box>
+              </Box>
+            </Box>
+            <Box onClick={() => navigate("/home/calendarSection")}>
+              <Box className="butomNavBar">
+                <Box sx={{ width: "30%" }}>
                   <MenuBookTwoToneIcon
                     sx={{
                       fontSize: {
@@ -179,10 +207,11 @@ const CustomNavBar = ({ setUser }) => {
                     display: "flex",
                   }}
                 >
-                  Configuracion
+                  Calendario
                 </Box>
               </Box>
             </Box>
+            
             <Box onClick={() => navigate("/home/userSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
