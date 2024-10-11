@@ -77,7 +77,7 @@ const Vet = () => {
   });
 
   const [checked, setChecked] = useState([]);
-  const [left, setLeft] = useState([0, 1, 3]);
+  const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
 
   const leftChecked = intersection(checked, left);
