@@ -1,0 +1,71 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegúrate de que el modal esté por encima de otros elementos */
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-content h2 {
+  margin: 0;
+}
+
+.modal-content button {
+  margin-top: 20px;
+}
+.fc-daygrid-day {
+  overflow: hidden;
+}
+
+.fc-daygrid-month-view .fc-daygrid-body {
+  max-height: calc(3 * 3rem); /* Ajusta esta altura para mostrar solo 3 filas */
+  overflow: hidden; /* Ocultar el contenido que se desborda */
+}
+.fc-header-toolbar .fc-prev-button,
+.fc-header-toolbar .fc-next-button,
+.fc-header-toolbar .fc-today-button {
+  font-size: 16px; /* Tamaño de fuente */
+}
+.fc-view-button {
+  background-color: #805454; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border: none; /* Eliminar borde */
+  padding: 10px; /* Ajustar padding */
+}
+
+.fc-view-button:hover {
+  background-color: #805454; /* Color de fondo al pasar el mouse */
+}
+
+/* Cambiar color de los botones de navegación */
+.fc-header-toolbar .fc-prev-button,
+.fc-header-toolbar .fc-next-button,
+.fc-header-toolbar .fc-today-button {
+  background-color: #805454; /* Color de fondo */
+  color: #fff; /* Color de texto */
+  border: none; /* Eliminar borde */
+  padding: 10px; /* Ajustar padding */
+}
+
+.fc-header-toolbar .fc-prev-button:hover,
+.fc-header-toolbar .fc-next-button:hover,
+.fc-header-toolbar .fc-today-button:hover {
+  background-color: #805454; /* Color de fondo al pasar el mouse */
+}
+.fc-toolbar .fc-button-group .fc-button {
+  background-color: #805454;
+}

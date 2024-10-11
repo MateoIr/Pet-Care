@@ -16,6 +16,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
 
+
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
 }
@@ -24,7 +25,7 @@ function intersection(a, b) {
   return a.filter((value) => b.includes(value));
 }
 
-const Vet = () => {
+const RegisterDaycare = () => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -32,12 +33,12 @@ const Vet = () => {
   };
 
   const [servicios, setServicios] = useState();
-  const { data, createProduct } = useGetServices({ id: 3 });
+  const { data, createProduct } = useGetServices({ id: 1 });
 
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
-      createProduct({ id: 3 });
+      createProduct({ id: 1 });
     }
 
     // Solo actualizamos los servicios si `data` es válida
@@ -157,6 +158,7 @@ const Vet = () => {
     <Grid
       container
       sx={{
+    
         alignItems: "start",
         width: { xs: "90%" },
       }}
@@ -275,4 +277,5 @@ const Vet = () => {
     </Grid>
   );
 };
-export default Vet;
+
+export default RegisterDaycare;

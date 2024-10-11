@@ -35,7 +35,7 @@ import ConfigurationSection from "./pages/nav/configurations/ConfigurationSectio
 import SellSection from "./pages/nav/sellSection/SellSection";
 
 import TrunRegister from "./pages/turnRegister/TrunRegister";
-
+import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -45,9 +45,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
-            element={
-              <ProtectedRoute canActivate={user} redirectPath="/login" />
-            }
+          // element={
+          //   <ProtectedRoute canActivate={user} redirectPath="/login" />
+          // }
           >
             <Route path="/home" element={<Home setUser={setUser} />} />
             <Route
@@ -124,6 +124,10 @@ function App() {
             <Route
               path="/home/sellSection"
               element={<SellSection setUser={setUser} />}
+            />
+             <Route
+              path="/home/calendarSection"
+              element={<CalendarSection setUser={setUser} />}
             />
           </Route>
           <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
