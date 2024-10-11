@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
+import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -64,7 +65,6 @@ const Hairdressing = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    cost: yup.string().required("ingrese un valor"),
     service: yup.string(),
   });
   const {
@@ -76,6 +76,10 @@ const Hairdressing = () => {
     resolver: yupResolver(schema),
   });
 
+  const [turnoExist, setTurnoExist] = useState(null);
+  const { isLoading, createTurno, error } = useRegisterTurno({
+    setTurnoExist,
+  });
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([0, 1, 3]);
   const [right, setRight] = useState([]);
@@ -121,6 +125,28 @@ const Hairdressing = () => {
   const onSubmit = (data) => {
     defineValue("service", right);
     console.log(data);
+
+    const {
+      date,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      
+    } = data;
+
+    const turno = {
+      date,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      typeturno:2,
+    };
+    createTurno(turno);
+    
   };
 
   const customList = (items) => (
@@ -197,6 +223,7 @@ const Hairdressing = () => {
         <CustomTextBox type="text" register={register} name="state" />
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
+      {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
       </Grid>
@@ -204,6 +231,7 @@ const Hairdressing = () => {
         <CustomTextBox type="number" register={register} name="cost" />
         <p className="errorText">{errors.cost?.message}</p>
       </Grid>
+      */}
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>

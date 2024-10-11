@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
-
+import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -50,7 +50,8 @@ const RegisterDaycare = () => {
   const today = new Date().setHours(0, 0, 0, 0); // Eliminar la parte de la hora para comparar solo la fecha
 
   const schema = yup.object().shape({
-    date: yup.string().required("ingrese un valor"),
+    datein: yup.string().required("ingrese un valor"),
+    dateout: yup.string().required("ingrese un valor"),
     scheduleFrom: yup.string().required("ingrese un valor"),
     scheduleUntil: yup
       .string()
@@ -65,7 +66,6 @@ const RegisterDaycare = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    cost: yup.string().required("ingrese un valor"),
     service: yup.string(),
   });
   const {
@@ -77,6 +77,10 @@ const RegisterDaycare = () => {
     resolver: yupResolver(schema),
   });
 
+  const [turnoExist, setTurnoExist] = useState(null);
+  const { isLoading, createTurno, error } = useRegisterTurno({
+    setTurnoExist,
+  });
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([0, 1, 3]);
   const [right, setRight] = useState([]);
@@ -122,6 +126,31 @@ const RegisterDaycare = () => {
   const onSubmit = (data) => {
     defineValue("service", right);
     console.log(data);
+
+    const {
+      datein,
+      dateout,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      
+    } = data;
+
+    const turno = {
+      date:datein,
+      datein,
+      dateout,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      typeturno:1,
+    };
+    createTurno(turno);
+    
   };
 
   const customList = (items) => (
@@ -165,21 +194,28 @@ const RegisterDaycare = () => {
       rowGap={2}
     >
       <Grid item xs={6} md={3} className="textInput">
-        Fecha de turno:
+        Fecha de ingreso:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="date" register={register} name="date" />
-        <p className="errorText">{errors.date?.message}</p>
+        <CustomTextBox type="date" register={register} name="datein" />
+        <p className="errorText">{errors.datein?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Horario desde:
+        Horario de ingreso:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleFrom" />
         <p className="errorText">{errors.scheduleFrom?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Horario hasta:
+        Fecha de salida:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomTextBox type="date" register={register} name="dateout" />
+        <p className="errorText">{errors.dateout?.message}</p>
+      </Grid>
+      <Grid item xs={6} md={3} className="textInput">
+        Horario de salida:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
@@ -199,6 +235,7 @@ const RegisterDaycare = () => {
         <CustomTextBox type="text" register={register} name="state" />
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
+      {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
       </Grid>
@@ -206,6 +243,7 @@ const RegisterDaycare = () => {
         <CustomTextBox type="number" register={register} name="cost" />
         <p className="errorText">{errors.cost?.message}</p>
       </Grid>
+      */}
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>

@@ -10,11 +10,15 @@ import {
 } from "@mui/material";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
+import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
+import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
+
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -26,6 +30,7 @@ function intersection(a, b) {
 
 const Vet = () => {
   const [value, setValue] = useState("1");
+  const { clientes } = useGetAllCustomer();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -64,7 +69,6 @@ const Vet = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    cost: yup.string().required("ingrese un valor"),
     service: yup.string(),
   });
   const {
@@ -76,6 +80,10 @@ const Vet = () => {
     resolver: yupResolver(schema),
   });
 
+  const [turnoExist, setTurnoExist] = useState(null);
+  const { isLoading, createTurno, error } = useRegisterTurno({
+    setTurnoExist,
+  });
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([0, 1, 3]);
   const [right, setRight] = useState([]);
@@ -121,6 +129,28 @@ const Vet = () => {
   const onSubmit = (data) => {
     defineValue("service", right);
     console.log(data);
+
+    const {
+      date,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      
+    } = data;
+
+    const turno = {
+      date,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      service,
+      state,
+      typeturno:3,
+    };
+    createTurno(turno);
+    
   };
 
   const customList = (items) => (
@@ -183,6 +213,23 @@ const Vet = () => {
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
+      
+      <Grid item xs={6} md={3} className="textInput">
+                Dueño:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="owner"
+                  list={clientes}
+                  valueKey="id"
+                  labelKey="idpersona.email"
+                  //selectedItem={bill[0]?.owner}
+                />
+                <p className="errorText">{errors.owner?.message}</p>
+              </Grid>
+
+
       <Grid item xs={6} md={3} className="textInput">
         Mascota:
       </Grid>
@@ -197,6 +244,7 @@ const Vet = () => {
         <CustomTextBox type="text" register={register} name="state" />
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
+     {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
       </Grid>
@@ -204,6 +252,7 @@ const Vet = () => {
         <CustomTextBox type="number" register={register} name="cost" />
         <p className="errorText">{errors.cost?.message}</p>
       </Grid>
+      */}
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>

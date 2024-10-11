@@ -1,19 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllDservices } from "../../api/turn";
+import {getAllTurnos} from "../../api/turn";
 const useGetDaycareServices = () => {
   const {
-    data: DServices,
-    isLoading: loadingDServices,
-    error: errorDServices,
+    data: turnos,
+    isLoading,
+    error: error,
   } = useQuery({
-    queryKey: ["VServices"],
-    queryFn: () => getAllDservices(),
+    queryKey: ["turnos"],
+    queryFn: () => getAllTurnos(),
   });
 
   return {
-    DServices,
-    loadingDServices,
-    errorDServices,
+    turnos,
+    isLoading,
+    error,
   };
 };
 
