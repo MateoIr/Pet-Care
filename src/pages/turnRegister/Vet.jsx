@@ -118,9 +118,27 @@ const Vet = () => {
     setRight([]);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = ({
+    date,
+    scheduleFrom,
+    scheduleUntil,
+    pet,
+    state,
+    cost,
+    service,
+  }) => {
+    const idtipoturno = 1;
     defineValue("service", right);
-    console.log(data);
+    console.log({
+      date,
+      scheduleFrom,
+      scheduleUntil,
+      pet,
+      state,
+      cost,
+      service,
+      idtipoturno,
+    });
   };
 
   const customList = (items) => (
