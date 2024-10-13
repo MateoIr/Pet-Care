@@ -36,7 +36,7 @@ const TrunRegister = ({ setUser }) => {
         </Grid>
         <Grid item xs={12} sm={10}>
           <Box className="titlePage">Turno / Registrar Turno</Box>
-          <Box sx={{ width: "100%", typography: "body1", pl: 0.5 }}>
+          <Box sx={{ width: "100%", typography: "body1" }}>
             <TabContext value={value}>
               <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <TabList
