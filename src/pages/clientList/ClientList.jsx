@@ -26,7 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import useGetClient from "../../hooks/pet/getAllClients";
 import useDeleteClient from "../../hooks/pet/useDeleteClient";
 
-const ClientList = () => {
+const ClientList = ({ setUser }) => {
   const [clientEliminar, setClientEliminar] = useState("");
   const { client, isLoading, error, refetch } = useGetClient(); // refetch para actualizar clientes
   const [clientList, setClientList] = useState([]);
@@ -87,7 +87,7 @@ const ClientList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid

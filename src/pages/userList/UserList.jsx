@@ -26,7 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import useDropUser from "../../hooks/users/useDropUser";
 
-const UserList = () => {
+const UserList = ({ setUser }) => {
   const [usuarioEliminar, setUsuarioEliminar] = useState("");
   const { user, isLoading, error, refetch } = useGetAllUsers();
   const [usersList, setUsersList] = useState([]);
@@ -81,7 +81,7 @@ const UserList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid

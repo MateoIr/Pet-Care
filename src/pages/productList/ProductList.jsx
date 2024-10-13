@@ -22,7 +22,7 @@ import { types } from "../../store/StoreReducer";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../components/customButton/CustomButton";
 
-const ProductList = () => {
+const ProductList = ({ setUser }) => {
   const { products, isLoading, error } = useGetProducts();
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [quantities, setQuantities] = useState({});
@@ -94,7 +94,7 @@ const ProductList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid

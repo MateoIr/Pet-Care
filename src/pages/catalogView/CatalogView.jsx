@@ -26,7 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import useDropProduct from "../../hooks/produts/useDropProduct";
 
-const ProductList = () => {
+const ProductList = ({ setUser }) => {
   const [productoEliminar, setProductoEliminar] = useState("");
   const { products, isLoading, error, refetch } = useGetProducts();
 
@@ -82,7 +82,7 @@ const ProductList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid
