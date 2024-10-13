@@ -150,7 +150,7 @@ const TrunRegister = ({ setUser }) => {
       
         container
         sx={{
-          backgroundImage: `url(${fondo})`, // Corregir aquí
+          //backgroundImage: `url(${fondo})`, lo comento porque se choca con el formulario y no se muestra al final cuando hay que scrollear
           backgroundSize: 'auto', // Ajusta según necesites (puedes usar 'contain' o un tamaño específico)
           backgroundPosition: 'bottom center', // Coloca la imagen en la parte inferior
           backgroundRepeat: 'no-repeat', // No repetir la imagen
