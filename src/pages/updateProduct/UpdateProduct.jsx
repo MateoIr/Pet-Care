@@ -13,22 +13,20 @@ import useSelectedProduct from "../../hooks/produts/useSelectedProduct";
 import useUpdateProduct from "../../hooks/produts/useUpdateProduct";
 import useGetCategory from "../../hooks/useGetCategory";
 
-
-const UpdateProduct = ({ setProduct }) => {
+const UpdateProduct = ({ setUser }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
     codigoproducto: yup.string().required("ingrese un valor"),
     precio: yup.string().required("ingrese un valor"),
     stock: yup.string().required("ingrese un valor"),
     idcategoria: yup.string().required("ingrese un valor"),
-    
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, 
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -37,41 +35,34 @@ const UpdateProduct = ({ setProduct }) => {
   const { productSelected, isLoading, error } = useSelectedProduct(id);
   const { categorias } = useGetCategory();
 
-
-
-
   useEffect(() => {
     if (productSelected) {
-      setValue("id",productSelected?.id || "");
+      setValue("id", productSelected?.id || "");
       setValue("nombre", productSelected?.nombre || "");
       setValue("codigoproducto", productSelected?.codigoproducto || "");
       setValue("precio", productSelected?.precio || "");
       setValue("stock", productSelected?.stock || "");
-      setValue("idcategoria",productSelected?.idcategoria || "");
-      
+      setValue("idcategoria", productSelected?.idcategoria || "");
     }
   }, [productSelected, setValue]);
 
   const { updateProduct } = useUpdateProduct();
- 
+
   const onSubmit = (data) => {
     //console.log(data.idcategoria);
     const { id, nombre, codigoproducto, precio, stock, idcategoria } = data;
 
     const product = {
       id,
-      nombre, 
+      nombre,
       codigoproducto,
       precio,
       stock,
       idcategoria,
     };
-    
+
     updateProduct(product);
   };
-
-
-  
 
   return (
     <>
@@ -88,7 +79,7 @@ const UpdateProduct = ({ setProduct }) => {
       >
         <Grid item xs={12} sm={2}>
           <Box>
-            <CustomNavBar setProduct={setProduct} />
+            <CustomNavBar setUser={setUser} />
           </Box>
         </Grid>
         <Grid
@@ -155,7 +146,6 @@ const UpdateProduct = ({ setProduct }) => {
                 />
                 <p className="errorText">{errors.idcategoria?.message}</p>
               </Grid>
-              
 
               <Grid item xs={6} className="textInput"></Grid>
               <Grid item xs={6} md={4} sx={{ mb: 2 }}>

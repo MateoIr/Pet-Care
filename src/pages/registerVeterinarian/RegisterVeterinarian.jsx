@@ -12,7 +12,7 @@ import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
 import useGetAllClinics from "../../hooks/clinic/useGetAllClinics";
 import useRegisterVeterinarian from "../../hooks/veterinarian/useRegisterVeterinarian";
 
-const RegisterVeterinarian = (setUser) => {
+const RegisterVeterinarian = ({ setUser }) => {
   const schema = yup.object().shape({
     matricula: yup.string().required("ingrese un valor"),
     clinics: yup.string().required("ingrese un valor"),

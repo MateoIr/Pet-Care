@@ -125,7 +125,7 @@ function App() {
               path="/home/sellSection"
               element={<SellSection setUser={setUser} />}
             />
-             <Route
+            <Route
               path="/home/calendarSection"
               element={<CalendarSection setUser={setUser} />}
             />
