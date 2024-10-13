@@ -18,6 +18,8 @@ import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
 import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
 import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
+import useGetAnimal from "../../hooks/pet/getAllPets";
+import useGetStates from "../../hooks/turn/useGetStates";
 
 
 function not(a, b) {
@@ -30,15 +32,14 @@ function intersection(a, b) {
 
 const Vet = () => {
   const [value, setValue] = useState("1");
-  const { clientes } = useGetAllCustomer();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const {estados} = useGetStates();
 
-  const [servicios, setServicios] = useState();
+  const [servicios, setServicios] = useState([]);
   const { data, createProduct } = useGetServices({ id: 3 });
-
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
@@ -71,6 +72,7 @@ const Vet = () => {
     state: yup.string().required("ingrese un valor"),
     service: yup.string(),
   });
+  
   const {
     register,
     handleSubmit,
@@ -79,6 +81,24 @@ const Vet = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const { clientes } = useGetAllCustomer();
+  const { pet: mascotas } = useGetAnimal();
+
+  const [owner, setOwner] = useState(null);
+  const [filteredPets, setFilteredPets] = useState([]);
+
+
+  useEffect(() => {
+    if (owner != null) {
+      const filtered = mascotas.filter((mascota) => mascota.idduenio === owner);
+      setFilteredPets(filtered);
+      //console.log("mascotas filtradas: ",filtered);
+      
+    } else {
+      setFilteredPets(mascotas);
+    }
+  }, [owner,mascotas]);
 
   const [turnoExist, setTurnoExist] = useState(null);
   const { isLoading, createTurno, error } = useRegisterTurno({
@@ -90,7 +110,7 @@ const Vet = () => {
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
-
+  
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
@@ -128,18 +148,19 @@ const Vet = () => {
 
   const onSubmit = (data) => {
     defineValue("service", right);
-    console.log(data);
+    //console.log(data);
 
     const {
       date,
       pet,
       scheduleFrom,
       scheduleUntil,
-      service,
       state,
       
     } = data;
 
+    const service = right;
+    //console.log("servicios_ ",service);
     const turno = {
       date,
       pet,
@@ -219,12 +240,12 @@ const Vet = () => {
               </Grid>
               <Grid item xs={6} md={3}>
                 <CustomSelectTectBox2
+                  filtro={setOwner}
                   register={register}
                   name="owner"
                   list={clientes}
                   valueKey="id"
                   labelKey="idpersona.email"
-                  //selectedItem={bill[0]?.owner}
                 />
                 <p className="errorText">{errors.owner?.message}</p>
               </Grid>
@@ -234,16 +255,29 @@ const Vet = () => {
         Mascota:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="pet" />
-        <p className="errorText">{errors.pet?.message}</p>
-      </Grid>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="pet"
+                  list={filteredPets}
+                  valueKey="id"
+                  labelKey="nombre"
+                />
+                <p className="errorText">{errors.pet?.message}</p>
+              </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Estado:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="state" />
-        <p className="errorText">{errors.state?.message}</p>
-      </Grid>
+      Estado:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="state"
+                  list={estados}
+                  valueKey="id"
+                  labelKey="descripcion"
+                />
+                <p className="errorText">{errors.state?.message}</p>
+              </Grid>
+
      {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
@@ -256,7 +290,6 @@ const Vet = () => {
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
-
       <Grid
         container
         spacing={1}

@@ -17,6 +17,17 @@ const getAllServices = async ({ id }) => {
   }
 };
 
+const getAllStates = async () => {
+  try {
+    const response = await apiClient.get("/turno/listaestadosturnos");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const getAllDservices = async () => {
   try {
     const response = await apiClient.get("/producto/listaproductos");
@@ -70,4 +81,4 @@ const registerTurno = async ({
   }
 };
 
-export { getAllServices, getAllDservices, registerTurno , getAllTurnos };
+export { getAllServices, getAllDservices, registerTurno , getAllTurnos ,getAllStates };

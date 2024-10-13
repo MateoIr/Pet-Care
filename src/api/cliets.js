@@ -25,6 +25,9 @@ const getAllPets = async () => {
     );
   }
 };
+
+
+
 const getAllCustomers = async () => {
   try {
     const response = await apiClient.get("/clientes/list");
@@ -39,6 +42,17 @@ const getAllCustomers = async () => {
 const getAllAnimals = async () => {
   try {
     const response = await apiClient.get("/mascota/animal");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getPetByOwner = async (idcliente) => {
+  try {
+    const response = await apiClient.post(`/turno/listamascotasporcliente/${idcliente}`);
     return response.data;
   } catch (error) {
     throw new Error(
@@ -271,4 +285,5 @@ export {
   updatePetSelected,
   getClient,
   getPet,
+  getPetByOwner,
 };

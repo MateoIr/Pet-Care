@@ -10,12 +10,17 @@ import {
 } from "@mui/material";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
 import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
+import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
+import useGetAnimal from "../../hooks/pet/getAllPets";
+import useGetStates from "../../hooks/turn/useGetStates";
+
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -31,10 +36,10 @@ const Hairdressing = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const {estados} = useGetStates();
 
   const [servicios, setServicios] = useState();
   const { data, createProduct } = useGetServices({ id: 1 });
-
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
@@ -67,6 +72,7 @@ const Hairdressing = () => {
     state: yup.string().required("ingrese un valor"),
     service: yup.string(),
   });
+
   const {
     register,
     handleSubmit,
@@ -75,6 +81,24 @@ const Hairdressing = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const { clientes } = useGetAllCustomer();
+  const { pet: mascotas } = useGetAnimal();
+
+  const [owner, setOwner] = useState(null);
+  const [filteredPets, setFilteredPets] = useState([]);
+
+
+  useEffect(() => {
+    if (owner != null) {
+      const filtered = mascotas.filter((mascota) => mascota.idduenio === owner);
+      setFilteredPets(filtered);
+      //console.log("mascotas filtradas: ",filtered);
+      
+    } else {
+      setFilteredPets(mascotas);
+    }
+  }, [owner,mascotas]);
 
   const [turnoExist, setTurnoExist] = useState(null);
   const { isLoading, createTurno, error } = useRegisterTurno({
@@ -124,18 +148,19 @@ const Hairdressing = () => {
 
   const onSubmit = (data) => {
     defineValue("service", right);
-    console.log(data);
+    //console.log(data);
 
     const {
       date,
       pet,
       scheduleFrom,
       scheduleUntil,
-      service,
       state,
       
     } = data;
 
+    const service = right;
+    //console.log("servicios_ ",service);
     const turno = {
       date,
       pet,
@@ -209,20 +234,50 @@ const Hairdressing = () => {
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
+     
+      <Grid item xs={6} md={3} className="textInput">
+                Dueño:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  filtro={setOwner}
+                  register={register}
+                  name="owner"
+                  list={clientes}
+                  valueKey="id"
+                  labelKey="idpersona.email"
+                />
+                <p className="errorText">{errors.owner?.message}</p>
+              </Grid>
+
+
       <Grid item xs={6} md={3} className="textInput">
         Mascota:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="pet" />
-        <p className="errorText">{errors.pet?.message}</p>
-      </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Estado:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="state" />
-        <p className="errorText">{errors.state?.message}</p>
-      </Grid>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="pet"
+                  list={filteredPets}
+                  valueKey="id"
+                  labelKey="nombre"
+                />
+                <p className="errorText">{errors.pet?.message}</p>
+              </Grid>
+      
+              <Grid item xs={6} md={3} className="textInput">
+      Estado:
+              </Grid>
+              <Grid item xs={6} md={3}>
+                <CustomSelectTectBox2
+                  register={register}
+                  name="state"
+                  list={estados}
+                  valueKey="id"
+                  labelKey="descripcion"
+                />
+                <p className="errorText">{errors.state?.message}</p>
+              </Grid>
       {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
@@ -235,7 +290,6 @@ const Hairdressing = () => {
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
-
       <Grid
         container
         spacing={1}
@@ -303,5 +357,4 @@ const Hairdressing = () => {
     </Grid>
   );
 };
-
 export default Hairdressing;

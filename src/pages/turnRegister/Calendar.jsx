@@ -43,6 +43,7 @@ const transformEvents = (turnos) => {
     title: `${event.idmascota.nombre} - ${event.idtipoTurno.nombreTurno}`, // Título combinado de la mascota y el tipo de turno
     start: `${event.fechaturno}T${event.horarioturnodesde}`, // Fecha y hora de inicio en formato ISO 8601
     end: `${event.fechaturno}T${event.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
+    horario:`${event.fechaturno} .\nHorario de inicio: ${event.horarioturnodesde}.\nHorario de fin: ${event.horarioturnohasta}`,
     description: `Turno de ${event.idmascota.nombre} con el servicio ${event.idtipoTurno.nombreTurno}.\nEstado: ${event.idestado.descripcion}\nCosto total: $${event.costototal}`,
   }));
 };
@@ -81,11 +82,14 @@ const transformedEvents = turnos && turnos.length > 0 ? transformEvents(turnos) 
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>{selectedEvent.title}</h2>
-            <p>
+            {/*<p>
               <strong>Inicio:</strong> {selectedEvent.start.toString()}
             </p>
             <p>
               <strong>Fin:</strong> {selectedEvent.end.toString()}
+            </p>*/}
+            <p>
+              <strong>Turno:</strong> {selectedEvent.extendedProps.horario}
             </p>
             <p>
               <strong>Descripción:</strong>{" "}
