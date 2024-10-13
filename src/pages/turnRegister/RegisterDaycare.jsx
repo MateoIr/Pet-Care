@@ -153,7 +153,8 @@ const RegisterDaycare = () => {
     //console.log(data);
 
     const {
-      date,
+      datein,
+      dateout,
       pet,
       scheduleFrom,
       scheduleUntil,
