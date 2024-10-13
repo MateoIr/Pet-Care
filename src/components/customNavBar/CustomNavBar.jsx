@@ -6,7 +6,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonIcon from "@mui/icons-material/Person";
-import BuildIcon from '@mui/icons-material/Build';
+import BuildIcon from "@mui/icons-material/Build";
 import "./CustomNavBar.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ const CustomNavBar = ({ setUser }) => {
         className="bigContainer"
         sx={{
           height: { xs: "auto", sm: "100vh" },
-          width: { sm: "17%" },
+          width: { sm: "16.6%" },
           position: { xs: "relative", sm: "fixed" },
         }}
       >
@@ -211,7 +211,7 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
-            
+
             <Box onClick={() => navigate("/home/userSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>

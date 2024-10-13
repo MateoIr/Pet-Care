@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { StoreContext } from "../../store/StoreProvider";
 import { clearBill, clearProducts } from "../../store/StoreReducer";
+import "toastify-js/src/toastify.css";
+import Toastify from "toastify-js";
 
 const useSellCreate = () => {
   const navigate = useNavigate();
@@ -18,6 +20,14 @@ const useSellCreate = () => {
     onSuccess: () => {
       dispatch(clearBill());
       dispatch(clearProducts());
+      Toastify({
+        text: "¡Se creao la venta correctamente!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#805454",
+      }).showToast();
       navigate("/home");
     },
   });

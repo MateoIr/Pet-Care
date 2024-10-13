@@ -22,7 +22,7 @@ const useUpdateProduct = () => {
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/product/catalogView");
+      navigate("/products");
     },
   });
 

@@ -24,7 +24,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import useGetVeterinarians from "../../hooks/veterinarian/useGetVeterinarians";
 import useDeleteVeterinarian from "../../hooks/veterinarian/useDeleteVeterinarian";
-const VeterinarianList = () => {
+const VeterinarianList = ({ setUser }) => {
   const [veterinarianDrop, setVeterinarianDrop] = useState("");
   const { veterinarians, isLoading, error, refetch } = useGetVeterinarians();
   const [veterinariansList, setVeterinariansList] = useState([]);
@@ -91,7 +91,7 @@ const VeterinarianList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid
