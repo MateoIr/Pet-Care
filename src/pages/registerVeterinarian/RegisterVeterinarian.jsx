@@ -15,7 +15,7 @@ import useRegisterVeterinarian from "../../hooks/veterinarian/useRegisterVeterin
 const RegisterVeterinarian = ({ setUser }) => {
   const schema = yup.object().shape({
     matricula: yup.string().required("ingrese un valor"),
-    clinics: yup.string().required("ingrese un valor"),
+    clinicas: yup.string().required("ingrese un valor"),
     nombre: yup.string().required("ingrese un valor"),
     apellido: yup.string().required("ingrese un valor"),
     email: yup
@@ -68,7 +68,7 @@ const RegisterVeterinarian = ({ setUser }) => {
   const onSubmit = (data) => {
     const {
       matricula,
-      clinics,
+      clinicas: clinics,
       nombre,
       apellido,
       email,
@@ -159,12 +159,12 @@ const RegisterVeterinarian = ({ setUser }) => {
                 <p className="errorText">{errors.matricula?.message}</p>
               </Grid>
               <Grid item xs={6} md={3} className="textInput">
-                Provincia:
+                Clinica:
               </Grid>
               <Grid item xs={6} md={3}>
                 <CustomSelectTectBox2
                   register={register}
-                  name="clinics"
+                  name="clinicas"
                   list={clinics}
                   valueKey="id"
                   labelKey="nombre"

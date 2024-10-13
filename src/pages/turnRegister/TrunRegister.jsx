@@ -44,7 +44,7 @@ const TrunRegister = ({ setUser }) => {
                   aria-label="lab API tabs example"
                   TabIndicatorProps={{
                     style: {
-                      backgroundColor: "#805454", // Color del subrayado cuando está seleccionado
+                      backgroundColor: "#805454",
                     },
                   }}
                 >

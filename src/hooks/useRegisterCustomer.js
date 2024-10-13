@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { registerCustomer } from "../api/users";
+import "toastify-js/src/toastify.css";
+import Toastify from "toastify-js";
 
 export const useRegisterCustomer = ({ setUserExist }) => {
   const navigate = useNavigate();
@@ -11,13 +13,16 @@ export const useRegisterCustomer = ({ setUserExist }) => {
     mutate: createUser,
   } = useMutation({
     mutationFn: registerCustomer,
-    onSuccess: (data) => {
-      console.log("data" + data);
-      if (data?.error) {
-        setUserExist(error.data);
-      } else {
-        navigate("/home");
-      }
+    onSuccess: () => {
+      Toastify({
+        text: "¡Se registro el cliente correctamente!",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#805454",
+      }).showToast();
+      navigate("/home");
     },
   });
 
