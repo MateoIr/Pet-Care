@@ -35,6 +35,8 @@ import ConfigurationSection from "./pages/nav/configurations/ConfigurationSectio
 import SellSection from "./pages/nav/sellSection/SellSection";
 
 import TrunRegister from "./pages/turnRegister/TrunRegister";
+import UpdateTurn from "./pages/updateTurn/UpdateTurn";
+
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 
 function App() {
@@ -178,6 +180,13 @@ function App() {
             path="/turn/register"
             element={<TrunRegister setUser={setUser} />}
           />
+          <Route path="/turn/updateTurn/:idtipo/:id" element={<UpdateTurn />} />
+          <Route
+            element={
+              <ProtectedRoute canActivate={!user} redirectPath="/home" />
+            }
+          ></Route>
+
         </Routes>
       </BrowserRouter>
     </StoreProvider>

@@ -25,7 +25,7 @@
 }
 
 .modal-content button {
-  margin-top: 20px;
+  margin: 20px;
 }
 .fc-daygrid-day {
   overflow: hidden;
@@ -44,7 +44,8 @@
   background-color: #805454; /* Color de fondo */
   color: #fff; /* Color de texto */
   border: none; /* Eliminar borde */
-  padding: 10px; /* Ajustar padding */
+  padding: 30px; /* Ajustar padding */
+  margin: 20px;
 }
 
 .fc-view-button:hover {
