@@ -4,11 +4,13 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css"; // Importar estilos para el modal y el calendario
+import useGetDaycareServices from "../../hooks/turn/useGetDaycareServices"; // Hook para obtener los eventos
+
 
 const Calendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-
+{/* 
   const events = [
     {
       title: "Cita 1",
@@ -29,6 +31,26 @@ const Calendar = () => {
       description: "Descripción de la Cita 3",
     },
   ];
+*/}
+// Obtener los eventos desde el hook
+const { turnos, isLoading, error } = useGetDaycareServices(); // Llamada al API
+
+// Transformar los datos del API al formato que FullCalendar necesita
+//console.log('Eventos API:', turnos);
+
+const transformEvents = (turnos) => {
+  return turnos.map((event) => ({
+    title: `${event.idmascota.nombre} - ${event.idtipoTurno.nombreTurno}`, // Título combinado de la mascota y el tipo de turno
+    start: `${event.fechaturno}T${event.horarioturnodesde}`, // Fecha y hora de inicio en formato ISO 8601
+    end: `${event.fechaturno}T${event.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
+    horario:`${event.fechaturno} .\nHorario de inicio: ${event.horarioturnodesde}.\nHorario de fin: ${event.horarioturnohasta}`,
+    description: `Turno de ${event.idmascota.nombre} con el servicio ${event.idtipoTurno.nombreTurno}.\nEstado: ${event.idestado.descripcion}\nCosto total: $${event.costototal}`,
+  }));
+};
+
+const transformedEvents = turnos && turnos.length > 0 ? transformEvents(turnos) : [];
+//console.log('Eventos transformados:', transformedEvents);
+
 
   const handleEventClick = (eventInfo) => {
     setSelectedEvent(eventInfo.event);
@@ -51,7 +73,7 @@ const Calendar = () => {
           end: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
         height={"auto"} // Ajustar la altura para que se ajuste al contenido
-        events={events}
+        events={transformedEvents} // Cargar los eventos transformados
         eventClick={handleEventClick}
       />
 
@@ -60,11 +82,14 @@ const Calendar = () => {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>{selectedEvent.title}</h2>
-            <p>
+            {/*<p>
               <strong>Inicio:</strong> {selectedEvent.start.toString()}
             </p>
             <p>
               <strong>Fin:</strong> {selectedEvent.end.toString()}
+            </p>*/}
+            <p>
+              <strong>Turno:</strong> {selectedEvent.extendedProps.horario}
             </p>
             <p>
               <strong>Descripción:</strong>{" "}

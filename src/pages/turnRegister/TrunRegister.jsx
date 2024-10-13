@@ -25,6 +25,7 @@ import Daycare from "./Daycare";
 import fondo from  "../../images/fondo1.png"
 import RegisterDaycare from "./RegisterDaycare";
 
+
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
 }

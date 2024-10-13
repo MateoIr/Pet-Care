@@ -17,6 +17,17 @@ const getAllServices = async ({ id }) => {
   }
 };
 
+const getAllStates = async () => {
+  try {
+    const response = await apiClient.get("/turno/listaestadosturnos");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const getAllDservices = async () => {
   try {
     const response = await apiClient.get("/producto/listaproductos");
@@ -27,5 +38,47 @@ const getAllDservices = async () => {
     );
   }
 };
+const getAllTurnos = async () => {
+  try {
+    const response = await apiClient.get(`turno/todos`);
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
 
-export { getAllServices, getAllDservices };
+const registerTurno = async ({
+  date,
+  datein,
+  dateout,
+  pet,
+  scheduleFrom,
+  scheduleUntil,
+  service,
+  state,
+  typeturno,
+}) => {
+  try {
+    const response = await apiClient.post("/turno/registroturno", {
+      fechaturno: date,
+      fechaingreso: datein,
+      fechaegreso: dateout,
+      idmascota: pet,
+      horarioturnodesde: scheduleFrom,
+      horarioturnohasta: scheduleUntil,
+      senia: null,
+      idtipoturno: typeturno,
+      idestado: state,
+      detalleturno:service ,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registrando turno:", error);
+    throw error;
+  }
+};
+
+export { getAllServices, getAllDservices, registerTurno , getAllTurnos ,getAllStates };
