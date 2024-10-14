@@ -17,6 +17,17 @@ const getAllServices = async ({ id }) => {
   }
 };
 
+const getAllServicesList = async () => {
+  try {
+    const response = await apiClient.get("/turno/listaservicios");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const getAllStates = async () => {
   try {
     const response = await apiClient.get("/turno/listaestadosturnos");
@@ -72,7 +83,7 @@ const registerTurno = async ({
       senia: null,
       idtipoturno: typeturno,
       idestado: state,
-      detalleturno:service ,
+      detalleturno: service,
     });
     return response.data;
   } catch (error) {
@@ -80,5 +91,26 @@ const registerTurno = async ({
     throw error;
   }
 };
+const updateCostService = async ({ idtiposervico, precio }) => {
+  try {
+    const response = await apiClient.post("/turno/actualizarprecioservicio", {
+      idtiposervico,
+      precio,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(500)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
 
-export { getAllServices, getAllDservices, registerTurno , getAllTurnos ,getAllStates };
+export {
+  getAllServices,
+  getAllDservices,
+  registerTurno,
+  getAllTurnos,
+  getAllStates,
+  getAllServicesList,
+  updateCostService,
+};
