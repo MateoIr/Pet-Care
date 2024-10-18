@@ -26,7 +26,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import useDeletePet from "../../hooks/pet/useDeletePet";
 
-const PetList = () => {
+const PetList = ({ setUser }) => {
   const [usuarioEliminar, setUsuarioEliminar] = useState("");
   const { pet, isLoading, error, refetch } = useGetAllPets();
   const [petList, setPetList] = useState([]);
@@ -83,7 +83,7 @@ const PetList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid

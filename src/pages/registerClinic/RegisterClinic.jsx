@@ -11,7 +11,7 @@ import "./RegisterClinic.css";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
 import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
 import { useRegisterClinic } from "../../hooks/clinic/useRegisterClinic";
-const RegisterClinic = (setUser) => {
+const RegisterClinic = ({ setUser }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
     calle: yup.string().required("ingrese un valor"),

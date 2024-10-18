@@ -8,7 +8,10 @@ import foot from "../../../images/foot.jpg";
 import "./ConfigurationSection.css";
 
 const ConfigurationSection = ({ setUser }) => {
-  const turnos = [{ name: "Turnos", link: "/" }];
+  const turnos = [
+    { name: "Registrar Turno", link: "/turn/register" },
+    { name: "Costos Servicos", link: "/serviceList" },
+  ];
 
   const veterinarios = [
     { name: "Reg. Veterinario", link: "/veterinario/register" },

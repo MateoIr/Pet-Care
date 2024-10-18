@@ -38,6 +38,7 @@ import TrunRegister from "./pages/turnRegister/TrunRegister";
 import UpdateTurn from "./pages/updateTurn/UpdateTurn";
 
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
+import ServiceList from "./pages/serviceList/ServiceList";
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -127,15 +128,20 @@ function App() {
               path="/home/sellSection"
               element={<SellSection setUser={setUser} />}
             />
-             <Route
+            <Route
               path="/home/calendarSection"
               element={<CalendarSection setUser={setUser} />}
             />
+            <Route
+              path="/serviceList"
+              element={<ServiceList setUser={setUser} />}
+            />
+            <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
+            <Route path="/user/updateUser/:id" element={<UpdateUser />} />
+            <Route path="/veterinarian/:id" element={<UpdateVeterinarian />} />
+            <Route path="/veterinarians" element={<VeterinarianList />} />
           </Route>
-          <Route path="/clinics" element={<ClinicList setUser={setUser} />} />
-          <Route path="/user/updateUser/:id" element={<UpdateUser />} />
-          <Route path="/veterinarian/:id" element={<UpdateVeterinarian />} />
-          <Route path="/veterinarians" element={<VeterinarianList />} />
+
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
@@ -186,7 +192,6 @@ function App() {
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
             }
           ></Route>
-
         </Routes>
       </BrowserRouter>
     </StoreProvider>

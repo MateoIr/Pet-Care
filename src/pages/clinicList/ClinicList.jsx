@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import { LoadingButton } from "@mui/lab";
 import useGetAllClinics from "../../hooks/clinic/useGetAllClinics";
-const ClinicList = () => {
+const ClinicList = ({ setUser }) => {
   const { clinics, isLoading, error } = useGetAllClinics();
   const [clinicsList, setClinicsList] = useState([]);
 
@@ -34,7 +34,7 @@ const ClinicList = () => {
     >
       <Grid item xs={12} sm={2}>
         <Box>
-          <CustomNavBar />
+          <CustomNavBar setUser={setUser} />
         </Box>
       </Grid>
       <Grid
