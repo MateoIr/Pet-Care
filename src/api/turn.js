@@ -61,6 +61,29 @@ const getAllTurnos = async () => {
   }
 };
 
+const getTurn = async (id) => {
+  try {
+    const response = await apiClient.get(`/turno/idturno/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getTurnServices = async (id) => {
+  try {
+    const response = await apiClient.get(`/turno/detallesdeturno/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+
 const registerTurno = async ({
   date,
   datein,
@@ -105,8 +128,43 @@ const updateCostService = async ({ idtiposervico, precio }) => {
   }
 };
 
+
+const updateTurnSelected = async ({
+  id,
+  date,
+  datein,
+  dateout,
+  pet,
+  scheduleFrom,
+  scheduleUntil,
+  service,
+  state,
+  typeturno,
+}) => {
+  try {
+    const response = await apiClient.post("/turno/modificarturno", {
+      idturno:id,
+      fechaturno: date,
+      fechaingreso: datein,
+      fechaegreso: dateout,
+      idmascota: pet,
+      horarioturnodesde: scheduleFrom,
+      horarioturnohasta: scheduleUntil,
+      senia: null,
+      idtipoturno: typeturno,
+      idestado: state,
+      detalleturno:service ,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error registrando turno:", error);
+    throw error;
+  }
+};
+
+
 export {
-  getAllServices,
+  getAllServices,updateTurnSelected,getTurnServices,getTurn,
   getAllDservices,
   registerTurno,
   getAllTurnos,
@@ -114,3 +172,4 @@ export {
   getAllServicesList,
   updateCostService,
 };
+
