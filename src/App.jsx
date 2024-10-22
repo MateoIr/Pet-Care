@@ -36,9 +36,10 @@ import SellSection from "./pages/nav/sellSection/SellSection";
 
 import TrunRegister from "./pages/turnRegister/TrunRegister";
 import UpdateTurn from "./pages/updateTurn/UpdateTurn";
-
+import ReportsTurn from "./pages/reports/ReportsTurn";
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 import ServiceList from "./pages/serviceList/ServiceList";
+import { ReportSection } from "./pages/nav/reportsSection/ReportSection";
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -187,6 +188,11 @@ function App() {
             element={<TrunRegister setUser={setUser} />}
           />
           <Route path="/turn/updateTurn/:idtipo/:id" element={<UpdateTurn />} />
+
+          <Route
+            path="/reports/turn"
+            element={<ReportSection setUser={setUser} />}
+          />
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />

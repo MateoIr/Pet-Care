@@ -7,6 +7,7 @@ import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PersonIcon from "@mui/icons-material/Person";
 import BuildIcon from "@mui/icons-material/Build";
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import "./CustomNavBar.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -157,6 +158,62 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
+            
+            <Box onClick={() => navigate("/home/calendarSection")}>
+              <Box className="butomNavBar">
+                <Box sx={{ width: "30%" }}>
+                  <MenuBookTwoToneIcon
+                    sx={{
+                      fontSize: {
+                        xs: "2rem",
+                        md: "3rem",
+                      },
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: {
+                      xs: "13px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  Agenda
+                </Box>
+              </Box>
+            </Box>
+
+            <Box onClick={() => navigate("/home/reportSection")}>
+              <Box className="butomNavBar">
+                <Box sx={{ width: "30%" }}>
+                  <AssessmentIcon
+                    sx={{
+                      fontSize: {
+                        xs: "2rem",
+                        md: "3rem",
+                      },
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    fontSize: {
+                      xs: "13px",
+                      md: "18px",
+                    },
+                    width: "70%",
+                    alignItems: "center",
+                    display: "flex",
+                  }}
+                >
+                  Reportes
+                </Box>
+              </Box>
+            </Box>
             <Box onClick={() => navigate("/home/configurationSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
@@ -184,34 +241,6 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
-            <Box onClick={() => navigate("/home/calendarSection")}>
-              <Box className="butomNavBar">
-                <Box sx={{ width: "30%" }}>
-                  <MenuBookTwoToneIcon
-                    sx={{
-                      fontSize: {
-                        xs: "2rem",
-                        md: "3rem",
-                      },
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    fontSize: {
-                      xs: "13px",
-                      md: "18px",
-                    },
-                    width: "70%",
-                    alignItems: "center",
-                    display: "flex",
-                  }}
-                >
-                  Calendario
-                </Box>
-              </Box>
-            </Box>
-
             <Box onClick={() => navigate("/home/userSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>

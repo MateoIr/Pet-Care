@@ -21,7 +21,7 @@ const useSellCreate = () => {
       dispatch(clearBill());
       dispatch(clearProducts());
       Toastify({
-        text: "¡Se creao la venta correctamente!",
+        text: "¡Se creado la venta correctamente!",
         duration: 3000,
         close: true,
         gravity: "top",

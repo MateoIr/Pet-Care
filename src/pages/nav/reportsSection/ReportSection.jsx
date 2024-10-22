@@ -1,9 +1,9 @@
 import React from 'react'
-import Calendar from '../../turnRegister/Calendar'
+import ReportsTurn from '../../reports/ReportsTurn'
 import { Box, Grid } from '@mui/material'
 import CustomNavBar from '../../../components/customNavBar/CustomNavBar'
 
-export const CalendarSection = ({setUser}) => {
+export const ReportSection = ({setUser}) => {
   return (
     <Grid
         container
@@ -21,8 +21,8 @@ export const CalendarSection = ({setUser}) => {
         </Grid>
         
         <Grid item xs={12} sm={10}>
-          <Box className="titlePage">Agenda</Box>
-          <Box sx={{pl:5,pr:5}}><Calendar/></Box>
+          <Box className="titlePage">Reportes</Box>
+          <Box sx={{pl:5,pr:5}}><ReportsTurn/></Box>
           </Grid>
       </Grid>
 
