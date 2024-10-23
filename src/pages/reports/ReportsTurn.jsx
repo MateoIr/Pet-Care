@@ -1,184 +1,87 @@
 import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
-import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import {
     Box,
     Grid,
   } from "@mui/material";
+import { BarChart } from '@mui/x-charts/BarChart';
+import CustomButton from "../../components/customButton/CustomButton";
+import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import useGetContarTurnos from '../../hooks/turn/useGetContarTurnos';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from 'yup';
+import { useEffect } from 'react';
+import { useState } from "react";
 
-  import { BarChart } from '@mui/x-charts/BarChart';
-// Datos derivados de https://gs.statcounter.com/os-market-share/desktop/worldwide/2023
-// Y https://gs.statcounter.com/os-market-share/mobile/worldwide/2023
-// Y https://gs.statcounter.com/platform-market-share/desktop-mobile-tablet/worldwide/2023
-// Para el mes de diciembre de 2023
+
+
+// Calcular la fecha de hoy y la fecha de hace un mes
+const today = new Date();
+const yesterday = new Date();
+yesterday.setDate(today.getDate() - 1);
+const yesterdayFormatted = yesterday.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
+const lastMonth = new Date(); // Crear una nueva instancia de Date para hace un mes
+lastMonth.setMonth(lastMonth.getMonth() - 1);
+lastMonth.setDate(lastMonth.getDate()-1);
+const lastMonthFormatted = lastMonth.toISOString().split('T')[0];
+
+const schema = yup.object().shape({
+  fechaDesde: yup.date().required('La fecha desde es requerida'),
+  fechaHasta: yup.date().required('La fecha hasta es requerida'),
+});
+
 const ReportsTurn = ({ setUser }) => {
 
-const desktopOS = [
-  {
-    label: 'Windows',
-    value: 72.72,
-  },
-  {
-    label: 'OS X',
-    value: 16.38,
-  },
-  {
-    label: 'Linux',
-    value: 3.83,
-  },
-  {
-    label: 'Chrome OS',
-    value: 2.42,
-  },
-  {
-    label: 'Other',
-    value: 4.65,
-  },
-];
-
-const mobileOS = [
-  {
-    label: 'Android',
-    value: 70.48,
-  },
-  {
-    label: 'iOS',
-    value: 28.8,
-  },
-  {
-    label: 'Other',
-    value: 0.71,
-  },
-];
-
-const platforms = [
-  {
-    label: 'Mobile',
-    value: 59.12,
-  },
-  {
-    label: 'Desktop',
-    value: 40.88,
-  },
-];
-
-const normalize = (v, v2) => Number.parseFloat(((v * v2) / 100).toFixed(2));
-
-const mobileAndDesktopOS = [
-  ...mobileOS.map((v) => ({
-    ...v,
-    label: v.label === 'Other' ? 'Other (Mobile)' : v.label,
-    value: normalize(v.value, platforms[0].value),
-  })),
-  ...desktopOS.map((v) => ({
-    ...v,
-    label: v.label === 'Other' ? 'Other (Desktop)' : v.label,
-    value: normalize(v.value, platforms[1].value),
-  })),
-];
-
-const valueFormatterPercentage = (item) => `${item.value}%`;
-
-const dataset = [
-    {
-      london: 59,
-      paris: 57,
-      newYork: 86,
-      seoul: 21,
-      month: 'Jan',
-    },
-    {
-      london: 50,
-      paris: 52,
-      newYork: 78,
-      seoul: 28,
-      month: 'Feb',
-    },
-    {
-      london: 47,
-      paris: 53,
-      newYork: 106,
-      seoul: 41,
-      month: 'Mar',
-    },
-    {
-      london: 54,
-      paris: 56,
-      newYork: 92,
-      seoul: 73,
-      month: 'Apr',
-    },
-    {
-      london: 57,
-      paris: 69,
-      newYork: 92,
-      seoul: 99,
-      month: 'May',
-    },
-    {
-      london: 60,
-      paris: 63,
-      newYork: 103,
-      seoul: 144,
-      month: 'June',
-    },
-    {
-      london: 59,
-      paris: 60,
-      newYork: 105,
-      seoul: 319,
-      month: 'July',
-    },
-    {
-      london: 65,
-      paris: 60,
-      newYork: 106,
-      seoul: 249,
-      month: 'Aug',
-    },
-    {
-      london: 51,
-      paris: 51,
-      newYork: 95,
-      seoul: 131,
-      month: 'Sept',
-    },
-    {
-      london: 60,
-      paris: 65,
-      newYork: 97,
-      seoul: 55,
-      month: 'Oct',
-    },
-    {
-      london: 67,
-      paris: 64,
-      newYork: 76,
-      seoul: 48,
-      month: 'Nov',
-    },
-    {
-      london: 61,
-      paris: 70,
-      newYork: 103,
-      seoul: 25,
-      month: 'Dec',
-    },
-  ];
+  const [fechaDesde, setFechaDesde] = useState(lastMonthFormatted);
+  const [fechaHasta, setFechaHasta] = useState(yesterdayFormatted);
   
-  // Función para formatear los valores
-  const valueFormatterMM = (value) => `${value}mm`;
-  
-  // Configuración del gráfico
-  const chartSettingBar = {
-    xAxis: [
-      {
-        label: 'rainfall (mm)',
-      },
-    ],
-    width: 500,
-    height: 400,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      fechaDesde: lastMonthFormatted,
+      fechaHasta: yesterdayFormatted,
+    },
+  });
+
+  // Llamada al hook para obtener el reporte
+  const { reporte, isLoading, error } = useGetContarTurnos(fechaDesde, fechaHasta);
+
+  const onSubmit = (data) => {
+    setFechaDesde(data.fechaDesde);
+    setFechaHasta(data.fechaHasta);
   };
+
+  // Transformar los datos de la API para el gráfico de torta
+  const turnos = reporte
+  ? [
+      { name: "Guardería", value: reporte.TipoTurnoGuarderia , color:"#B800D8", monto: reporte.MontoGuarderia},
+      { name: "Peluquería", value: reporte.TipoTurnoPeluqueria , color:"#72CCFF", monto: reporte.MontoPeluqueria},
+      //{ name: "Paseo", value: reporte.TipoTurnoPaseo },
+      { name: "Veterinaria", value: reporte.TipoTurnoVeterinario ,color:"#02B2AF", monto: reporte.MontoVeterinaria},
+    ]
+  : [];
+
+  // Función para calcular el porcentaje total
+  const totalValue = turnos.reduce((acc, curr) => acc + curr.value, 0);
+
+  // Normalizar los valores a porcentajes
+  const normalizedTurnos = turnos.map((turno) => ({
+    label: turno.name,
+    value: totalValue ? (turno.value / totalValue) * 100 : 0,
+    color: turno.color,
+    numero:turno.value,
+    monto:turno.monto,
+  }));
+
+  const valueFormatterPercentage = (item) => `${item.value.toFixed(2)}%`;
+
+
 
   return (
     <Grid
@@ -198,25 +101,84 @@ const dataset = [
           height: "90%",
         }}
       >
-        <Box className="titlePage">Reportes / Porcentajes de tipos de turnos</Box>
-        <PieChart
-      series={[
-        {
-          data: desktopOS,
-          highlightScope: { fade: 'global', highlight: 'item' },
-          faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-          valueFormatterPercentage,
-        },
-      ]}
-      height={200}
-    />    
-    <Box className="titlePage">Reportes / Barra de cantidad de estadías</Box>
-    <BarChart
-        dataset={dataset}
-        yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-        series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter: valueFormatterMM }]}
-        layout="horizontal"
-        {...chartSettingBar}
+        <Grid
+        container
+        sx={{
+          alignItems: "start",
+          width: { xs: "90%" },
+        }}
+        rowGap={2}
+        >
+        <Grid item xs={6} md={3} className="textInput">
+          Fecha desde:
+        </Grid>
+        <Grid item xs={6} md={3}>
+        <CustomTextBox type="date" register={register} name="fechaDesde" />
+        <p className="errorText">{errors.fechaDesde?.message}</p>
+        </Grid>
+          <Grid item xs={6} md={3} className="textInput">
+            Fecha hasta:
+          </Grid>
+          <Grid item xs={6} md={3}>
+          <CustomTextBox type="date" register={register} name="fechaHasta" />
+          <p className="errorText">{errors.fechaHasta?.message}</p>
+        </Grid>
+          <Grid item xs={9} md={3} sx={{ mb: 2 }}>
+            <CustomButton
+              onClick={handleSubmit(onSubmit)}
+              text="Buscar"
+              //isLoading={isLoading}
+            />
+          </Grid>
+        </Grid>
+        <Box className="titlePage">Porcentajes de tipos de turnos</Box>
+        <Grid container spacing={2}>
+        <Grid item xs={8}>
+          {/* Mostrar el gráfico de torta si hay datos */}
+          {isLoading ? (
+            <p>Cargando...</p>
+          ) : error ? (
+            <p>Error al obtener los datos.</p>
+          ) : (
+            <PieChart
+              series={[
+                {
+                  data: turnos,
+                  highlightScope: { fade: 'global', highlight: 'item' },
+                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                  valueFormatterPercentage, // Mostrar como porcentaje
+                },
+              ]}
+              height={200}
+            />
+          )}
+        </Grid>
+
+        <Grid item xs={4}>
+          {/* Leyenda para el gráfico */}
+          
+            <h4>Turnos</h4>
+            {normalizedTurnos.map((item) => (
+              <div key={item.label} style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{
+                  width: 16, height: 16, backgroundColor: item.color || 'gray', marginRight: 4
+                }} />
+                {item.label}: {valueFormatterPercentage(item)} ({item.numero})
+              </div>
+            ))}
+        </Grid>
+        </Grid>
+      <Box className="titlePage">Montos por tipos de turnos</Box>
+      <BarChart
+        xAxis={[{ scaleType: 'band', data: normalizedTurnos.map(item => item.label) }]}
+        series={[
+          {
+            data: normalizedTurnos.map(item => item.monto),
+            color: normalizedTurnos.map(item => item.color), // Puedes ajustar los colores según corresponda
+          },
+        ]}
+        width={500}
+        height={300}
       />
 
       </Grid>

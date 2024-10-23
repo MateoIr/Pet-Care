@@ -187,7 +187,7 @@ const CustomNavBar = ({ setUser }) => {
               </Box>
             </Box>
 
-            <Box onClick={() => navigate("/home/reportSection")}>
+            <Box onClick={() => navigate("/home/reports/turn")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>
                   <AssessmentIcon
@@ -214,6 +214,7 @@ const CustomNavBar = ({ setUser }) => {
                 </Box>
               </Box>
             </Box>
+
             <Box onClick={() => navigate("/home/configurationSection")}>
               <Box className="butomNavBar">
                 <Box sx={{ width: "30%" }}>

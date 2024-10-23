@@ -134,6 +134,10 @@ function App() {
               element={<CalendarSection setUser={setUser} />}
             />
             <Route
+            path="/home/reports/turn"
+            element={<ReportSection setUser={setUser} />}
+          />
+            <Route
               path="/serviceList"
               element={<ServiceList setUser={setUser} />}
             />
@@ -189,10 +193,7 @@ function App() {
           />
           <Route path="/turn/updateTurn/:idtipo/:id" element={<UpdateTurn />} />
 
-          <Route
-            path="/reports/turn"
-            element={<ReportSection setUser={setUser} />}
-          />
+          
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />

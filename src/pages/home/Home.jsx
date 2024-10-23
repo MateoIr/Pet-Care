@@ -157,7 +157,7 @@ const rows = filteredTurnos.map((turno) =>
         
         <Grid item xs={12} sm={10} className="homeContainer">  
         <Grid container rowGap={2} className="listadoTurnos">            
-          <Grid item md={8} rowGap={3}>
+          <Grid item md={10} rowGap={3} style={{marginTop: "4rem"}} >
           <Box className="titlePage">Cupos de estadía en guardería ocupados: </Box>
           </Grid>
           <Grid item md={8} rowGap={3}>          
@@ -193,7 +193,7 @@ const rows = filteredTurnos.map((turno) =>
           </Box>
           </Grid>
           <Grid item md={10} rowGap={3}>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} style={{color: "#805454"}}>
             <Box className="titlePage">Próximos turnos</Box>
                     <Table aria-label="collapsible table">
                       <TableHead>
