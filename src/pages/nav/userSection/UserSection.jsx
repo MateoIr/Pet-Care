@@ -7,8 +7,8 @@ import "./UserSection.css";
 
 const UserSection = ({ setUser }) => {
   const user = [
-    { name: "Crear Usuario", link: "/user/createUser" },
-    { name: "Lista de Usuarios", link: "/user/userList" },
+    { name: "Crear nuevo", link: "/user/createUser" },
+    { name: "Ver listado", link: "/user/userList" },
   ];
 
   return (
@@ -68,7 +68,7 @@ const UserSection = ({ setUser }) => {
             alignItems="center"
             p="10px"
           >
-            <CustomNavCard items={user} text={"Usuarios"} image={usuarioImg} />
+            <CustomNavCard items={user} text={"USUARIOS"} image={usuarioImg} />
           </Grid>
         </Grid>
       </Grid>

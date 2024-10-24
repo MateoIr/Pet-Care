@@ -158,44 +158,46 @@ const rows = filteredTurnos.map((turno) =>
         <Grid item xs={12} sm={10} className="homeContainer">  
         <Grid container rowGap={2} className="listadoTurnos">            
           <Grid item md={10} rowGap={3} style={{marginTop: "4rem"}} >
-          <Box className="titlePage">Cupos de estadía en guardería ocupados: </Box>
+          <Box className="titlePage">Ocupación de cupos en la Guardería: </Box>
           </Grid>
           <Grid item md={8} rowGap={3}>          
           <Box sx={{ position: 'relative', display: 'inline-block' }}>
-            <CircularProgress
-              variant="determinate"
-              value={(cupo / total) * 100}  // Calculamos el porcentaje
-              size={200}
-              thickness={5}
-              sx={{
-                '& .MuiCircularProgress-circle': {
-                  stroke: '#805454',  // Color de la parte no progresada (fondo)
-                },
-                '& .MuiCircularProgress-circleDeterminate': {
-                  stroke: '#FFDFAE',  // Color de la parte progresada
-                },
-              }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                fontSize: 16,
-                fontWeight: 'bold',
-                color: 'text.primary',
-              }}
-            >
-              {cupo}/{total}
-            </Typography>
+          <CircularProgress
+          variant="determinate"
+          value={(cupo / total) * 100}  // Calculamos el porcentaje
+          size={200}
+          thickness={5}
+          sx={{
+            color: '#FFDFAE',  // Color de la parte progresada
+            '& .MuiCircularProgress-circle': {
+              strokeLinecap: 'round',
+            },
+          }}
+          style={{
+            backgroundColor: '#e6e3de',  // Color de la parte no progresada (gris)
+            borderRadius: '50%',  // Asegura que el fondo sea redondo
+          }}
+        />
+        <Typography
+          variant="h6"
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: "#805454",
+          }}
+        >
+          {cupo}/{total}
+        </Typography>
           </Box>
           </Grid>
           <Grid item md={10} rowGap={3}>
             <TableContainer component={Paper} style={{color: "#805454"}}>
             <Box className="titlePage">Próximos turnos</Box>
-                    <Table aria-label="collapsible table">
+                    <Table aria-label="collapsible table" >
                       <TableHead>
                         <TableRow>
                           <TableCell />

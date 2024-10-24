@@ -7,8 +7,8 @@ import "./ProductSection.css";
 
 const ProductSection = ({ setUser }) => {
   const products = [
-    { name: "Registrar Producto", link: "/product/register" },
-    { name: "Lista de Productos", link: "/products" },
+    { name: "Registrar", link: "/product/register" },
+    { name: "Ver listado", link: "/products" },
   ];
 
   return (
@@ -70,7 +70,7 @@ const ProductSection = ({ setUser }) => {
           >
             <CustomNavCard
               items={products}
-              text={"Productos"}
+              text={"PRODUCTOS"}
               image={productoImg}
             />
           </Grid>

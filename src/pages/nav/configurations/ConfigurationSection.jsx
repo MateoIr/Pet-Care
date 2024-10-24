@@ -9,15 +9,15 @@ import "./ConfigurationSection.css";
 
 const ConfigurationSection = ({ setUser }) => {
   const turnos = [
-    { name: "Registrar Turno", link: "/turn/register" },
-    { name: "Costos Servicos", link: "/serviceList" },
+    //{ name: "Registrar Turno", link: "/turn/register" },
+    { name: "Costos de Servicos", link: "/serviceList" },
   ];
 
   const veterinarios = [
-    { name: "Reg. Veterinario", link: "/veterinario/register" },
-    { name: "Lista Veterinarios", link: "/veterinarians" },
-    { name: "Registrar Clinica", link: "/veterinario/clinica/register" },
-    { name: "Lista de Clinicas", link: "/clinics" },
+    { name: "Crear veterinario", link: "/veterinario/register" },
+    { name: "Lista de veterinarios", link: "/veterinarians" },
+    { name: "Registrar clínicas", link: "/veterinario/clinica/register" },
+    { name: "Lista de clínicas", link: "/clinics" },
   ];
 
   return (
@@ -77,7 +77,7 @@ const ConfigurationSection = ({ setUser }) => {
             alignItems="center"
             p="10px"
           >
-            <CustomNavCard items={turnos} text={"Turnos"} image={turnoImg} />
+            <CustomNavCard items={turnos} text={"TURNOS"} image={turnoImg} />
           </Grid>
           <Grid
             item
@@ -90,7 +90,7 @@ const ConfigurationSection = ({ setUser }) => {
           >
             <CustomNavCard
               items={veterinarios}
-              text={"Veterinarios"}
+              text={"VETERINARIOS"}
               image={veterinariosImg}
             />
           </Grid>

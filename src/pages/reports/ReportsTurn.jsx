@@ -63,7 +63,7 @@ const ReportsTurn = ({ setUser }) => {
       { name: "Guardería", value: reporte.TipoTurnoGuarderia , color:"#B800D8", monto: reporte.MontoGuarderia},
       { name: "Peluquería", value: reporte.TipoTurnoPeluqueria , color:"#72CCFF", monto: reporte.MontoPeluqueria},
       //{ name: "Paseo", value: reporte.TipoTurnoPaseo },
-      { name: "Veterinaria", value: reporte.TipoTurnoVeterinario ,color:"#02B2AF", monto: reporte.MontoVeterinaria},
+      { name: "Veterinaria", value: reporte.TipoTurnoVeterinario ,color:"#02B2AF", monto: reporte.MontoVeterinario},
     ]
   : [];
 
@@ -168,19 +168,21 @@ const ReportsTurn = ({ setUser }) => {
             ))}
         </Grid>
         </Grid>
+        
       <Box className="titlePage">Montos por tipos de turnos</Box>
+      <Grid container spacing={2}>
       <BarChart
         xAxis={[{ scaleType: 'band', data: normalizedTurnos.map(item => item.label) }]}
         series={[
           {
             data: normalizedTurnos.map(item => item.monto),
-            color: normalizedTurnos.map(item => item.color), // Puedes ajustar los colores según corresponda
+            color: "#3B48E0", // Puedes ajustar los colores según corresponda
           },
         ]}
         width={500}
         height={300}
       />
-
+      </Grid>
       </Grid>
     </Grid>
     
