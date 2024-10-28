@@ -26,7 +26,7 @@ export const useRegisterTurno = ({ setUserExist }) => {
             position: "right",
             backgroundColor: "#805454",
           }).showToast();
-        navigate("/home");
+        navigate("/home/calendarSection");
       }
     },
   });

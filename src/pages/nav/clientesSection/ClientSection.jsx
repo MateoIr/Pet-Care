@@ -8,13 +8,13 @@ import "./ClientSection.css";
 
 const ClientSection = ({ setUser }) => {
   const clients = [
-    { name: "Registrar Cliente", link: "/client/register" },
-    { name: "Lista de Clientes", link: "/client/clienteList" },
+    { name: "Registrar", link: "/client/register" },
+    { name: "Ver listado", link: "/client/clienteList" },
   ];
 
   const animals = [
-    { name: "Registrar Mascota", link: "/client/pet/register" },
-    { name: "Lista de Mascotas", link: "/client/pet/petList" },
+    { name: "Registrar", link: "/client/pet/register" },
+    { name: "Ver listado", link: "/client/pet/petList" },
   ];
 
   return (
@@ -74,7 +74,7 @@ const ClientSection = ({ setUser }) => {
             alignItems="center"
             p="10px"
           >
-            <CustomNavCard items={clients} text={"Cliente"} image={clientImg} />
+            <CustomNavCard items={clients} text={"CLIENTES/DUEÑOS"} image={clientImg} />
           </Grid>
           <Grid
             item
@@ -87,7 +87,7 @@ const ClientSection = ({ setUser }) => {
           >
             <CustomNavCard
               items={animals}
-              text={"Mascotas"}
+              text={"MASCOTAS"}
               image={mascotasImg}
             />
           </Grid>

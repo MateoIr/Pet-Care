@@ -6,7 +6,7 @@ import foot from "../../../images/foot.jpg";
 import "./SellSection.css";
 
 const SellSection = ({ setUser }) => {
-  const sell = [{ name: "Registrar Venta", link: "/product/sell" }];
+  const sell = [{ name: "Registrar nueva venta", link: "/product/sell" }];
 
   return (
     <>
@@ -65,7 +65,7 @@ const SellSection = ({ setUser }) => {
             alignItems="center"
             p="10px"
           >
-            <CustomNavCard items={sell} text={"Ventas"} image={sellImg} />
+            <CustomNavCard items={sell} text={"PEDIDOS"} image={sellImg} />
           </Grid>
         </Grid>
       </Grid>

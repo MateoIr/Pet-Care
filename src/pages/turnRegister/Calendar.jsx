@@ -6,6 +6,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css"; // Importar estilos para el modal y el calendario
 import useGetDaycareServices from "../../hooks/turn/useGetDaycareServices"; // Hook para obtener los eventos
 import { Link } from 'react-router-dom';
+import esLocale from "@fullcalendar/core/locales/es"
+import CustomButton from "../../components/customButton/CustomButton";
+import { Box, Grid } from "@mui/material";
 
 const Calendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -51,6 +54,12 @@ const transformedEvents = turnos && turnos.length > 0 ? transformEvents(turnos) 
 
   return (
     <div>
+      
+    <Grid item xs={12} sm={12} className="calendarContainer">
+      <Link to="/turn/register">
+        <CustomButton text="Registrar turno"></CustomButton>
+      </Link> 
+      </Grid>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView={"dayGridMonth"}
@@ -62,6 +71,7 @@ const transformedEvents = turnos && turnos.length > 0 ? transformEvents(turnos) 
         height={"auto"} // Ajustar la altura para que se ajuste al contenido
         events={transformedEvents}// Cargar los eventos transformados
         //eventColor= '#378006' 
+        locale={esLocale} // Establece el idioma en español
         eventClick={handleEventClick}
       />
 

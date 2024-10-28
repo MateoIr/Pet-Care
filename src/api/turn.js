@@ -61,6 +61,34 @@ const getAllTurnos = async () => {
   }
 };
 
+const getCupoDay = async (day) => {
+  //console.log(day);
+  try {
+    const response = await apiClient.post(`/turno/contarPorFechaparacupo?fecha=${day}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getContarTurnos = async ({
+  fechaDesde,
+  fechaHasta,
+}) => {
+  try {
+    const response = await apiClient.post("/turno/contarturnos", {
+      fechaInicio:fechaDesde,
+      fechaFinal:fechaHasta,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error recuperando info de turnos:", error);
+    throw error;
+  }
+};
+
 const getTurn = async (id) => {
   try {
     const response = await apiClient.get(`/turno/idturno/${id}`);
@@ -171,5 +199,7 @@ export {
   getAllStates,
   getAllServicesList,
   updateCostService,
+  getCupoDay,
+  getContarTurnos,
 };
 
