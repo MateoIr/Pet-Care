@@ -4,7 +4,7 @@ const apiClient = axios.create({
   baseURL: "http://localhost:8080",
 });
 
-const registerSignature = async ({ signature }) => {
+const registerSignature = async ({ signature, id }) => {
   try {
     const base64Data = signature.split(",")[1];
     const formData = new FormData();
@@ -12,7 +12,7 @@ const registerSignature = async ({ signature }) => {
 
     // Envía la solicitud POST con FormData
     const response = await apiClient.post(
-      "/guarderia/registrarfirma",
+      `/guarderia/registrarfirma/${id}`,
       formData,
       {
         headers: {

@@ -15,22 +15,30 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 import "./PetList.css";
 import { useEffect, useState } from "react";
 import CustomNavBar from "../../components/customNavBar/CustomNavBar";
 import { LoadingButton } from "@mui/lab";
 import useGetAllPets from "../../hooks/pet/getAllPets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import TaskIcon from "@mui/icons-material/Task";
 import useDeletePet from "../../hooks/pet/useDeletePet";
+import CustomButton from "../../components/customButton/CustomButton";
 
 const PetList = ({ setUser }) => {
   const [usuarioEliminar, setUsuarioEliminar] = useState("");
   const { pet, isLoading, error, refetch } = useGetAllPets();
   const [petList, setPetList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const { deletedPet, status } = useDeletePet();
+  const [filteredPetList, setFilteredPetList] = useState([]);
+
+  const navigate = useNavigate();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -38,14 +46,27 @@ const PetList = ({ setUser }) => {
   useEffect(() => {
     if (pet) {
       setPetList(pet);
+      setFilteredPetList(pet);
     }
   }, [pet]);
+
+  const searchPetByName = () => {
+    if (searchTerm.trim() !== "") {
+      const filtered = petList.filter((pet) =>
+        pet.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredPetList(filtered);
+    } else {
+      setFilteredPetList(petList);
+    }
+  };
 
   useEffect(() => {
     const fetchUpdatedUsers = async () => {
       if (status === "success") {
         const updatedUsers = await refetch();
         setPetList(updatedUsers.data);
+        setFilteredPetList(updatedUsers.data);
       }
     };
 
@@ -55,6 +76,10 @@ const PetList = ({ setUser }) => {
   const handleDeletePet = (userId) => {
     setUsuarioEliminar(userId);
     setOpenDialog(true);
+  };
+
+  const handleCheckPetSignature = (petId) => {
+    navigate(`/client/pet/signature/${petId}`);
   };
 
   const handleConfirmDelete = async () => {
@@ -70,6 +95,9 @@ const PetList = ({ setUser }) => {
   const handleCloseDialog = () => {
     setUsuarioEliminar(null);
     setOpenDialog(false);
+  };
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -99,10 +127,28 @@ const PetList = ({ setUser }) => {
             No es posible conectarse con la base de datos
           </Alert>
         )}
-        <Box className="titlePage">Usuarios</Box>
-        <Box>
-          <Grid container className="tableContainer" rowGap={2}>
-            <TableContainer>
+        <Box className="titlePage">Mascotas</Box>
+        <Grid container direction="row" alignItems="center" spacing={2}>
+          <Grid item ml="30px">
+            Nombre:
+          </Grid>
+          <Grid item>
+            <TextField
+              id="outlined-basic"
+              label="Outlined"
+              variant="outlined"
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+            />
+          </Grid>
+          <Grid item>
+            <CustomButton text="Buscar" onClick={searchPetByName} />
+          </Grid>
+        </Grid>
+
+        <Grid container justifyContent={"center"} pt={2}>
+          <Grid container xs={12} sm={11.5} smOffset={(0, 25)}>
+            <TableContainer sx={{ width: "100%", margin: "auto" }}>
               <Table className="tableCellTitle">
                 <TableHead>
                   <TableRow className="tableCellTitle">
@@ -130,7 +176,7 @@ const PetList = ({ setUser }) => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {petList?.map(
+                  {filteredPetList?.map(
                     (pet, index) =>
                       pet.estado && (
                         <TableRow key={index}>
@@ -148,6 +194,26 @@ const PetList = ({ setUser }) => {
                           </TableCell>
                           <TableCell className="tableCell">
                             <Box className="containerOptions">
+                              {!pet.consentimiento ? (
+                                <IconButton
+                                  aria-label="delete"
+                                  onClick={() =>
+                                    handleCheckPetSignature(pet.id)
+                                  }
+                                >
+                                  <NoteAddIcon />
+                                </IconButton>
+                              ) : (
+                                <IconButton
+                                  sx={{ color: "green" }}
+                                  aria-label="delete"
+                                  onClick={() =>
+                                    handleCheckPetSignature(pet.id)
+                                  }
+                                >
+                                  <TaskIcon />
+                                </IconButton>
+                              )}
                               <Link to={`/pet/updatePet/${pet.id}`}>
                                 <IconButton aria-label="edit">
                                   <EditIcon />
@@ -168,7 +234,7 @@ const PetList = ({ setUser }) => {
               </Table>
             </TableContainer>
           </Grid>
-        </Box>
+        </Grid>
       </Grid>
       <Dialog
         open={openDialog}

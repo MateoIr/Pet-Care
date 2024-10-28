@@ -14,8 +14,6 @@ import { useGetPais, useGetProvincia } from "../../hooks/useUbications";
 import useSelectedClient from "../../hooks/pet/useSelectedClient";
 import useUpdateClient from "../../hooks/pet/useUpdateClient";
 
-
-
 const UpdateClient = ({ setUser }) => {
   const schema = yup.object().shape({
     nombre: yup.string().required("ingrese un valor"),
@@ -73,20 +71,34 @@ const UpdateClient = ({ setUser }) => {
       setValue("apellido", clientSelected?.idpersona?.apellido || "");
       setValue("email", clientSelected?.idpersona?.email || "");
       setValue("telefono", clientSelected?.idpersona?.telefono || "");
-      setValue("fechadenacimiento", clientSelected?.idpersona?.fechadenacimiento || "");
+      setValue(
+        "fechadenacimiento",
+        clientSelected?.idpersona?.fechadenacimiento || ""
+      );
       setValue("barrio", clientSelected?.idpersona?.iddireccion?.barrio || "");
       setValue("piso", clientSelected?.idpersona?.iddireccion?.piso || "");
-      setValue("departamento", clientSelected?.idpersona?.iddireccion?.departamento || "");
+      setValue(
+        "departamento",
+        clientSelected?.idpersona?.iddireccion?.departamento || ""
+      );
       setValue("calle", clientSelected?.idpersona?.iddireccion?.calle || "");
-      setValue("numCalle", clientSelected?.idpersona?.iddireccion?.numero || "");
-      setValue("idprovincia", clientSelected?.idpersona?.iddireccion?.idlocalidad?.idprovincia || "");
-      setValue("localidad", clientSelected?.idpersona?.iddireccion?.idlocalidad?.descripcion    || "");
+      setValue(
+        "numCalle",
+        clientSelected?.idpersona?.iddireccion?.numero || ""
+      );
+      setValue(
+        "idprovincia",
+        clientSelected?.idpersona?.iddireccion?.idlocalidad?.idprovincia || ""
+      );
+      setValue(
+        "localidad",
+        clientSelected?.idpersona?.iddireccion?.idlocalidad?.descripcion || ""
+      );
       console.log(clientSelected);
     }
   }, [clientSelected, setValue]);
 
-  const { updateClient} = useUpdateClient();
-
+  const { updateClient } = useUpdateClient();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -113,7 +125,7 @@ const UpdateClient = ({ setUser }) => {
       nombre,
       apellido,
       fechadenacimiento,
-      email:data.email,
+      email: data.email,
       telefono,
       barrio,
       piso,
@@ -265,7 +277,10 @@ const UpdateClient = ({ setUser }) => {
                   list={paises}
                   valueKey="id"
                   labelKey="descripcion"
-                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.idpais.id}
+                  selectedItem={
+                    clientSelected?.idpersona.iddireccion.idlocalidad
+                      .idprovincia.idpais.id
+                  }
                 />
                 <p className="errorText">{errors.pais?.message}</p>
               </Grid>
@@ -279,12 +294,14 @@ const UpdateClient = ({ setUser }) => {
                   list={filteredProvinces}
                   valueKey="id"
                   labelKey="descripcion"
-                  selectedItem={clientSelected?.idpersona.iddireccion.idlocalidad.idprovincia.id}
+                  selectedItem={
+                    clientSelected?.idpersona.iddireccion.idlocalidad
+                      .idprovincia.id
+                  }
                 />
                 <p className="errorText">{errors.provincia?.message}</p>
               </Grid>
 
-              
               <Grid item xs={6} md={3} className="textInput">
                 Fecha de Nacimiento:
               </Grid>

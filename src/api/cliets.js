@@ -26,8 +26,6 @@ const getAllPets = async () => {
   }
 };
 
-
-
 const getAllCustomers = async () => {
   try {
     const response = await apiClient.get("/clientes/list");
@@ -52,7 +50,9 @@ const getAllAnimals = async () => {
 
 const getPetByOwner = async (idcliente) => {
   try {
-    const response = await apiClient.post(`/turno/listamascotasporcliente/${idcliente}`);
+    const response = await apiClient.post(
+      `/turno/listamascotasporcliente/${idcliente}`
+    );
     return response.data;
   } catch (error) {
     throw new Error(
@@ -153,12 +153,9 @@ const deleteClient = async (id) => {
   }
 };
 
-
 const getPet = async (id) => {
   try {
-    const response = await apiClient.post(`/mascota/idmascota`, {
-      id,
-    });
+    const response = await apiClient.get(`/mascota/mascota/${id}`);
     return response.data;
   } catch (error) {
     return error
@@ -180,7 +177,6 @@ const getClient = async (id) => {
 };
 
 const updateClientSelected = async ({
-  
   idcliente,
   idpersona,
   nombre,
@@ -212,11 +208,9 @@ const updateClientSelected = async ({
       descripcionLocalidad: localidad,
       calle,
       numCalle,
-      
     });
     return response.data;
   } catch (error) {
-    
     console.log("Entró al catch:", error); // Ver el error completo en consola
 
     // Puedes devolver el error como un objeto, no usar .status() y .json() en el frontend
@@ -243,7 +237,7 @@ const updatePetSelected = async ({
 }) => {
   try {
     const response = await apiClient.post(`/mascota/actualizarmascota`, {
-      id:id,
+      id: id,
       nombre: name,
       peso: weight,
       fechaDeNacimiento: birthdate,
@@ -255,7 +249,6 @@ const updatePetSelected = async ({
     });
     return response.data;
   } catch (error) {
-    
     console.log("Entró al catch:", error); // Ver el error completo en consola
 
     // Puedes devolver el error como un objeto, no usar .status() y .json() en el frontend
