@@ -39,7 +39,11 @@ import UpdateTurn from "./pages/updateTurn/UpdateTurn";
 import ReportsTurn from "./pages/reports/ReportsTurn";
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 import ServiceList from "./pages/serviceList/ServiceList";
+
 import { ReportSection } from "./pages/nav/reportsSection/ReportSection";
+
+import SignaturePage from "./pages/signaturePage/SignaturePage";
+
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -186,6 +190,11 @@ function App() {
           </Route>
 
           <Route path="*" element={<Navigate to="/home" />} />
+
+          <Route
+            path="/client/pet/signature/:id"
+            element={<SignaturePage setUser={setUser} />}
+          />
 
           <Route
             path="/turn/register"

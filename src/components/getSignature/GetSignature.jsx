@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGetSignature from "../../hooks/signature/useGetSignature";
+import useUpdatePet from "../../hooks/pet/useUpdatePet";
 
-const GetSignature = () => {
+const GetSignature = ({ idconst }) => {
   const { isLoading, error, signatureData, searchSignature } =
     useGetSignature();
   const [signatureGet, setSignatureGet] = useState(null);
@@ -11,6 +12,10 @@ const GetSignature = () => {
     searchSignature(id);
   };
 
+  useEffect(() => {
+    searchSignature(idconst.id);
+  }, [idconst]);
+
   React.useEffect(() => {
     if (signatureData) {
       setSignatureGet(signatureData.firma);
@@ -19,17 +24,6 @@ const GetSignature = () => {
 
   return (
     <div>
-      <input
-        type="text"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-        placeholder="Ingrese el ID"
-      />
-      <button onClick={handleGetSignature} disabled={isLoading}>
-        {isLoading ? "Cargando..." : "Obtener firma"}
-      </button>
-      <h2>Firma guardada</h2>
-
       {signatureGet ? (
         <img
           src={`data:image/png;base64,${signatureGet}`}
