@@ -25,6 +25,21 @@ const getAllProducts = async () => {
   }
 };
 
+const getProductosMasVendidos = async ({
+  fechaDesde,
+  fechaHasta,
+}) => {
+  try {
+    const response = await apiClient.post("/pedido/productosMasVendidos", {
+      fechaInicio:fechaDesde,
+      fechaFinal:fechaHasta,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error recuperando info de ventas:", error);
+    throw error;
+  }
+};
 
 
 const registerProduct = async ({
@@ -134,4 +149,4 @@ const dropProduct = async (id) => {
       throw error;
   }
 };
-export { registerProduct, getAllCategory, getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
+export { registerProduct, getProductosMasVendidos, getAllCategory, getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
