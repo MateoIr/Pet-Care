@@ -1,20 +1,30 @@
 import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 import {
-    Box,
-    Grid,
-  } from "@mui/material";
-import { BarChart } from '@mui/x-charts/BarChart';
+  Box,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Alert,
+  IconButton,
+  
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import {useEffect, useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Link } from "react-router-dom";
 import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import useGetProductoMasVendido from '../../hooks/produts/useGetProductoMasVendido';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import useGetProductoSinStock from "../../hooks/produts/useGetProductoSinStock";
+
 import * as yup from 'yup';
-import { useEffect } from 'react';
-import { useState } from "react";
-
-
 
 // Calcular la fecha de hoy y la fecha de hace un mes
 const today = new Date();
@@ -33,6 +43,8 @@ const schema = yup.object().shape({
 });
 
 const ReportsSells = ({ setUser }) => {
+  
+
 
   const [fechaDesde, setFechaDesde] = useState(lastMonthFormatted);
   const [fechaHasta, setFechaHasta] = useState(yesterdayFormatted);
@@ -50,7 +62,7 @@ const ReportsSells = ({ setUser }) => {
   });
 
   // Llamada al hook para obtener el reporte
-  const { masVendidos, isLoading, error } = useGetProductoMasVendido(fechaDesde, fechaHasta);
+  const { masVendidos} = useGetProductoMasVendido(fechaDesde, fechaHasta);
 
   const onSubmit = (data) => {
     setFechaDesde(data.fechaDesde);
@@ -82,6 +94,28 @@ const normalizedProductos = productos.map((producto) => ({
   numero: producto.value,
   
 }));
+
+  const { products, isLoading, error, refetch } = useGetProductoSinStock();
+  const [productsList, setProductsList] = useState([]);
+
+
+ 
+  useEffect(() => {
+    if (products) {
+      setProductsList(products);
+    }
+  }, [products]);
+
+  useEffect(() => {
+    const fetchUpdatedProducts = async () => {
+      if (status === "success") {
+        const updatedProducts = await refetch();
+        setProductsList(updatedProducts.data);
+      }
+    };
+
+    fetchUpdatedProducts();
+  }, [status, refetch]);
 
 
 
@@ -170,8 +204,94 @@ const normalizedProductos = productos.map((producto) => ({
             ))}
         </Grid>
         </Grid>
-        
-      
+        <Grid item xs={10}>
+        <Grid
+        item
+        xs={12}
+        sm={10}
+        sx={{
+          height: "90%",
+        }}
+      >
+        {error && (
+          <Alert severity="error">
+            No es posible conectarse con la base de datos
+          </Alert>
+        )}
+        <Box className="titlePage">Productos Sin Stock</Box>
+        <Box>
+          <Grid container className="tableContainer" rowGap={2}>
+            <TableContainer>
+              <Table className="tableCellTitle">
+                <TableHead>
+                  <TableRow className="tableCellTitle">
+                    <TableCell className="tableCellTitle">
+                      Código de producto
+                    </TableCell>
+                    <TableCell className="tableCellTitle">Título</TableCell>
+                    <TableCell className="tableCellTitle">Precio</TableCell>
+                    <TableCell className="tableCellTitle">Stock</TableCell>
+                    <TableCell className="tableCellTitle">Categoría</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {isLoading && (
+                    <TableRow>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                      <TableCell className="tableCellLoading">
+                        <LoadingButton loading>Submit</LoadingButton>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {products?.map(
+                    (product, index) =>
+                      product.estado && (
+                        <TableRow key={index}>
+                          <TableCell className="tableCell">
+                            {product.codigoproducto}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.nombre}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            ${product.precio}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.stock}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            {product.idcategoria.nombrecategoria}
+                          </TableCell>
+                          <TableCell className="tableCell">
+                            <Box className="containerOptions">
+                              <Link to={`/product/updateProduct/${product.id}`}>
+                                <IconButton aria-label="edit">
+                                  <EditIcon />
+                                </IconButton>
+                              </Link>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      )
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+        </Box>
+      </Grid>
+        </Grid>
       </Grid>
     </Grid>
     

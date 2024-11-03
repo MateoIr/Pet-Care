@@ -25,6 +25,17 @@ const getAllProducts = async () => {
   }
 };
 
+const getProductsSinStock = async () => {
+  try {
+    const response = await apiClient.get("/producto/productosSinStock");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const getProductosMasVendidos = async ({
   fechaDesde,
   fechaHasta,
@@ -149,4 +160,4 @@ const dropProduct = async (id) => {
       throw error;
   }
 };
-export { registerProduct, getProductosMasVendidos, getAllCategory, getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
+export { registerProduct, getProductosMasVendidos, getAllCategory, getProductsSinStock,getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
