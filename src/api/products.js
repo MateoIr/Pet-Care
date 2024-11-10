@@ -25,6 +25,48 @@ const getAllProducts = async () => {
   }
 };
 
+const getVentasByDate = async ({
+  fechaDesde,
+  fechaHasta,
+}) => {
+  try {
+    const response = await apiClient.post("/pedido/pedidosporfecha", {
+      fechaInicio:fechaDesde,
+      fechaFinal:fechaHasta,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error recuperando info de ventas:", error);
+    throw error;
+  }
+};
+
+const getProductsSinStock = async () => {
+  try {
+    const response = await apiClient.get("/producto/productosSinStock");
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getProductosMasVendidos = async ({
+  fechaDesde,
+  fechaHasta,
+}) => {
+  try {
+    const response = await apiClient.post("/pedido/productosMasVendidos", {
+      fechaInicio:fechaDesde,
+      fechaFinal:fechaHasta,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error recuperando info de ventas:", error);
+    throw error;
+  }
+};
 
 
 const registerProduct = async ({
@@ -134,4 +176,4 @@ const dropProduct = async (id) => {
       throw error;
   }
 };
-export { registerProduct, getAllCategory, getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};
+export { registerProduct,getVentasByDate, getProductosMasVendidos, getAllCategory, getProductsSinStock,getAllProducts, registerSell,  updateProductSelected , dropProduct, getProduct};

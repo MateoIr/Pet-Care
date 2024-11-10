@@ -12,6 +12,7 @@ import RegisterProduct from "./pages/registerProduct/RegisterProduct";
 import UpdateUser from "./pages/updateUser/UpdateUser";
 import UpdateProduct from "./pages/updateProduct/UpdateProduct";
 import RegisterSell from "./pages/registerSell/RegisterSell";
+import ListSells from "./pages/sellsList/ListSells";
 import StoreProvider from "./store/StoreProvider";
 import ProductList from "./pages/productList/ProductList";
 import CatalogView from "./pages/catalogView/CatalogView";
@@ -108,6 +109,10 @@ function App() {
             <Route
               path="/product/sell"
               element={<RegisterSell setUser={setUser} />}
+            />
+            <Route
+              path="/product/sellList"
+              element={<ListSells setUser={setUser} />}
             />
             <Route
               path="/products"
