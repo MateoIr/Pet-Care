@@ -24,12 +24,13 @@ import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 
 // Calcular la fecha de hoy y la fecha de hace un mes
 const today = new Date();
-const yesterday = new Date();
-yesterday.setDate(today.getDate() - 1);
-const yesterdayFormatted = yesterday.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+const todayFormatted = today.toISOString().split('T')[0];
+//const yesterday = new Date();
+//yesterday.setDate(today.getDate() - 1);
+//const yesterdayFormatted = yesterday.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
 const lastMonth = new Date(); // Crear una nueva instancia de Date para hace un mes
-lastMonth.setMonth(lastMonth.getMonth() - 1);
+lastMonth.setMonth(lastMonth.getMonth() - 2);
 lastMonth.setDate(lastMonth.getDate()-1);
 const lastMonthFormatted = lastMonth.toISOString().split('T')[0];
 
@@ -40,7 +41,7 @@ const schema = yup.object().shape({
 
 const ListSells = ({ setUser }) => {
     const [fechaDesde, setFechaDesde] = useState(lastMonthFormatted);
-  const [fechaHasta, setFechaHasta] = useState(yesterdayFormatted);
+  const [fechaHasta, setFechaHasta] = useState(todayFormatted);
   
   const {
     register,
@@ -50,7 +51,7 @@ const ListSells = ({ setUser }) => {
     resolver: yupResolver(schema),
     defaultValues: {
       fechaDesde: lastMonthFormatted,
-      fechaHasta: yesterdayFormatted,
+      fechaHasta: todayFormatted,
     },
   });
   // Llamada al hook para obtener el reporte
@@ -119,13 +120,51 @@ function Row({ row }) {
   
   
   
-  if (isLoading) {
-    return <p>Cargando...</p>;
-  }
-  
-  if (error) {
-    return <p>Error al cargar las ventas: {error.message}</p>;
-  }
+if (isLoading) {
+  return (
+    <Grid
+        container
+        sx={{
+          width: "100%",
+          alignItems: "start",
+          textAlign: "center",
+          height: "100vh",
+        }}
+      >
+      <Grid item xs={12} sm={2}>
+        <Box>
+          <CustomNavBar setUser={setUser} />
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={10} className="homeContainer">  
+        Cargando...
+      </Grid>
+    </Grid>
+  )
+}
+
+if (error) {
+  return(    
+  <Grid
+        container
+        sx={{
+          width: "100%",
+          alignItems: "start",
+          textAlign: "center",
+          height: "100vh",
+        }}
+      >
+      <Grid item xs={12} sm={2}>
+        <Box>
+          <CustomNavBar setUser={setUser} />
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={10} className="homeContainer">  
+      Error al cargar los pedidos: {error.message}, intente nuevamente más tarde
+      </Grid>
+    </Grid>
+  )
+}
   
   // Crear los datos de las filas para la tabla
   const rows = ventas.map((pedido) =>
@@ -200,7 +239,7 @@ function Row({ row }) {
                         <TableHead>
                           <TableRow>
                             <TableCell />
-                            <TableCell>ID Producto</TableCell>
+                            <TableCell>ID Pedido</TableCell>
                             <TableCell>Cliente</TableCell>
                             <TableCell>Fecha de pedido</TableCell>
                             <TableCell>Forma de pago</TableCell>

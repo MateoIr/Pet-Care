@@ -89,11 +89,49 @@ function Row({ row }) {
 const { turnos, isLoading, error } = useGetDaycareServices();
 
 if (isLoading) {
-  return <p>Cargando...</p>;
+  return (
+    <Grid
+        container
+        sx={{
+          width: "100%",
+          alignItems: "start",
+          textAlign: "center",
+          height: "100vh",
+        }}
+      >
+      <Grid item xs={12} sm={2}>
+        <Box>
+          <CustomNavBar setUser={setUser} />
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={10} className="homeContainer">  
+        Cargando...
+      </Grid>
+    </Grid>
+  )
 }
 
 if (error) {
-  return <p>Error al cargar los turnos: {error.message}</p>;
+  return(    
+  <Grid
+        container
+        sx={{
+          width: "100%",
+          alignItems: "start",
+          textAlign: "center",
+          height: "100vh",
+        }}
+      >
+      <Grid item xs={12} sm={2}>
+        <Box>
+          <CustomNavBar setUser={setUser} />
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={10} className="homeContainer">  
+      Error al cargar los turnos: {error.message}, intente nuevamente más tarde
+      </Grid>
+    </Grid>
+  )
 }
 
 const formatFecha = (fecha) => {
