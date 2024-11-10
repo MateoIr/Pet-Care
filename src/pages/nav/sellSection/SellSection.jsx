@@ -6,8 +6,11 @@ import foot from "../../../images/foot.jpg";
 import "./SellSection.css";
 
 const SellSection = ({ setUser }) => {
-  const sell = [{ name: "Registrar nueva venta", link: "/product/sell" }];
-
+  const sell = [
+    { name: "Registrar nueva venta", link: "/product/sell" },
+    { name: "Listado de ventas", link: "/product/sellList"},
+  ];
+  
   return (
     <>
       <Box className="foot6">

@@ -2,6 +2,7 @@ import React from 'react'
 import ReportsTurn from '../../reports/ReportsTurn'
 import { Box, Grid } from '@mui/material'
 import CustomNavBar from '../../../components/customNavBar/CustomNavBar'
+import ReportsSells from '../../reports/ReportsSells'
 
 export const ReportSection = ({setUser}) => {
   return (
@@ -21,9 +22,12 @@ export const ReportSection = ({setUser}) => {
         </Grid>
         
         <Grid item xs={12} sm={10}>
-          <Box className="titlePage">Reportes</Box>
-          <Box sx={{pl:5,pr:5}}><ReportsTurn/></Box>
-          </Grid>
+          <Box className="titlePage" mb={4}>Reportes de turnos</Box>
+          <Box sx={{ pl: 5, pr: 5, mb: 12 }}><ReportsTurn /></Box>
+          
+          <Box className="titlePage" mb={4}>Reportes de ventas/productos</Box>
+          <Box sx={{ pl: 5, pr: 5, mt: 4}}><ReportsSells /></Box>
+        </Grid>
       </Grid>
 
 
