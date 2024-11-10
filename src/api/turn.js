@@ -64,7 +64,9 @@ const getAllTurnos = async () => {
 const getCupoDay = async (day) => {
   //console.log(day);
   try {
-    const response = await apiClient.post(`/turno/contarPorFechaparacupo?fecha=${day}`);
+    const response = await apiClient.post(
+      `/turno/contarPorFechaparacupo?fecha=${day}`
+    );
     return response.data;
   } catch (error) {
     throw new Error(
@@ -73,14 +75,11 @@ const getCupoDay = async (day) => {
   }
 };
 
-const getContarTurnos = async ({
-  fechaDesde,
-  fechaHasta,
-}) => {
+const getContarTurnos = async ({ fechaDesde, fechaHasta }) => {
   try {
     const response = await apiClient.post("/turno/contarturnos", {
-      fechaInicio:fechaDesde,
-      fechaFinal:fechaHasta,
+      fechaInicio: fechaDesde,
+      fechaFinal: fechaHasta,
     });
     return response.data;
   } catch (error) {
@@ -110,7 +109,6 @@ const getTurnServices = async (id) => {
     );
   }
 };
-
 
 const registerTurno = async ({
   date,
@@ -156,7 +154,6 @@ const updateCostService = async ({ idtiposervico, precio }) => {
   }
 };
 
-
 const updateTurnSelected = async ({
   id,
   date,
@@ -171,7 +168,7 @@ const updateTurnSelected = async ({
 }) => {
   try {
     const response = await apiClient.post("/turno/modificarturno", {
-      idturno:id,
+      idturno: id,
       fechaturno: date,
       fechaingreso: datein,
       fechaegreso: dateout,
@@ -181,7 +178,7 @@ const updateTurnSelected = async ({
       senia: null,
       idtipoturno: typeturno,
       idestado: state,
-      detalleturno:service ,
+      detalleturno: service,
     });
     return response.data;
   } catch (error) {
@@ -190,9 +187,25 @@ const updateTurnSelected = async ({
   }
 };
 
+const checkCupos = async ({ fechaingreso, fechaegreso }) => {
+  try {
+    const response = await apiClient.post("/turno/contarentodaslasfechas", {
+      fechaingreso,
+      fechaegreso,
+    });
+    return response.data;
+  } catch (error) {
+    return error
+      .status(500)
+      .json({ error: "El ususario con ese correo ya se encuentra registrado" });
+  }
+};
 
 export {
-  getAllServices,updateTurnSelected,getTurnServices,getTurn,
+  getAllServices,
+  updateTurnSelected,
+  getTurnServices,
+  getTurn,
   getAllDservices,
   registerTurno,
   getAllTurnos,
@@ -201,5 +214,5 @@ export {
   updateCostService,
   getCupoDay,
   getContarTurnos,
+  checkCupos,
 };
-
