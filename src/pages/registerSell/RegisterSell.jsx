@@ -69,16 +69,19 @@ const RegisterSell = ({ setUser }) => {
         precio: producto.precio,
       };
     });
-
-    const sell = {
-      fechadepedido,
-      observaciones,
-      owner,
-      formadepago,
-      idestado,
-      detalleVenta,
-    };
-    createSell(sell);
+    if (detalleVenta.length === 0) {
+      alert("Ingrese detalles");
+    } else {
+      const sell = {
+        fechadepedido,
+        observaciones,
+        owner,
+        formadepago,
+        idestado,
+        detalleVenta,
+      };
+      createSell(sell);
+    }
   };
   const navigate = useNavigate();
 
