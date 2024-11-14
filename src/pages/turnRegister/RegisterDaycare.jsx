@@ -185,6 +185,11 @@ const RegisterDaycare = () => {
   };
 
   const onSubmit = (data) => {
+    if (right.length > 1) {
+      alert("Solo se puede seleccionar un servicio de este tipo");
+      return; // Evitamos el envío si hay más de un servicio
+    }
+
     defineValue("service", right);
     //console.log(data);
 
