@@ -88,7 +88,16 @@ const RegisterDaycare = () => {
 
   const schema = yup.object().shape({
     datein: yup.string().required("ingrese un valor"),
-    dateout: yup.string().required("ingrese un valor"),
+    dateout: yup.string()
+    .required("ingrese un valor")
+    .test(
+      "is-greater",
+      "La fecha de salida debe ser posterior a la de entrada",
+      function (value) {
+        const { datein } = this.parent; 
+        return value > datein; 
+      }
+    ),
     scheduleFrom: yup.string().required("ingrese un valor"),
     scheduleUntil: yup
       .string()
