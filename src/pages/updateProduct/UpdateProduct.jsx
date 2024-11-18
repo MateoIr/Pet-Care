@@ -42,7 +42,7 @@ const UpdateProduct = ({ setUser }) => {
       setValue("codigoproducto", productSelected?.codigoproducto || "");
       setValue("precio", productSelected?.precio || "");
       setValue("stock", productSelected?.stock || "");
-      setValue("idcategoria", productSelected?.idcategoria || "");
+      setValue("idcategoria", productSelected?.idcategoria.id || "");
     }
   }, [productSelected, setValue]);
 

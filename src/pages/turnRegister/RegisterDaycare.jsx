@@ -93,14 +93,14 @@ const RegisterDaycare = () => {
     scheduleUntil: yup
       .string()
       .required("ingrese un valor")
-      .test(
+      /*.test(
         "is-greater",
         "El horario de salida debe ser posterior al de entrada",
         function (value) {
           const { scheduleFrom } = this.parent; // Accedemos al valor de 'scheduleFrom'
           return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
         }
-      ),
+      )*/,
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
     service: yup.string(),
