@@ -5,6 +5,7 @@ import { useState } from "react";
 import Hairdressing from "./Hairdressing";
 import Vet from "./Vet";
 import RegisterDaycare from "./RegisterDaycare";
+import RegisterWalk from "./RegisterWalk";
 
 const TrunRegister = ({ setUser }) => {
   const [value, setValue] = useState("1");
@@ -81,6 +82,17 @@ const TrunRegister = ({ setUser }) => {
                       "&:hover": { color: "#805454" },
                     }}
                   />
+                  <Tab
+                    label="Paseos"
+                    value="4"
+                    sx={{
+                      color: value === "4" ? "#805454" : "black",
+                      "&.Mui-selected": {
+                        color: "#805454",
+                      },
+                      "&:hover": { color: "#805454" },
+                    }}
+                  />
                 </TabList>
               </Box>
               <TabPanel value="1">
@@ -91,6 +103,9 @@ const TrunRegister = ({ setUser }) => {
               </TabPanel>
               <TabPanel value="3">
                 <Hairdressing />
+              </TabPanel>
+              <TabPanel value="4">
+                <RegisterWalk />
               </TabPanel>
             </TabContext>
           </Box>
