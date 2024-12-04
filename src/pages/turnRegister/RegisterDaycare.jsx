@@ -103,7 +103,10 @@ const RegisterDaycare = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    service: yup.string(),
+    service: yup
+      .array()
+      .min(1, "Debe seleccionar al menos un servicio")
+      .required("Debe seleccionar al menos un servico"),
   });
 
   const handleCuposLoad = () => {
@@ -148,6 +151,10 @@ const RegisterDaycare = () => {
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
+
+  useEffect(() => {
+    defineValue("service", right); // Sincroniza `right` con el formulario
+  }, [right, defineValue]);
 
   const handleAllRight = () => {
     setRight(right.concat(left));
@@ -292,7 +299,6 @@ const RegisterDaycare = () => {
         />
         <p className="errorText">{errors.owner?.message}</p>
       </Grid>
-
       <Grid item xs={6} md={3} className="textInput">
         Mascota:
       </Grid>
@@ -319,19 +325,11 @@ const RegisterDaycare = () => {
         />
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
-      {/*
-      <Grid item xs={6} md={3} className="textInput">
-        Costo:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="number" register={register} name="cost" />
-        <p className="errorText">{errors.cost?.message}</p>
-      </Grid>
-      */}
+
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
-
+      {errors.service && <span>{errors.service.message}</span>}
       <Grid
         container
         spacing={1}

@@ -16,11 +16,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import useGetServices from "../../hooks/turn/useGetServices";
-import {useRegisterTurno} from "../../hooks/turn/useRegisterTurno";
+import { useRegisterTurno } from "../../hooks/turn/useRegisterTurno";
 import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 import useGetAnimal from "../../hooks/pet/getAllPets";
 import useGetStates from "../../hooks/turn/useGetStates";
-
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -36,7 +35,7 @@ const Vet = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const {estados} = useGetStates();
+  const { estados } = useGetStates();
 
   const [servicios, setServicios] = useState([]);
   const { data, createProduct } = useGetServices({ id: 3 });
@@ -70,9 +69,12 @@ const Vet = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    service: yup.string(),
+    service: yup
+      .array()
+      .min(1, "Debe seleccionar al menos un servicio")
+      .required("Debe seleccionar al menos un servico"),
   });
-  
+
   const {
     register,
     handleSubmit,
@@ -88,17 +90,15 @@ const Vet = () => {
   const [owner, setOwner] = useState(null);
   const [filteredPets, setFilteredPets] = useState([]);
 
-
   useEffect(() => {
     if (owner != null) {
       const filtered = mascotas.filter((mascota) => mascota.idduenio === owner);
       setFilteredPets(filtered);
       //console.log("mascotas filtradas: ",filtered);
-      
     } else {
       setFilteredPets(mascotas);
     }
-  }, [owner,mascotas]);
+  }, [owner, mascotas]);
 
   const [turnoExist, setTurnoExist] = useState(null);
   const { isLoading, createTurno, error } = useRegisterTurno({
@@ -110,7 +110,11 @@ const Vet = () => {
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
-  
+
+  useEffect(() => {
+    defineValue("service", right);
+  }, [right, defineValue]);
+
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
@@ -150,14 +154,7 @@ const Vet = () => {
     defineValue("service", right);
     //console.log(data);
 
-    const {
-      date,
-      pet,
-      scheduleFrom,
-      scheduleUntil,
-      state,
-      
-    } = data;
+    const { date, pet, scheduleFrom, scheduleUntil, state } = data;
 
     const service = right;
     //console.log("servicios_ ",service);
@@ -168,10 +165,9 @@ const Vet = () => {
       scheduleUntil,
       service,
       state,
-      typeturno:3,
+      typeturno: 3,
     };
     createTurno(turno);
-    
   };
 
   const customList = (items) => (
@@ -234,51 +230,50 @@ const Vet = () => {
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
-      
-      <Grid item xs={6} md={3} className="textInput">
-                Dueño:
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <CustomSelectTectBox2
-                  filtro={setOwner}
-                  register={register}
-                  name="owner"
-                  list={clientes}
-                  valueKey="id"
-                  labelKey="idpersona.email"
-                />
-                <p className="errorText">{errors.owner?.message}</p>
-              </Grid>
 
+      <Grid item xs={6} md={3} className="textInput">
+        Dueño:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          filtro={setOwner}
+          register={register}
+          name="owner"
+          list={clientes}
+          valueKey="id"
+          labelKey="idpersona.email"
+        />
+        <p className="errorText">{errors.owner?.message}</p>
+      </Grid>
 
       <Grid item xs={6} md={3} className="textInput">
         Mascota:
       </Grid>
       <Grid item xs={6} md={3}>
-                <CustomSelectTectBox2
-                  register={register}
-                  name="pet"
-                  list={filteredPets}
-                  valueKey="id"
-                  labelKey="nombre"
-                />
-                <p className="errorText">{errors.pet?.message}</p>
-              </Grid>
+        <CustomSelectTectBox2
+          register={register}
+          name="pet"
+          list={filteredPets}
+          valueKey="id"
+          labelKey="nombre"
+        />
+        <p className="errorText">{errors.pet?.message}</p>
+      </Grid>
       <Grid item xs={6} md={3} className="textInput">
-      Estado:
-              </Grid>
-              <Grid item xs={6} md={3}>
-                <CustomSelectTectBox2
-                  register={register}
-                  name="state"
-                  list={estados}
-                  valueKey="id"
-                  labelKey="descripcion"
-                />
-                <p className="errorText">{errors.state?.message}</p>
-              </Grid>
+        Estado:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          register={register}
+          name="state"
+          list={estados}
+          valueKey="id"
+          labelKey="descripcion"
+        />
+        <p className="errorText">{errors.state?.message}</p>
+      </Grid>
 
-     {/*
+      {/*
       <Grid item xs={6} md={3} className="textInput">
         Costo:
       </Grid>
@@ -290,6 +285,7 @@ const Vet = () => {
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
+      {errors.service && <span>{errors.service.message}</span>}
       <Grid
         container
         spacing={1}
