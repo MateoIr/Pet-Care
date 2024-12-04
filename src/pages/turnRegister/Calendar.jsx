@@ -83,11 +83,18 @@ const transformEvents = (turnos) => {
       end: `${event.turno.fechaturno}T${event.turno.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
       horario: event.turno.idtipoTurno.id==1?`${event.turno.fechaturno} \n Horario de ingreso: ${event.turno.horarioturnodesde} \n Día de egreso: ${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`:
       `${event.turno.fechaturno} \n Horario de inicio: ${event.turno.horarioturnodesde} \n Horario de fin: ${event.turno.horarioturnohasta}`,
-      description: `Turno de ${event.turno.idmascota.nombre} con el servicio ${event.turno.idtipoTurno.nombreTurno}. 
+      description:event.turno.idtipoTurno.id==4? `Turno de ${event.turno.idmascota.nombre} con el servicio ${event.turno.idtipoTurno.nombreTurno}. 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    \n Costo total: $${event.turno.costototal} 
-                   \n Detalle de turno: ${event.detalles.map(detalle=> detalle.tipoServicio.nombre)}`,
-      backgroundColor: event.turno.idtipoTurno.id==1?`#e5af3d`: event.turno.idtipoTurno.id==2?`#66a2d1`:`#378006`,
+                   \n Detalle de turno: ${event.detalles.map(detalle=> detalle.tipoServicio.nombre)}
+                   \n Dirección: 
+                   \n Forma de pago y observaciones: `:
+                   `Turno de ${event.turno.idmascota.nombre} con el servicio ${event.turno.idtipoTurno.nombreTurno}. 
+                   \n Estado: ${event.turno.idestado.descripcion} 
+                   \n Costo total: $${event.turno.costototal} 
+                   \n Detalle de turno: ${event.detalles.map(detalle=> detalle.tipoServicio.nombre)}`
+                   ,
+      backgroundColor: event.turno.idtipoTurno.id==1?`#e5af3d`: event.turno.idtipoTurno.id==2?`#66a2d1`:event.turno.idtipoTurno.id==3?`#378006`:`#8B0000`,
       borderColor:event.turno.idtipoTurno.id==1?`#e5af3d`: event.turno.idtipoTurno.id==2?`#66a2d1`:`#378006`,
     }
   ));
