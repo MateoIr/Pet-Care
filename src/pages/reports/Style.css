@@ -1,0 +1,9 @@
+
+* {
+    box-sizing: border-box;
+  }
+  
+.custom-y-padding-bottom .MuiChartsAxis-directionY .MuiChartsAxis-label {
+    transform: translateX(-100px) !important;
+  }
+  

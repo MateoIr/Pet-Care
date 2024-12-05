@@ -6,12 +6,14 @@ import CustomButton from "../../components/customButton/CustomButton";
 import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Stack from '@mui/material/Stack';
+
 import * as yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import useGetReportYearTurnos from '../../hooks/turn/useGetReportYearTurnos';
 import useGetReportYearPedido from '../../hooks/turn/useGetReportYearPedido';
-
+import './Style.css';
 // Calcular la fecha de hoy y la fecha de hace un mes
 const today = new Date();
 const yesterday = new Date();
@@ -57,8 +59,8 @@ const GeneralReports = ({ setUser }) => {
     const { turnos, isLoadingt, errort } = useGetReportYearTurnos();
   
     const monthsInSpanish = [
-        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
       ];
 
     useEffect(() => {
@@ -143,6 +145,11 @@ const GeneralReports = ({ setUser }) => {
           <Box className="titlePage">Montos anuales de turnos y pedidos</Box>
           <Grid container spacing={2}>
             <Grid item xs={10} md={10}>
+            <Stack
+              direction="row"
+              sx={{ width: '100%' }}
+              className="custom-y-padding-bottom"
+            ><Box sx={{ flexGrow: 1 }}>
               {isLoadingp || isLoadingt ? (
                 <p>Cargando...</p>
               ) : errorp || errort ? (
@@ -150,6 +157,7 @@ const GeneralReports = ({ setUser }) => {
               ) : chartData.xAxis.length === 0 || chartData.series.length === 0 ? (
                 <p>No data to display</p>
               ) : (
+                
                 <LineChart
                     xAxis={[{ 
                         data: chartData.xAxis, 
@@ -157,9 +165,10 @@ const GeneralReports = ({ setUser }) => {
                         valueFormatter:(monthNumber) => monthsInSpanish[monthNumber - 1] ,
                   
                     }]}
-                    yAxis={[{ label: "Montos en $", 
+                    yAxis={[{ label: "Montos en $",
+                        labelStyle:{transform:"translateX(-10px) !important;"}, 
                         position: 'outside',
-                        labelAlign:"begining",
+                        labelAlign:"end",
                         valueFormatter: (v) => (v === null ? '' : currencyFormatter(v)),
                         tickPlacement:'middle',
                     }]} 
@@ -179,6 +188,8 @@ const GeneralReports = ({ setUser }) => {
                 
                 />
               )}
+              </Box>
+            </Stack>
             </Grid>
           </Grid>
         </Grid>
