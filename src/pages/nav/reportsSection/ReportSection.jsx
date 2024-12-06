@@ -27,10 +27,10 @@ export const ReportSection = ({setUser}) => {
           <Box sx={{ pl: 5, pr: 5, mb: 12 }}><ReportsTurn /></Box>
           
           <Box className="titlePage" mb={4}>Reportes de ventas/productos</Box>
-          <Box sx={{ pl: 5, pr: 5, mt: 4}}><ReportsSells /></Box>
+          <Box sx={{ pl: 5, pr: 5, mt: 4, mb: 12 }}><ReportsSells /></Box>
 
-          <Box className="titlePage" mb={4}>Reportes generales</Box>
-          <Box sx={{ pl: 5, pr: 5, mt: 4}}><GeneralReports /></Box>
+          <Box className="titlePage" mb={4} mt={18}>Reportes generales</Box>
+          <Box sx={{ pl: 5, pr: 5, mt: 6 }}><GeneralReports /></Box>
         </Grid>
       </Grid>
 

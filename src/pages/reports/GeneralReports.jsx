@@ -14,42 +14,37 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import useGetReportYearTurnos from '../../hooks/turn/useGetReportYearTurnos';
 import useGetReportYearPedido from '../../hooks/turn/useGetReportYearPedido';
 import './Style.css';
-// Calcular la fecha de hoy y la fecha de hace un mes
-const today = new Date();
-const yesterday = new Date();
-yesterday.setDate(today.getDate() - 1);
-const yesterdayFormatted = yesterday.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const lastMonth = new Date(); // Crear una nueva instancia de Date para hace un mes
-lastMonth.setMonth(lastMonth.getMonth() - 1);
-lastMonth.setDate(lastMonth.getDate()-1);
-const lastMonthFormatted = lastMonth.toISOString().split('T')[0];
 
 const schema = yup.object().shape({
-  fechaDesde: yup.date().required('La fecha desde es requerida'),
-  fechaHasta: yup.date().required('La fecha hasta es requerida'),
+  anio: yup.date().required('El año es requerido'),
 });
 const GeneralReports = ({ setUser }) => {
-    const [fechaDesde, setFechaDesde] = useState(lastMonthFormatted);
-    const [fechaHasta, setFechaHasta] = useState(yesterdayFormatted);
+    const currentYear = dayjs().year(); // Año actual
+    const [anio, setAnio] = useState(currentYear);
   
     const {
       register,
       handleSubmit,
+      setValue,
       formState: { errors },
     } = useForm({
       resolver: yupResolver(schema),
       defaultValues: {
-        fechaDesde: lastMonthFormatted,
-        fechaHasta: yesterdayFormatted,
+        anio: currentYear,
       },
     });
   
     const onSubmit = (data) => {
-      setFechaDesde(data.fechaDesde);
-      setFechaHasta(data.fechaHasta);
+      const selectedYear = dayjs(data.anio).year(); // Extrae solo el año
+      setAnio(selectedYear);
+      console.log({ anio: selectedYear });
     };
-  
+
     const [chartData, setChartData] = useState({
       xAxis: [],
       series: [],
@@ -70,26 +65,6 @@ const GeneralReports = ({ setUser }) => {
       
       if (pedidos && pedidos.length > 0 && turnos && turnos.length > 0) {
         const xAxisData = Array.from(new Set([...pedidos.map(item => item["mes:"]), ...turnos.map(item => item["mes:"])])); // Combine and deduplicate months
-        /*const pedidosSeriesData = xAxisData.map((monthNumber) => {
-            // Get corresponding data from pedidos and turnos, defaulting to 0 if not available
-            const pedidosValue = pedidos.find(item => item["mes:"] === monthNumber)?.["total:$"] || 0;
-            return {
-              name: monthNumber, 
-              pedidos: pedidosValue, 
-            };
-          });
-          const turnosSeriesData = xAxisData.map((monthNumber) => {
-            // Get corresponding data from pedidos and turnos, defaulting to 0 if not available
-            const turnosValue = turnos.find(item => item["mes:"] === monthNumber)?.["total:$"] || 0;
-            return {
-              name: monthNumber, 
-              turnos: turnosValue, 
-            };
-          });
-
-          console.log(turnosSeriesData);
-*/
-       // const xAxisData = Array.from(new Set([...pedidos.map(item => item["mes:"]), ...turnos.map(item => item["mes:"])])); 
         const pedidosSeriesData = pedidos.map(item => item["total:$"]);
         const turnosSeriesData = turnos.map(item => item["total:$"]); 
   
@@ -122,25 +97,37 @@ const GeneralReports = ({ setUser }) => {
         sx={{
           textAlign: "center",
           height: "100vh",
-          margintop:"10vh",
+          
           alignItems: "start",
         }}
       >
         <Grid item xs={12} sm={10} sx={{ height: "90%" }}>
           <Grid container sx={{ alignItems: "start", width: { xs: "90%" } }} rowGap={2}>
-            <Grid item xs={6} md={3} className="textInput">Fecha desde:</Grid>
-            <Grid item xs={6} md={3}>
-              <CustomTextBox type="date" register={register} name="fechaDesde" />
-              <p className="errorText">{errors.fechaDesde?.message}</p>
-            </Grid>
-            <Grid item xs={6} md={3} className="textInput">Fecha hasta:</Grid>
-            <Grid item xs={6} md={3}>
-              <CustomTextBox type="date" register={register} name="fechaHasta" />
-              <p className="errorText">{errors.fechaHasta?.message}</p>
-            </Grid>
-            <Grid item xs={9} md={3} sx={{ mb: 2 }}>
-              <CustomButton onClick={handleSubmit(onSubmit)} text="Buscar" />
-            </Grid>
+            <Grid item xs={4} md={2} className="textInput">Año:</Grid>
+            <Grid item xs={8} md={4}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                maxDate={dayjs()}
+                openTo="year"
+                views={['year']}
+                yearsOrder="desc"
+                value={dayjs(`${anio}`)} // Muestra el año seleccionado
+                onChange={(newValue) => setValue("anio", newValue, { shouldValidate: true })}
+                renderInput={(params) => (
+                  <input
+                    {...register("anio")}
+                    {...params}
+                    type="text"
+                    placeholder="Selecciona un año"
+                    className={errors.anio ? "error-input" : ""}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={9} md={3} sx={{ mb: 2 }}>
+            <CustomButton onClick={handleSubmit(onSubmit)} text="Buscar" />
+          </Grid>
           </Grid>
           <Box className="titlePage">Montos anuales de turnos y pedidos</Box>
           <Grid container spacing={2}>

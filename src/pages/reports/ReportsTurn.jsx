@@ -62,7 +62,7 @@ const ReportsTurn = ({ setUser }) => {
   ? [
       { name: "Guardería", value: reporte.TipoTurnoGuarderia , color:"#B800D8", monto: reporte.MontoGuarderia},
       { name: "Peluquería", value: reporte.TipoTurnoPeluqueria , color:"#72CCFF", monto: reporte.MontoPeluqueria},
-      //{ name: "Paseo", value: reporte.TipoTurnoPaseo },
+      { name: "Paseo", value: reporte.TipoTurnoPaseo , color:"#FF5A5F", monto: reporte.MontoPaseo},
       { name: "Veterinaria", value: reporte.TipoTurnoVeterinario ,color:"#02B2AF", monto: reporte.MontoVeterinario},
     ]
   : [];
@@ -176,7 +176,7 @@ const ReportsTurn = ({ setUser }) => {
         series={[
           {
             data: normalizedTurnos.map(item => item.monto),
-            color: "#3B48E0", // Puedes ajustar los colores según corresponda
+            color: "#FFDD44", // Puedes ajustar los colores según corresponda
           },
         ]}
         width={500}
