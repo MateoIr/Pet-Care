@@ -5,7 +5,7 @@ import CustomNavBar from '../../../components/customNavBar/CustomNavBar'
 import ReportsSells from '../../reports/ReportsSells'
 import GeneralReports from '../../reports/GeneralReports'
 
-export const ReportSection = ({setUser}) => {
+const ReportSection = ({setUser}) => {
   return (
     <Grid
         container
@@ -33,7 +33,6 @@ export const ReportSection = ({setUser}) => {
           <Box sx={{ pl: 5, pr: 5, mt: 6 }}><GeneralReports /></Box>
         </Grid>
       </Grid>
-
-
-  )
-}
+  );
+};
+export default ReportSection;
