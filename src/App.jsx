@@ -37,11 +37,9 @@ import SellSection from "./pages/nav/sellSection/SellSection";
 
 import TrunRegister from "./pages/turnRegister/TrunRegister";
 import UpdateTurn from "./pages/updateTurn/UpdateTurn";
-import ReportsTurn from "./pages/reports/ReportsTurn";
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 import ServiceList from "./pages/serviceList/ServiceList";
-
-import { ReportSection } from "./pages/nav/reportsSection/ReportSection";
+import ReportSection  from "./pages/nav/reportsSection/ReportSection";
 
 import SignaturePage from "./pages/signaturePage/SignaturePage";
 
