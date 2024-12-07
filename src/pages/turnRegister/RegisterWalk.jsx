@@ -67,12 +67,12 @@ const RegisterWalk = () => {
           return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
         }
       ),
-    pay: yup.string().required("ingrese un valor"),
+    formadepago: yup.string().required("ingrese un valor"),
     selectedPets: yup
       .array()
       .min(1, "Debe seleccionar al menos una mascota")
       .required("Debe seleccionar al menos una mascota"),
-    description: yup.string().required("ingrese un valor"),
+    descripcion: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
     service: yup
       .array()
@@ -157,7 +157,14 @@ const RegisterWalk = () => {
   const onSubmit = (data) => {
     defineValue("service", right);
 
-    const { date, scheduleFrom, scheduleUntil, state } = data;
+    const {
+      date,
+      scheduleFrom,
+      scheduleUntil,
+      state,
+      descripcion,
+      formadepago,
+    } = data;
 
     selectedPets.forEach((pet) => {
       const turno = {
@@ -168,6 +175,8 @@ const RegisterWalk = () => {
         service: right, // Usamos directamente 'right'
         state,
         typeturno: 4,
+        descripcion,
+        formadepago,
       };
       createTurno(turno); // Llamada a la función para enviar los turnos
     });
@@ -252,15 +261,15 @@ const RegisterWalk = () => {
         Forma de pago:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="pay" />
-        <p className="errorText">{errors.pay?.message}</p>
+        <CustomTextBox type="text" register={register} name="formadepago" />
+        <p className="errorText">{errors.formadepago?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
         Descripción:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="text" register={register} name="description" />
-        <p className="errorText">{errors.description?.message}</p>
+        <CustomTextBox type="text" register={register} name="descripcion" />
+        <p className="errorText">{errors.descripcion?.message}</p>
       </Grid>
 
       <Grid item xs={6} md={3} className="textInput">
