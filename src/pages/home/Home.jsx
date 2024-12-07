@@ -65,7 +65,7 @@ function Row({ row }) {
         <TableCell>{row.nombreMascota}</TableCell>
         <TableCell>{row.tipoTurno}</TableCell>
         <TableCell>{row.fechaTurno}</TableCell>
-        <TableCell>{`${row.horarioDesde} - ${row.horarioHasta}`}</TableCell>
+        <TableCell>{`${row.horarioDesde}`}</TableCell>
         <TableCell align="right">${row.costoTotal}</TableCell>
       </TableRow>
       <TableRow>
@@ -148,32 +148,60 @@ const parseFechaToDate = (fecha) => {
 const yesterday = new Date();
 yesterday.setDate(yesterday.getDate() - 1);
 
-// Filtrar turnos futuros (mayores o iguales a hoy) y ordenar por fecha
 const filteredTurnos = turnos
-  .map((turno) => ({
-    ...turno,
-    formattedFecha: formatFecha(turno.turno.fechaturno), // Cambiar el formato de la fecha
-    parsedFecha: parseFechaToDate(turno.turno.fechaturno), // Convertir a objeto Date
-  }))
-  .filter((turno) => turno.turno.parsedFecha >= yesterday) // Filtrar los turnos futuros
-  .sort((a, b) => a.parsedFecha - b.parsedFecha) // Ordenar por fecha
-  .slice(0, 5); // Obtener solo los primeros 5 turnos
+  .map((turno) => {
+    try {
+      // Validar que el campo `fechaturno` exista
+      if (!turno?.turno?.fechaturno) {
+        console.warn("Turno sin fecha:", turno);
+        return null; // Ignorar este turno
+      }
 
-// Crear los datos de las filas para la tabla
+      // Formatear y parsear la fecha
+      const formattedFecha = formatFecha(turno.turno.fechaturno); 
+      const parsedFecha = parseFechaToDate(turno.turno.fechaturno);
+
+      // Validar que la fecha parseada sea válida
+      if (isNaN(parsedFecha)) {
+        console.warn("Fecha inválida en turno:", turno.turno.fechaturno);
+        return null;
+      }
+
+      return {
+        ...turno,
+        formattedFecha,
+        parsedFecha,
+      };
+    } catch (error) {
+      console.error("Error procesando turno:", turno, error);
+      return null;
+    }
+  })
+  .filter((turno) => turno !== null && turno.parsedFecha >= yesterday) // Filtrar nulos y turnos pasados
+  .sort((a, b) => a.parsedFecha - b.parsedFecha) // Ordenar por fecha
+  .slice(0, 5); // Tomar los primeros 5 turnos
+
+// Depuración: imprimir turnos procesados
+console.log("Filtered Turnos:", filteredTurnos);
+
+// Crear las filas para la tabla
 const rows = filteredTurnos.map((turno) =>
   createTurnoData(
-    turno.turno.id,
-    turno.turno.formattedFecha,
-    turno.turno.idmascota.nombre,
-    turno.turno.idtipoTurno.nombreTurno,
-    turno.turno.idestado.descripcion,
-    turno.turno.horarioturnodesde,
-    turno.turno.horarioturnohasta,
-    turno.turno.costototal,
-    turno.turno.idmascota.idcliente.idpersona.nombre,
-    turno.turno.idmascota.idcliente.idpersona.apellido
+    turno?.turno?.id,
+    turno?.formattedFecha,
+    turno?.turno?.idmascota?.nombre,
+    turno?.turno?.idtipoTurno?.nombreTurno,
+    turno?.turno?.idestado?.descripcion,
+    turno?.turno?.horarioturnodesde,
+    turno?.turno?.horarioturnohasta,
+    turno?.turno?.costototal,
+    turno?.turno?.idmascota?.idcliente?.idpersona?.nombre,
+    turno?.turno?.idmascota?.idcliente?.idpersona?.apellido,
   )
 );
+
+// Depuración: imprimir las filas generadas
+console.log("Rows generados:", rows);
    
   return (
     <>
