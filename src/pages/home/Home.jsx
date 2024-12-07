@@ -152,26 +152,26 @@ yesterday.setDate(yesterday.getDate() - 1);
 const filteredTurnos = turnos
   .map((turno) => ({
     ...turno,
-    formattedFecha: formatFecha(turno.fechaturno), // Cambiar el formato de la fecha
-    parsedFecha: parseFechaToDate(turno.fechaturno), // Convertir a objeto Date
+    formattedFecha: formatFecha(turno.turno.fechaturno), // Cambiar el formato de la fecha
+    parsedFecha: parseFechaToDate(turno.turno.fechaturno), // Convertir a objeto Date
   }))
-  .filter((turno) => turno.parsedFecha >= yesterday) // Filtrar los turnos futuros
+  .filter((turno) => turno.turno.parsedFecha >= yesterday) // Filtrar los turnos futuros
   .sort((a, b) => a.parsedFecha - b.parsedFecha) // Ordenar por fecha
   .slice(0, 5); // Obtener solo los primeros 5 turnos
 
 // Crear los datos de las filas para la tabla
 const rows = filteredTurnos.map((turno) =>
   createTurnoData(
-    turno.id,
-    turno.formattedFecha,
-    turno.idmascota.nombre,
-    turno.idtipoTurno.nombreTurno,
-    turno.idestado.descripcion,
-    turno.horarioturnodesde,
-    turno.horarioturnohasta,
-    turno.costototal,
-    turno.idmascota.idcliente.idpersona.nombre,
-    turno.idmascota.idcliente.idpersona.apellido
+    turno.turno.id,
+    turno.turno.formattedFecha,
+    turno.turno.idmascota.nombre,
+    turno.turno.idtipoTurno.nombreTurno,
+    turno.turno.idestado.descripcion,
+    turno.turno.horarioturnodesde,
+    turno.turno.horarioturnohasta,
+    turno.turno.costototal,
+    turno.turno.idmascota.idcliente.idpersona.nombre,
+    turno.turno.idmascota.idcliente.idpersona.apellido
   )
 );
    
