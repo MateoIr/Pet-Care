@@ -103,7 +103,12 @@ const RegisterDaycare = () => {
       ),
     pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    service: yup.string(),
+    service: yup
+      .array()
+      .min(1, "Debe seleccionar al menos un servicio")
+      .required("Debe seleccionar al menos un servico"),
+    descripcion: yup.string().required("ingrese un valor"),
+    formadepago: yup.string().required("ingrese un valor"),
   });
 
   const handleCuposLoad = () => {
@@ -149,6 +154,10 @@ const RegisterDaycare = () => {
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
+  useEffect(() => {
+    defineValue("service", right); // Sincroniza `right` con el formulario
+  }, [right, defineValue]);
+
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
@@ -185,13 +194,26 @@ const RegisterDaycare = () => {
   };
 
   const onSubmit = (data) => {
+    if (right.length > 1) {
+      alert("Solo se puede seleccionar un servicio de este tipo");
+      return; // Evitamos el envío si hay más de un servicio
+    }
+
     defineValue("service", right);
     //console.log(data);
 
-    const { datein, dateout, pet, scheduleFrom, scheduleUntil, state } = data;
+    const {
+      datein,
+      dateout,
+      pet,
+      scheduleFrom,
+      scheduleUntil,
+      state,
+      descripcion,
+      formadepago,
+    } = data;
 
     const service = right;
-    //console.log("servicios_ ",service);
     const turno = {
       date: datein,
       datein,
@@ -202,6 +224,8 @@ const RegisterDaycare = () => {
       service,
       state,
       typeturno: 1,
+      descripcion,
+      formadepago,
     };
     createTurno(turno);
   };
@@ -274,6 +298,20 @@ const RegisterDaycare = () => {
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
+        Forma de pago:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomTextBox type="text" register={register} name="formadepago" />
+        <p className="errorText">{errors.formadepago?.message}</p>
+      </Grid>
+      <Grid item xs={6} md={3} className="textInput">
+        Descripción:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomTextBox type="text" register={register} name="descripcion" />
+        <p className="errorText">{errors.descripcion?.message}</p>
+      </Grid>
+      <Grid item xs={6} md={3} className="textInput">
         Dueño:
       </Grid>
       <Grid item xs={6} md={3}>
@@ -287,7 +325,6 @@ const RegisterDaycare = () => {
         />
         <p className="errorText">{errors.owner?.message}</p>
       </Grid>
-
       <Grid item xs={6} md={3} className="textInput">
         Mascota:
       </Grid>
@@ -314,19 +351,11 @@ const RegisterDaycare = () => {
         />
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
-      {/*
-      <Grid item xs={6} md={3} className="textInput">
-        Costo:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="number" register={register} name="cost" />
-        <p className="errorText">{errors.cost?.message}</p>
-      </Grid>
-      */}
+
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
-
+      {errors.service && <span>{errors.service.message}</span>}
       <Grid
         container
         spacing={1}

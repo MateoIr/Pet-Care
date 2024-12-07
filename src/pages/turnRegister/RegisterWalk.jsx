@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 import {
   Button,
   Checkbox,
@@ -8,18 +10,16 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
-import CustomButton from "../../components/customButton/CustomButton";
-import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 import CustomSelectTectBox2 from "../../components/customSelectTectBox copy/CustomSelectTectBox2";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import useGetServices from "../../hooks/turn/useGetServices";
+import CustomTextBox from "../../components/customTextBox/CustomTextBox";
+import CustomButton from "../../components/customButton/CustomButton";
 import { useRegisterTurno } from "../../hooks/turn/useRegisterTurno";
-import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
-import useGetAnimal from "../../hooks/pet/getAllPets";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import useGetStates from "../../hooks/turn/useGetStates";
+import useGetServices from "../../hooks/turn/useGetServices";
+import useGetAnimal from "../../hooks/pet/getAllPets";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -29,7 +29,7 @@ function intersection(a, b) {
   return a.filter((value) => b.includes(value));
 }
 
-const Hairdressing = () => {
+const RegisterWalk = () => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -38,11 +38,11 @@ const Hairdressing = () => {
   const { estados } = useGetStates();
 
   const [servicios, setServicios] = useState();
-  const { data, createProduct } = useGetServices({ id: 1 });
+  const { data, createProduct } = useGetServices({ id: 4 });
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
-      createProduct({ id: 2 });
+      createProduct({ id: 4 });
     }
 
     // Solo actualizamos los servicios si `data` es válida
@@ -67,14 +67,17 @@ const Hairdressing = () => {
           return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
         }
       ),
-    pet: yup.string().required("ingrese un valor"),
+    formadepago: yup.string().required("ingrese un valor"),
+    selectedPets: yup
+      .array()
+      .min(1, "Debe seleccionar al menos una mascota")
+      .required("Debe seleccionar al menos una mascota"),
+    descripcion: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
     service: yup
       .array()
       .min(1, "Debe seleccionar al menos un servicio")
       .required("Debe seleccionar al menos un servico"),
-    descripcion: yup.string().required("ingrese un valor"),
-    formadepago: yup.string().required("ingrese un valor"),
   });
 
   const {
@@ -96,7 +99,6 @@ const Hairdressing = () => {
     if (owner != null) {
       const filtered = mascotas.filter((mascota) => mascota.idduenio === owner);
       setFilteredPets(filtered);
-      //console.log("mascotas filtradas: ",filtered);
     } else {
       setFilteredPets(mascotas);
     }
@@ -118,10 +120,6 @@ const Hairdressing = () => {
     setLeft([]);
   };
 
-  useEffect(() => {
-    defineValue("service", right); // Sincroniza `right` con el formulario
-  }, [right, defineValue]);
-
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -134,6 +132,10 @@ const Hairdressing = () => {
 
     setChecked(newChecked);
   };
+
+  useEffect(() => {
+    defineValue("service", right); // Sincroniza `right` con el formulario
+  }, [right, defineValue]);
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
@@ -154,11 +156,9 @@ const Hairdressing = () => {
 
   const onSubmit = (data) => {
     defineValue("service", right);
-    //console.log(data);
 
     const {
       date,
-      pet,
       scheduleFrom,
       scheduleUntil,
       state,
@@ -166,20 +166,35 @@ const Hairdressing = () => {
       formadepago,
     } = data;
 
-    const service = right;
-    //console.log("servicios_ ",service);
-    const turno = {
-      date,
-      pet,
-      scheduleFrom,
-      scheduleUntil,
-      service,
-      state,
-      typeturno: 2,
-      descripcion,
-      formadepago,
-    };
-    createTurno(turno);
+    selectedPets.forEach((pet) => {
+      const turno = {
+        date,
+        pet, // Cada elemento de selectedPets
+        scheduleFrom,
+        scheduleUntil,
+        service: right, // Usamos directamente 'right'
+        state,
+        typeturno: 4,
+        descripcion,
+        formadepago,
+      };
+      createTurno(turno); // Llamada a la función para enviar los turnos
+    });
+  };
+
+  const [selectedPets, setSelectedPets] = useState([]);
+
+  useEffect(() => {
+    // Actualiza el valor del formulario cuando cambie la lista de mascotas seleccionadas
+    defineValue("selectedPets", selectedPets);
+  }, [selectedPets, defineValue]);
+
+  const handleCheckboxChange = (event, petId) => {
+    if (event.target.checked) {
+      setSelectedPets([...selectedPets, petId]);
+    } else {
+      setSelectedPets(selectedPets.filter((id) => id !== petId));
+    }
   };
 
   const customList = (items) => (
@@ -256,34 +271,6 @@ const Hairdressing = () => {
         <CustomTextBox type="text" register={register} name="descripcion" />
         <p className="errorText">{errors.descripcion?.message}</p>
       </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Dueño:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomSelectTectBox2
-          filtro={setOwner}
-          register={register}
-          name="owner"
-          list={clientes}
-          valueKey="id"
-          labelKey="idpersona.email"
-        />
-        <p className="errorText">{errors.owner?.message}</p>
-      </Grid>
-
-      <Grid item xs={6} md={3} className="textInput">
-        Mascota:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomSelectTectBox2
-          register={register}
-          name="pet"
-          list={filteredPets}
-          valueKey="id"
-          labelKey="nombre"
-        />
-        <p className="errorText">{errors.pet?.message}</p>
-      </Grid>
 
       <Grid item xs={6} md={3} className="textInput">
         Estado:
@@ -299,6 +286,54 @@ const Hairdressing = () => {
         <p className="errorText">{errors.state?.message}</p>
       </Grid>
 
+      <Grid item xs={6} md={3} className="textInput">
+        Dueño:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          filtro={setOwner}
+          register={register}
+          name="owner"
+          list={clientes}
+          valueKey="id"
+          labelKey="idpersona.email"
+        />
+        <p className="errorText">{errors.owner?.message}</p>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div>
+          {errors.selectedPets && <span>{errors.selectedPets.message}</span>}
+          {filteredPets.length < mascotas.length
+            ? filteredPets.map((pet) => (
+                <div
+                  key={pet.id}
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <p className="errorText">{errors.pet?.message}</p>
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={pet.id}
+                      onChange={(e) => handleCheckboxChange(e, pet.id)}
+                      style={{ marginRight: "8px" }} // Ajusta el espacio entre el checkbox y el texto
+                    />
+                    {pet.nombre}
+                  </label>
+                </div>
+              ))
+            : null}
+        </div>
+      </Grid>
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
@@ -370,4 +405,4 @@ const Hairdressing = () => {
     </Grid>
   );
 };
-export default Hairdressing;
+export default RegisterWalk;

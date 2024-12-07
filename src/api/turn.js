@@ -120,6 +120,8 @@ const registerTurno = async ({
   service,
   state,
   typeturno,
+  formadepago,
+  descripcion,
 }) => {
   try {
     const response = await apiClient.post("/turno/registroturno", {
@@ -133,6 +135,8 @@ const registerTurno = async ({
       idtipoturno: typeturno,
       idestado: state,
       detalleturno: service,
+      formadepago,
+      descripcion,
     });
     return response.data;
   } catch (error) {
