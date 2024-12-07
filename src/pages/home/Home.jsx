@@ -224,7 +224,7 @@ console.log("Rows generados:", rows);
         <Grid item xs={12} sm={10} className="homeContainer">  
         <Grid container rowGap={2} className="listadoTurnos">            
           <Grid item md={10} rowGap={3} style={{marginTop: "4rem"}} >
-          <Box className="titlePage">Ocupación de cupos en la Guardería: </Box>
+          <Box className="titlePage">Cupos asignados en la Guardería: </Box>
           </Grid>
           <Grid item md={8} rowGap={3}>          
           <Box sx={{ position: 'relative', display: 'inline-block' }}>

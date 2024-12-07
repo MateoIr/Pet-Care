@@ -10,7 +10,6 @@ export const useGetReportYearPedido = (anio) => {
   } = useQuery({
     queryKey: ["pedidos"],
     queryFn: () => getReportYearPedido(anio),
-    enabled: false,
   });
 
   return { isLoadingp, errorp,  pedidos,  refetch };

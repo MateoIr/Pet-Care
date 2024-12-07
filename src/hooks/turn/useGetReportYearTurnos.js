@@ -10,7 +10,6 @@ export const useGetReportYearTurnos = (anio) => {
   } = useQuery({
     queryKey: ["turnos"], // Clave genérica, no depende de `anio`
     queryFn: () => getReportYearTurno(anio),
-    enabled: false, // Deshabilitar consulta automática
   });
 
   return { isLoading, error, turnos, refetch };
