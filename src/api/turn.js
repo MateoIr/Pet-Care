@@ -110,6 +110,30 @@ const getTurnServices = async (id) => {
   }
 };
 
+const getReportYearTurno = async (anio) => {
+  try {
+    const response = await apiClient.get(`turno/reporteturnosporanio/${anio}`);
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
+const getReportYearPedido =async (anio) => {
+  try {
+    const response = await apiClient.get(`turno/reporteventasporanio/${anio}`);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response ? error.response.data.message : "Network Error"
+    );
+  }
+};
+
 const registerTurno = async ({
   date,
   datein,
@@ -205,6 +229,10 @@ const checkCupos = async ({ fechaingreso, fechaegreso }) => {
   }
 };
 
+
+
+
+
 export {
   getAllServices,
   updateTurnSelected,
@@ -219,4 +247,8 @@ export {
   getCupoDay,
   getContarTurnos,
   checkCupos,
+  getReportYearPedido,
+  getReportYearTurno,
 };
+
+

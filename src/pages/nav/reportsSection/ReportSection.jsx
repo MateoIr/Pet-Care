@@ -3,8 +3,9 @@ import ReportsTurn from '../../reports/ReportsTurn'
 import { Box, Grid } from '@mui/material'
 import CustomNavBar from '../../../components/customNavBar/CustomNavBar'
 import ReportsSells from '../../reports/ReportsSells'
+import GeneralReports from '../../reports/GeneralReports'
 
-export const ReportSection = ({setUser}) => {
+const ReportSection = ({setUser}) => {
   return (
     <Grid
         container
@@ -26,10 +27,12 @@ export const ReportSection = ({setUser}) => {
           <Box sx={{ pl: 5, pr: 5, mb: 12 }}><ReportsTurn /></Box>
           
           <Box className="titlePage" mb={4}>Reportes de ventas/productos</Box>
-          <Box sx={{ pl: 5, pr: 5, mt: 4}}><ReportsSells /></Box>
+          <Box sx={{ pl: 5, pr: 5, mt: 4, mb: 12 }}><ReportsSells /></Box>
+
+          <Box className="titlePage" mb={4} mt={18}>Reportes generales</Box>
+          <Box sx={{ pl: 5, pr: 5, mt: 6 }}><GeneralReports /></Box>
         </Grid>
       </Grid>
-
-
-  )
-}
+  );
+};
+export default ReportSection;

@@ -124,8 +124,8 @@ const normalizedProductos = productos.map((producto) => ({
       container
       sx={{
         textAlign: "center",
-        height: "100vh",
         alignItems: "start",
+        marginBottom:"5vh",
       }}
     >
       
@@ -210,7 +210,7 @@ const normalizedProductos = productos.map((producto) => ({
         xs={12}
         sm={10}
         sx={{
-          height: "90%",
+         
         }}
       >
         {error && (
