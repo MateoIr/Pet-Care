@@ -110,9 +110,9 @@ const getTurnServices = async (id) => {
   }
 };
 
-const getReportYearTurno = async () => {
+const getReportYearTurno = async (anio) => {
   try {
-    const response = await apiClient.get(`turno/reporteturnosporanio`);
+    const response = await apiClient.get(`turno/reporteturnosporanio/${anio}`);
     //console.log(response.data);
     return response.data;
   } catch (error) {
@@ -122,9 +122,9 @@ const getReportYearTurno = async () => {
   }
 };
 
-const getReportYearPedido =async () => {
+const getReportYearPedido =async (anio) => {
   try {
-    const response = await apiClient.get(`turno/reporteventasporanio`);
+    const response = await apiClient.get(`turno/reporteventasporanio/${anio}`);
     console.log(response.data);
     return response.data;
   } catch (error) {

@@ -39,29 +39,36 @@ const GeneralReports = ({ setUser }) => {
       },
     });
   
-    const onSubmit = (data) => {
-      const selectedYear = dayjs(data.anio).year(); // Extrae solo el año
-      setAnio(selectedYear);
-      console.log({ anio: selectedYear });
-    };
+    
 
     const [chartData, setChartData] = useState({
       xAxis: [],
       series: [],
     });
   
-    const { pedidos, isLoadingp, errorp } = useGetReportYearPedido();
-    const { turnos, isLoadingt, errort } = useGetReportYearTurnos();
+    const { turnos, isLoadingt, errort, refetch: refetchTurnos } = useGetReportYearTurnos(anio);
+    const { pedidos, isLoadingp, errorp, refetch: refetchPedidos } = useGetReportYearPedido(anio);
   
+    const onSubmit = (data) => {
+      const selectedYear = dayjs(data.anio).year(); // Extrae el año
+      setAnio(selectedYear);
+  
+      // Refetch data
+      refetchTurnos(); // Consulta de turnos
+      refetchPedidos(); // Consulta de pedidos
+  
+      console.log({ anio: selectedYear });
+    };
     const monthsInSpanish = [
         "Ene", "Feb", "Mar", "Abr", "May", "Jun",
         "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
       ];
 
+
     useEffect(() => {
       // Log the data for debugging purposes
-      console.log("Pedidos:", pedidos);
-      console.log("Turnos:", turnos);
+      //console.log("Pedidos:", pedidos);
+      //console.log("Turnos:", turnos);
       
       if (pedidos && pedidos.length > 0 && turnos && turnos.length > 0) {
         const xAxisData = Array.from(new Set([...pedidos.map(item => item["mes:"]), ...turnos.map(item => item["mes:"])])); // Combine and deduplicate months
@@ -112,7 +119,11 @@ const GeneralReports = ({ setUser }) => {
                 views={['year']}
                 yearsOrder="desc"
                 value={dayjs(`${anio}`)} // Muestra el año seleccionado
-                onChange={(newValue) => setValue("anio", newValue, { shouldValidate: true })}
+                onChange={(newValue) => {
+                  setValue("anio", newValue, { shouldValidate: true });
+                  handleSubmit(onSubmit)(); // Ejecuta el submit inmediatamente
+                }}
+                
                 renderInput={(params) => (
                   <input
                     {...register("anio")}

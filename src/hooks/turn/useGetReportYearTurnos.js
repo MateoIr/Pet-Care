@@ -1,17 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { getReportYearTurno } from "../../api/turn";
 
-export const useGetReportYearTurnos = () => {
+export const useGetReportYearTurnos = (anio) => {
   const {
     data: turnos,
-    isPending: isLoading,
+    isLoading,
     error,
+    refetch, // Exponer `refetch`
   } = useQuery({
-    queryKey: ["turnos"],
-    queryFn: () => getReportYearTurno(),
+    queryKey: ["turnos"], // Clave genérica, no depende de `anio`
+    queryFn: () => getReportYearTurno(anio),
+    enabled: false, // Deshabilitar consulta automática
   });
 
-  return { isLoading, error,  turnos};
+  return { isLoading, error, turnos, refetch };
 };
 
 export default useGetReportYearTurnos;
