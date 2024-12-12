@@ -20,14 +20,8 @@ const RegisterClinic = ({ setUser }) => {
       .matches(/^\d+$/, "Debe contener solo números")
       .required("El número de teléfono es requerido"),
     barrio: yup.string().required("ingrese un valor"),
-    departamento: yup
-      .string()
-      .matches(/^\d+$/, "Debe contener solo números")
-      .required("El número de teléfono es requerido"),
-    piso: yup
-      .string()
-      .matches(/^\d+$/, "Debe contener solo números")
-      .required("El número de teléfono es requerido"),
+    departamento: yup.string(),
+    piso: yup.string(),
     localidad: yup.string().required("ingrese un valor"),
     provincia: yup.string().required("ingrese un valor"),
     pais: yup.string().required("ingrese un valor"),
