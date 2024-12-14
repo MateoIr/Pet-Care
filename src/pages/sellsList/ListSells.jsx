@@ -24,6 +24,7 @@ import CustomTextBox from "../../components/customTextBox/CustomTextBox";
 
 // Calcular la fecha de hoy y la fecha de hace un mes
 const today = new Date();
+today.setDate(today.getDate()+1);
 const todayFormatted = today.toISOString().split('T')[0];
 //const yesterday = new Date();
 //yesterday.setDate(today.getDate() - 1);

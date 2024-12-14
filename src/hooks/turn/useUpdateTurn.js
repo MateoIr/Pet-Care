@@ -22,7 +22,7 @@ const useUpdateTurn = () => {
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/calendar");
+      navigate("/home/calendarSection");
     },
   });
 

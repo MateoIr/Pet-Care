@@ -28,7 +28,7 @@ const useSellCreate = () => {
         position: "right",
         backgroundColor: "#805454",
       }).showToast();
-      navigate("/home");
+      navigate("/product/sellList");
     },
   });
   return { isLoading, error, createSell };
