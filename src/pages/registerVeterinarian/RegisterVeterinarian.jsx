@@ -169,7 +169,7 @@ const RegisterVeterinarian = ({ setUser }) => {
                   valueKey="id"
                   labelKey="nombre"
                 />
-                <p className="errorText">{errors.clinics?.message}</p>
+                <p className="errorText">{errors.clinicas?.message}</p>
               </Grid>
               <Grid item xs={6} md={3} className="textInput">
                 Nombre:

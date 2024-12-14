@@ -4,36 +4,33 @@ import CustomButton from "../../components/customButton/CustomButton";
 import { Link } from "react-router-dom";
 import foot from "../../images/foot.jpg";
 import "./Home.css";
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import * as React from "react";
+import PropTypes from "prop-types";
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useGetDaycareServices from "../../hooks/turn/useGetDaycareServices"; // Hook para obtener los eventos
 import useGetCupoDay from "../../hooks/turn/useGetCupoDat";
-import { CircularProgress } from '@mui/material';
+import { CircularProgress } from "@mui/material";
 
 const Home = ({ setUser }) => {
   const ayer = new Date();
   ayer.setDate(ayer.getDate() - 1); // Restamos un día a la fecha actual
-  const fechaAyer = ayer.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  const fechaAyer = ayer.toISOString().split("T")[0]; // Formato YYYY-MM-DD
   const { cupo } = useGetCupoDay(fechaAyer);
-  
+
   const total = 35;
 
-
-
-function createTurnoData(id, fechaTurno, nombreMascota, tipoTurno, estado, horarioDesde, horarioHasta, costoTotal, nombreCliente, apellidoCliente) {
-  return {
+  function createTurnoData(
     id,
     fechaTurno,
     nombreMascota,
@@ -43,12 +40,25 @@ function createTurnoData(id, fechaTurno, nombreMascota, tipoTurno, estado, horar
     horarioHasta,
     costoTotal,
     nombreCliente,
-    apellidoCliente,
-  };
-}
+    apellidoCliente
+  ) {
+    return {
+      id,
+      fechaTurno,
+      nombreMascota,
+      tipoTurno,
+      estado,
+      horarioDesde,
+      horarioHasta,
+      costoTotal,
+      nombreCliente,
+      apellidoCliente,
+    };
+  }
 
-function Row({ row }) {
-  const [open, setOpen] = React.useState(false);
+  function Row({ row }) {
+    const [open, setOpen] = React.useState(false);
+
 
   return (
     <React.Fragment>
@@ -86,11 +96,11 @@ function Row({ row }) {
   );
 }
 
-const { turnos, isLoading, error } = useGetDaycareServices();
+  const { turnos, isLoading, error } = useGetDaycareServices();
 
-if (isLoading) {
-  return (
-    <Grid
+  if (isLoading) {
+    return (
+      <Grid
         container
         sx={{
           width: "100%",
@@ -99,21 +109,21 @@ if (isLoading) {
           height: "100vh",
         }}
       >
-      <Grid item xs={12} sm={2}>
-        <Box>
-          <CustomNavBar setUser={setUser} />
-        </Box>
+        <Grid item xs={12} sm={2}>
+          <Box>
+            <CustomNavBar setUser={setUser} />
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={10} className="homeContainer">
+          Cargando...
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={10} className="homeContainer">  
-        Cargando...
-      </Grid>
-    </Grid>
-  )
-}
+    );
+  }
 
-if (error) {
-  return(    
-  <Grid
+  if (error) {
+    return (
+      <Grid
         container
         sx={{
           width: "100%",
@@ -122,31 +132,33 @@ if (error) {
           height: "100vh",
         }}
       >
-      <Grid item xs={12} sm={2}>
-        <Box>
-          <CustomNavBar setUser={setUser} />
-        </Box>
+        <Grid item xs={12} sm={2}>
+          <Box>
+            <CustomNavBar setUser={setUser} />
+          </Box>
+        </Grid>
+        <Grid item xs={12} sm={10} className="homeContainer">
+          Error al cargar los turnos: {error.message}, intente nuevamente más
+          tarde
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={10} className="homeContainer">  
-      Error al cargar los turnos: {error.message}, intente nuevamente más tarde
-      </Grid>
-    </Grid>
-  )
-}
+    );
+  }
 
-const formatFecha = (fecha) => {
-  const [year, month, day] = fecha.split("-");
-  return `${day}-${month}-${year}`;
-};
+  const formatFecha = (fecha) => {
+    const [year, month, day] = fecha.split("-");
+    return `${day}-${month}-${year}`;
+  };
 
-const parseFechaToDate = (fecha) => {
-  const [year, month, day] = fecha.split("-");
-  return new Date(year, month - 1, day); // Los meses son indexados desde 0 en JavaScript
-};
+  const parseFechaToDate = (fecha) => {
+    const [year, month, day] = fecha.split("-");
+    return new Date(year, month - 1, day); // Los meses son indexados desde 0 en JavaScript
+  };
 
-// Obtener la fecha de hoy
-const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
+  // Obtener la fecha de hoy
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
 
 const filteredTurnos = turnos
   .map((turno) => {
@@ -202,10 +214,9 @@ const rows = filteredTurnos.map((turno) =>
 
 // Depuración: imprimir las filas generadas
 console.log("Rows generados:", rows);
-   
+
   return (
     <>
-      
       <Grid
         container
         sx={{
@@ -220,6 +231,7 @@ console.log("Rows generados:", rows);
             <CustomNavBar setUser={setUser} />
           </Box>
         </Grid>
+
         
         <Grid item xs={12} sm={10} className="homeContainer">  
         <Grid container rowGap={2} className="listadoTurnos">            
@@ -283,7 +295,7 @@ console.log("Rows generados:", rows);
             </TableContainer>
           </Grid>
           </Grid>
-      </Grid>
+        </Grid>
       </Grid>
     </>
   );

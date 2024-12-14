@@ -15,7 +15,7 @@ import useUpdatePet from "../../hooks/pet/useUpdatePet";
 import useSelectedPet from "../../hooks/pet/useSelectedPet";
 import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 
-const UpdatePet= ({ setUser }) => {
+const UpdatePet = ({ setUser }) => {
   const schema = yup.object().shape({
     name: yup.string().required("ingrese un valor"),
     animal: yup.string().required("ingrese un valor"),
@@ -30,7 +30,7 @@ const UpdatePet= ({ setUser }) => {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, 
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -40,10 +40,10 @@ const UpdatePet= ({ setUser }) => {
   const { raza } = useGetRace();
   const { animal } = useGetAnimal();
   const { clientes } = useGetAllCustomer();
-  
+
   useEffect(() => {
     if (petSelected) {
-      setValue("id",petSelected?.id || "");
+      setValue("id", petSelected?.id || "");
       setValue("name", petSelected?.nombre || "");
       setValue("animal", petSelected?.idanimal.id || "");
       setValue("raza", petSelected?.idraza.id || "");
@@ -52,17 +52,14 @@ const UpdatePet= ({ setUser }) => {
       setValue("sex", petSelected?.sexo || "");
       setValue("birthdate", petSelected?.fechadenacimiento || "");
       setValue("owner", petSelected?.idcliente.idpersona.id || "");
-
-      
     }
   }, [petSelected, setValue]);
 
   const { updatePet } = useUpdatePet();
- 
-
 
   const onSubmit = (data) => {
-    const { id, name, animal, raza, size, weight, sex, birthdate, owner } = data;
+    const { id, name, animal, raza, size, weight, sex, birthdate, owner } =
+      data;
     const pet = {
       id,
       name,
@@ -160,7 +157,7 @@ const UpdatePet= ({ setUser }) => {
                   labelKey="descripcion"
                   selectedItem={petSelected?.idraza.id}
                 />
-                <p className="errorText">{errors.race?.message}</p>
+                <p className="errorText">{errors.raza?.message}</p>
               </Grid>
 
               <Grid item xs={5} md={2} className="textInput">
