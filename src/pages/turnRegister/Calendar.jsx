@@ -84,11 +84,10 @@ const transformedEvents = turnos && turnos.length > 0 && paseos && paseos.length
         event.turno.idtipoTurno.id == 1
           ? `${event.turno.fechaturno} \n Horario de ingreso: ${event.turno.horarioturnodesde} \n Día de egreso: ${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`
           : `${event.turno.fechaturno} \n Horario de inicio: ${event.turno.horarioturnodesde} \n Horario de fin: ${event.turno.horarioturnohasta}`,
-      description:
-        event.turno.idtipoTurno.id == 4
-          ? `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-              event.turno.idtipoTurno.nombreTurno
-            }. 
+      description: event.turno.idtipoTurno.id
+        ? `Turno de ${event.turno.idmascota.nombre} con el servicio ${
+            event.turno.idtipoTurno.nombreTurno
+          }. 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    \n Costo total: $${event.turno.costototal} 
                    \n Detalle de turno: ${event.detalles.map(
@@ -97,13 +96,13 @@ const transformedEvents = turnos && turnos.length > 0 && paseos && paseos.length
                    \n Dirección: ${
                      event.turno.idmascota.idcliente.idpersona.iddireccion.calle
                    } ${
-              event.turno.idmascota.idcliente.idpersona.iddireccion.numero
-            }, ${event.turno.idmascota.idcliente.idpersona.iddireccion.barrio}
+            event.turno.idmascota.idcliente.idpersona.iddireccion.numero
+          }, ${event.turno.idmascota.idcliente.idpersona.iddireccion.barrio}
                    \n Forma de pago y observaciones: ${event.turno.formadepago} 
                    \n Observaciones:  ${event.turno.descripcion}`
-          : `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-              event.turno.idtipoTurno.nombreTurno
-            }. 
+        : `Turno de ${event.turno.idmascota.nombre} con el servicio ${
+            event.turno.idtipoTurno.nombreTurno
+          }. 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    \n Costo total: $${event.turno.costototal} 
                    \n Detalle de turno: ${event.detalles.map(
