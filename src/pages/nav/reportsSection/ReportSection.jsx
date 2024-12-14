@@ -26,7 +26,7 @@ const ReportSection = ({setUser}) => {
           <Box className="titlePage" mb={4}>Reportes de turnos</Box>
           <Box sx={{ pl: 5, pr: 5, mb: 12 }}><ReportsTurn /></Box>
           
-          <Box className="titlePage" mb={4}>Reportes de ventas/productos</Box>
+          <Box className="titlePage" mb={4} mt={18}>Reportes de ventas/productos</Box>
           <Box sx={{ pl: 5, pr: 5, mt: 4, mb: 12 }}><ReportsSells /></Box>
 
           <Box className="titlePage" mb={4} mt={18}>Reportes generales</Box>
