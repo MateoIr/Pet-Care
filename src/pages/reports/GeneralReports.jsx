@@ -80,13 +80,13 @@ const GeneralReports = ({ setUser }) => {
           series: [
             {
               data: pedidosSeriesData,
-              label: "Pedidos",
+              label: "Productos",
               color: "#42a5f5",
               
             },
             {
               data: turnosSeriesData,
-              label: "Turnos",
+              label: "Servicios",
               color: "#ff7043", 
             },
           ],
@@ -140,7 +140,7 @@ const GeneralReports = ({ setUser }) => {
             <CustomButton onClick={handleSubmit(onSubmit)} text="Buscar" />
           </Grid>
           </Grid>
-          <Box className="titlePage">Montos anuales de turnos y pedidos</Box>
+          <Box className="titlePage">Montos anuales de servicios y productos</Box>
           <Grid container spacing={2}>
             <Grid item xs={10} md={10}>
             <Stack
