@@ -59,19 +59,20 @@ import {
   
     const schema = yup.object().shape({
       datein: yup.string().required("ingrese un valor"),
-      dateout: yup.string().required("ingrese un valor"),
-      scheduleFrom: yup.string().required("ingrese un valor"),
-      scheduleUntil: yup
-        .string()
+      dateout: yup.string()
         .required("ingrese un valor")
         .test(
           "is-greater",
-          "El horario de salida debe ser posterior al de entrada",
+          "La fecha de salida debe ser posterior a la de entrada",
           function (value) {
-            const { scheduleFrom } = this.parent; // Accedemos al valor de 'scheduleFrom'
-            return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
+          const { datein } = this.parent; 
+            return value > datein; 
           }
         ),
+      scheduleFrom: yup.string().required("ingrese un valor"),
+      scheduleUntil: yup
+        .string()
+        .required("ingrese un valor"),
       pet: yup.string().required("ingrese un valor"),
       state: yup.string().required("ingrese un valor"),
       service: yup.string(),
