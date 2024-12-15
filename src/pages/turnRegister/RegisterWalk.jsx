@@ -67,12 +67,12 @@ const RegisterWalk = () => {
           return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
         }
       ),
-    formadepago: yup.string().required("ingrese un valor"),
+    formadepago: yup.string(),
     selectedPets: yup
       .array()
       .min(1, "Debe seleccionar al menos una mascota")
       .required("Debe seleccionar al menos una mascota"),
-    descripcion: yup.string().required("ingrese un valor"),
+    descripcion: yup.string(),
     state: yup.string().required("ingrese un valor"),
     service: yup
       .array()

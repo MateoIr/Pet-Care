@@ -32,8 +32,7 @@ function not(a, b) {
 function intersection(a, b) {
   return a.filter((value) => b.includes(value));
 }
-
-const updateDaycare = (setTurn) => {
+const UpdateWalk = () => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -42,11 +41,11 @@ const updateDaycare = (setTurn) => {
   const { estados } = useGetStates();
 
   const [servicios, setServicios] = useState([]);
-  const { data, createProduct } = useGetServices({ id: 1 });
+  const { data, createProduct } = useGetServices({ id: 4 });
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
-      createProduct({ id: 1 });
+      createProduct({ id: 4 });
     }
 
     // Solo actualizamos los servicios si `data` es válida
@@ -58,8 +57,7 @@ const updateDaycare = (setTurn) => {
   const today = new Date().setHours(0, 0, 0, 0); // Eliminar la parte de la hora para comparar solo la fecha
 
   const schema = yup.object().shape({
-    datein: yup.string().required("ingrese un valor"),
-    dateout: yup.string().required("ingrese un valor"),
+    date: yup.string().required("ingrese un valor"),
     scheduleFrom: yup.string().required("ingrese un valor"),
     scheduleUntil: yup
       .string()
@@ -165,8 +163,7 @@ const updateDaycare = (setTurn) => {
   useEffect(() => {
     if (turnSelected) {
       defineValue("id", turnSelected?.id || "");
-      defineValue("datein", turnSelected?.idficha.fechaingresa || "");
-      defineValue("dateout", turnSelected?.idficha.fechaegreso || "");
+      defineValue("date", turnSelected?.fechaturno || "");
       defineValue("pet", turnSelected?.idmascota.id || "");
       defineValue("scheduleFrom", turnSelected?.horarioturnodesde || "");
       defineValue("scheduleUntil", turnSelected?.horarioturnohasta || "");
@@ -197,8 +194,7 @@ const updateDaycare = (setTurn) => {
 
     const {
       id,
-      datein,
-      dateout,
+      date,
       pet,
       scheduleFrom,
       scheduleUntil,
@@ -211,9 +207,7 @@ const updateDaycare = (setTurn) => {
     //console.log("servicios_ ",service);
     const turno = {
       id,
-      date: datein,
-      datein,
-      dateout,
+      date,
       pet,
       scheduleFrom,
       scheduleUntil,
@@ -221,7 +215,7 @@ const updateDaycare = (setTurn) => {
       state,
       formadepago,
       descripcion,
-      typeturno: 1,
+      typeturno: 4,
     };
     updateTurn(turno);
   };
@@ -256,6 +250,7 @@ const updateDaycare = (setTurn) => {
       </List>
     </Paper>
   );
+
   return (
     <Grid
       container
@@ -266,33 +261,27 @@ const updateDaycare = (setTurn) => {
       rowGap={2}
     >
       <Grid item xs={6} md={3} className="textInput">
-        Fecha de ingreso:
+        Fecha de turno:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="date" register={register} name="datein" />
-        <p className="errorText">{errors.datein?.message}</p>
+        <CustomTextBox type="date" register={register} name="date" />
+        <p className="errorText">{errors.date?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Horario de ingreso:
+        Horario desde:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleFrom" />
         <p className="errorText">{errors.scheduleFrom?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Fecha de salida:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="date" register={register} name="dateout" />
-        <p className="errorText">{errors.dateout?.message}</p>
-      </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Horario de salida:
+        Horario hasta:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
+
       <Grid item xs={6} md={3} className="textInput">
         Dueño:
       </Grid>
@@ -345,6 +334,7 @@ const updateDaycare = (setTurn) => {
         <CustomTextBox type="number" register={register} name="cost" disabled />
         <p className="errorText">{errors.cost?.message}</p>
       </Grid>
+
       <Grid item xs={6} md={3} className="textInput">
         Forma de pago:
       </Grid>
@@ -429,4 +419,5 @@ const updateDaycare = (setTurn) => {
     </Grid>
   );
 };
-export default updateDaycare;
+
+export default UpdateWalk;
