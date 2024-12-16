@@ -20,7 +20,10 @@ import { useRegisterTurno } from "../../hooks/turn/useRegisterTurno";
 import useGetAllCustomer from "../../hooks/customer/useGetAllCustomer";
 import useGetAnimal from "../../hooks/pet/getAllPets";
 import useGetStates from "../../hooks/turn/useGetStates";
-import { useGetCupos } from "../../hooks/turn/useGetCupos";
+import useSelectedTurn from "../../hooks/turn/useSelectedTurn";
+import useSelectedTurnServices from "../../hooks/turn/useSelectedTurnServices";
+import useUpdateTurn from "../../hooks/turn/useUpdateTurn";
+import { useParams } from "react-router-dom";
 
 function not(a, b) {
   return a.filter((value) => !b.includes(value));
@@ -29,8 +32,7 @@ function not(a, b) {
 function intersection(a, b) {
   return a.filter((value) => b.includes(value));
 }
-
-const RegisterDaycare = () => {
+const UpdateWalk = () => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
@@ -38,44 +40,12 @@ const RegisterDaycare = () => {
   };
   const { estados } = useGetStates();
 
-  const [servicios, setServicios] = useState();
-  const { data, createProduct } = useGetServices({ id: 1 });
-
-  const { cupos, updateCupos } = useGetCupos();
-
-  useEffect(() => {
-    if (!isLoading && cupos) {
-      // Cuando no está cargando y 'cupos' ya tiene datos, procedemos con la verificación
-      handleCuposCheck();
-    }
-  }, [cupos]); // Este efecto se ejecuta cuando 'isLoading' o 'cupos' cambian
-
-  const handleCuposCheck = () => {
-    const excedido = [];
-
-    // Recorremos el objeto cupos
-    for (const [fecha, cupo] of Object.entries(cupos)) {
-      if (cupo > 35) {
-        // Si el valor del cupo es mayor que 8, lo agregamos al array 'excedido'
-        excedido.push({ fecha, cupo });
-      }
-    }
-
-    if (excedido.length > 0) {
-      // Si hay días donde el cupo es mayor que 8, mostramos la alerta
-      const diasExcedidos = excedido
-        .map((item) => `${item.fecha}: ${item.cupo}`)
-        .join(", ");
-      alert(`¡Se superará el cupo en los siguientes días: ${diasExcedidos}`);
-    } else {
-      alert("No se superará el cupo en ningún día.");
-    }
-  };
-
+  const [servicios, setServicios] = useState([]);
+  const { data, createProduct } = useGetServices({ id: 4 });
   useEffect(() => {
     // Solo llamamos a createProduct si aún no tenemos datos
     if (!data || data.length === 0) {
-      createProduct({ id: 1 });
+      createProduct({ id: 4 });
     }
 
     // Solo actualizamos los servicios si `data` es válida
@@ -87,43 +57,39 @@ const RegisterDaycare = () => {
   const today = new Date().setHours(0, 0, 0, 0); // Eliminar la parte de la hora para comparar solo la fecha
 
   const schema = yup.object().shape({
-    datein: yup.string().required("ingrese un valor"),
-    dateout: yup
+    date: yup.string().required("ingrese un valor"),
+    scheduleFrom: yup.string().required("ingrese un valor"),
+    scheduleUntil: yup
       .string()
       .required("ingrese un valor")
       .test(
-        "is-greater",
-        "La fecha de salida debe ser posterior a la de entrada",
-        function (value) {
-          const { datein } = this.parent;
-          return value > datein;
-        }
-      ),
-    scheduleFrom: yup.string().required("ingrese un valor"),
-    scheduleUntil: yup.string().required("ingrese un valor"),
-    /*.test(
         "is-greater",
         "El horario de salida debe ser posterior al de entrada",
         function (value) {
           const { scheduleFrom } = this.parent; // Accedemos al valor de 'scheduleFrom'
           return value > scheduleFrom; // Validamos que 'scheduleUntil' sea mayor que 'scheduleFrom'
         }
-      )*/ pet: yup.string().required("ingrese un valor"),
+      ),
+    pet: yup.string().required("ingrese un valor"),
     state: yup.string().required("ingrese un valor"),
-    service: yup
-      .array()
-      .min(1, "Debe seleccionar al menos un servicio")
-      .required("Debe seleccionar al menos un servico"),
-    descripcion: yup.string(),
+    service: yup.string(),
     formadepago: yup.string(),
+    descripcion: yup.string(),
   });
 
-  const handleCuposLoad = () => {
-    const datein = watch("datein");
-    const dateout = watch("dateout");
+  const {
+    register,
+    handleSubmit,
+    setValue: defineValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    updateCupos({ fechaingreso: datein, fechaegreso: dateout });
-  };
+  const { id } = useParams();
+  const { turnSelected } = useSelectedTurn(id);
+  const { servicesSelected } = useSelectedTurnServices(id);
+
   const { clientes } = useGetAllCustomer();
   const { pet: mascotas } = useGetAnimal();
 
@@ -140,16 +106,6 @@ const RegisterDaycare = () => {
     }
   }, [owner, mascotas]);
 
-  const {
-    register,
-    handleSubmit,
-    setValue: defineValue,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
   const [turnoExist, setTurnoExist] = useState(null);
   const { isLoading, createTurno, error } = useRegisterTurno({
     setTurnoExist,
@@ -158,12 +114,16 @@ const RegisterDaycare = () => {
   const [left, setLeft] = useState([0, 1, 3]);
   const [right, setRight] = useState([]);
 
+  useEffect(() => {
+    // Filtrar los servicios que no están en right para mantener el estado de left actualizado
+    const filteredLeft = servicios.filter(
+      (service) => !right.some((r) => r.id === service.id)
+    );
+    setLeft(filteredLeft);
+  }, [right, servicios]); // Dependemos de right y servicios
+
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
-
-  useEffect(() => {
-    defineValue("service", right); // Sincroniza `right` con el formulario
-  }, [right, defineValue]);
 
   const handleAllRight = () => {
     setRight(right.concat(left));
@@ -200,41 +160,64 @@ const RegisterDaycare = () => {
     setRight([]);
   };
 
-  const onSubmit = (data) => {
-    if (right.length > 1) {
-      alert("Solo se puede seleccionar un servicio de este tipo");
-      return; // Evitamos el envío si hay más de un servicio
+  useEffect(() => {
+    if (turnSelected) {
+      defineValue("id", turnSelected?.id || "");
+      defineValue("date", turnSelected?.fechaturno || "");
+      defineValue("pet", turnSelected?.idmascota.id || "");
+      defineValue("scheduleFrom", turnSelected?.horarioturnodesde || "");
+      defineValue("scheduleUntil", turnSelected?.horarioturnohasta || "");
+      defineValue("state", turnSelected?.idestado.id || "");
+      defineValue("cost", turnSelected?.costototal || "");
+      defineValue("formadepago", turnSelected?.formadepago || "");
+      defineValue("descripcion", turnSelected?.descripcion || "");
+      //setValue("service",turnSelected?.iddetallepedido || "");
     }
+    // Aquí transformamos servicesSelected para que tenga la estructura correcta
+    if (servicesSelected && servicesSelected.length > 0) {
+      const transformedServices = servicesSelected.map((service) => ({
+        id: service.tipoServicio.id,
+        nombre: service.tipoServicio.nombre,
+        // Puedes agregar más campos si es necesario
+      }));
 
+      setRight(transformedServices);
+      //setChecked(transformedServices); // Marcar como checked
+    }
+  }, [turnSelected, servicesSelected, defineValue]);
+
+  const { updateTurn } = useUpdateTurn();
+
+  const onSubmit = (data) => {
     defineValue("service", right);
     //console.log(data);
 
     const {
-      datein,
-      dateout,
+      id,
+      date,
       pet,
       scheduleFrom,
       scheduleUntil,
       state,
-      descripcion,
       formadepago,
+      descripcion,
     } = data;
 
     const service = right;
+    //console.log("servicios_ ",service);
     const turno = {
-      date: datein,
-      datein,
-      dateout,
+      id,
+      date,
       pet,
       scheduleFrom,
       scheduleUntil,
       service,
       state,
-      typeturno: 1,
-      descripcion,
       formadepago,
+      descripcion,
+      typeturno: 4,
     };
-    createTurno(turno);
+    updateTurn(turno);
   };
 
   const customList = (items) => (
@@ -267,6 +250,7 @@ const RegisterDaycare = () => {
       </List>
     </Paper>
   );
+
   return (
     <Grid
       container
@@ -277,33 +261,80 @@ const RegisterDaycare = () => {
       rowGap={2}
     >
       <Grid item xs={6} md={3} className="textInput">
-        Fecha de ingreso:
+        Fecha de turno:
       </Grid>
       <Grid item xs={6} md={3}>
-        <CustomTextBox type="date" register={register} name="datein" />
-        <p className="errorText">{errors.datein?.message}</p>
+        <CustomTextBox type="date" register={register} name="date" />
+        <p className="errorText">{errors.date?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Horario de ingreso:
+        Horario desde:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleFrom" />
         <p className="errorText">{errors.scheduleFrom?.message}</p>
       </Grid>
       <Grid item xs={6} md={3} className="textInput">
-        Fecha de salida:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomTextBox type="date" register={register} name="dateout" />
-        <p className="errorText">{errors.dateout?.message}</p>
-      </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Horario de salida:
+        Horario hasta:
       </Grid>
       <Grid item xs={6} md={3}>
         <CustomTextBox type="time" register={register} name="scheduleUntil" />
         <p className="errorText">{errors.scheduleUntil?.message}</p>
       </Grid>
+
+      <Grid item xs={6} md={3} className="textInput">
+        Dueño:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          filtro={setOwner}
+          register={register}
+          name="owner"
+          list={clientes}
+          valueKey="id"
+          labelKey="idpersona.email"
+          selectedItem={turnSelected?.idmascota.idcliente.id}
+        />
+        <p className="errorText">{errors.owner?.message}</p>
+      </Grid>
+
+      <Grid item xs={6} md={3} className="textInput">
+        Mascota:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          register={register}
+          name="pet"
+          list={filteredPets}
+          valueKey="id"
+          labelKey="nombre"
+          selectedItem={turnSelected?.idmascota.id}
+        />
+        <p className="errorText">{errors.pet?.message}</p>
+      </Grid>
+      <Grid item xs={6} md={3} className="textInput">
+        Estado:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomSelectTectBox2
+          register={register}
+          name="state"
+          list={estados}
+          valueKey="id"
+          labelKey="descripcion"
+          selectedItem={turnSelected?.idestado.id}
+        />
+        <p className="errorText">{errors.state?.message}</p>
+      </Grid>
+
+      <Grid item xs={6} md={3} className="textInput">
+        Costo:
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomTextBox type="number" register={register} name="cost" disabled />
+        <p className="errorText">{errors.cost?.message}</p>
+      </Grid>
+
       <Grid item xs={6} md={3} className="textInput">
         Forma de pago:
       </Grid>
@@ -318,51 +349,9 @@ const RegisterDaycare = () => {
         <CustomTextBox type="text" register={register} name="descripcion" />
         <p className="errorText">{errors.descripcion?.message}</p>
       </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Dueño:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomSelectTectBox2
-          filtro={setOwner}
-          register={register}
-          name="owner"
-          list={clientes}
-          valueKey="id"
-          labelKey="idpersona.email"
-        />
-        <p className="errorText">{errors.owner?.message}</p>
-      </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Mascota:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomSelectTectBox2
-          register={register}
-          name="pet"
-          list={filteredPets}
-          valueKey="id"
-          labelKey="nombre"
-        />
-        <p className="errorText">{errors.pet?.message}</p>
-      </Grid>
-      <Grid item xs={6} md={3} className="textInput">
-        Estado:
-      </Grid>
-      <Grid item xs={6} md={3}>
-        <CustomSelectTectBox2
-          register={register}
-          name="state"
-          list={estados}
-          valueKey="id"
-          labelKey="descripcion"
-        />
-        <p className="errorText">{errors.state?.message}</p>
-      </Grid>
-
       <Grid item xs={12} className="textInput">
         Servicio:
       </Grid>
-      {errors.service && <span>{errors.service.message}</span>}
       <Grid
         container
         spacing={1}
@@ -422,11 +411,6 @@ const RegisterDaycare = () => {
       <Grid item xs={6} md={3} className="textInput"></Grid>
       <Grid item xs={6} md={3} sx={{ mb: 2 }}>
         <CustomButton
-          onClick={() => handleCuposLoad()}
-          text="chekear cupos"
-          // isLoading={isLoading}
-        />
-        <CustomButton
           onClick={handleSubmit(onSubmit)}
           text="Guardar"
           // isLoading={isLoading}
@@ -436,4 +420,4 @@ const RegisterDaycare = () => {
   );
 };
 
-export default RegisterDaycare;
+export default UpdateWalk;

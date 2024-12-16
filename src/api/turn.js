@@ -135,7 +135,7 @@ const getReportYearTurno = async (anio) => {
   }
 };
 
-const getReportYearPedido =async (anio) => {
+const getReportYearPedido = async (anio) => {
   try {
     const response = await apiClient.get(`turno/reporteventasporanio/${anio}`);
     return response.data;
@@ -205,6 +205,8 @@ const updateTurnSelected = async ({
   service,
   state,
   typeturno,
+  formadepago,
+  descripcion,
 }) => {
   try {
     const response = await apiClient.post("/turno/modificarturno", {
@@ -219,6 +221,8 @@ const updateTurnSelected = async ({
       idtipoturno: typeturno,
       idestado: state,
       detalleturno: service,
+      formadepago,
+      descripcion,
     });
     return response.data;
   } catch (error) {
@@ -241,10 +245,6 @@ const checkCupos = async ({ fechaingreso, fechaegreso }) => {
   }
 };
 
-
-
-
-
 export {
   getAllServices,
   updateTurnSelected,
@@ -263,5 +263,3 @@ export {
   getReportYearTurno,
   getContarCuposPorRango,
 };
-
-

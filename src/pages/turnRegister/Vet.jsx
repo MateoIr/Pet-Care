@@ -73,8 +73,8 @@ const Vet = () => {
       .array()
       .min(1, "Debe seleccionar al menos un servicio")
       .required("Debe seleccionar al menos un servico"),
-    descripcion: yup.string().required("ingrese un valor"),
-    formadepago: yup.string().required("ingrese un valor"),
+    descripcion: yup.string(),
+    formadepago: yup.string(),
   });
 
   const {
