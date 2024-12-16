@@ -57,7 +57,6 @@ const GeneralReports = ({ setUser }) => {
       refetchTurnos(); // Consulta de turnos
       refetchPedidos(); // Consulta de pedidos
   
-      console.log({ anio: selectedYear });
     };
     const monthsInSpanish = [
         "Ene", "Feb", "Mar", "Abr", "May", "Jun",
@@ -66,9 +65,7 @@ const GeneralReports = ({ setUser }) => {
 
 
     useEffect(() => {
-      // Log the data for debugging purposes
-      //console.log("Pedidos:", pedidos);
-      //console.log("Turnos:", turnos);
+      
       
       if (pedidos && pedidos.length > 0 && turnos && turnos.length > 0) {
         const xAxisData = Array.from(new Set([...pedidos.map(item => item["mes:"]), ...turnos.map(item => item["mes:"])])); // Combine and deduplicate months
@@ -164,11 +161,7 @@ const GeneralReports = ({ setUser }) => {
                   
                     }]}
                     yAxis={[{ label: "Montos en $",
-                        labelStyle:{transform:"translateX(-10px) !important;"}, 
-                        position: 'outside',
-                        labelAlign:"end",
                         valueFormatter: (v) => (v === null ? '' : currencyFormatter(v)),
-                        tickPlacement:'middle',
                     }]} 
                     series={ chartData.series.map((series) => ({
                         ...series,

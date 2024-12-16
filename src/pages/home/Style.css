@@ -1,0 +1,8 @@
+.custom-y-padding-bottom .MuiChartsAxis-directionY .MuiChartsAxis-label {
+    transform: translateX(-120px) !important
+  }
+  
+.homeContainer{
+  margin-top: 30vh !important;
+  
+}

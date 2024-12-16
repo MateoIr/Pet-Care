@@ -194,7 +194,6 @@ const normalizedProductos = productos.map((producto) => ({
  
                 },
               ]}
-              width={400}
               height={200}
               legend={{
                 hidden: true, // Ocultar la leyenda
