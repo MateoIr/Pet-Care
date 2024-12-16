@@ -47,6 +47,7 @@ const CustomNavBar = ({ setUser }) => {
           height: { xs: "auto", sm: "100vh" },
           width: { sm: "16.6%" },
           position: { xs: "relative", sm: "fixed" },
+          paddingTop:"5vh",
         }}
       >
         <Box className="Header">
@@ -58,6 +59,7 @@ const CustomNavBar = ({ setUser }) => {
                 sm: 18,
                 md: 25,
               },
+              
             }}
           >
             <Link

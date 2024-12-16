@@ -23,7 +23,7 @@ import useGetProductoMasVendido from '../../hooks/produts/useGetProductoMasVendi
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useGetProductoSinStock from "../../hooks/produts/useGetProductoSinStock";
-
+import './Style.css';
 import * as yup from 'yup';
 
 // Calcular la fecha de hoy y la fecha de hace un mes
@@ -81,6 +81,7 @@ const productos = masVendidos
       color: colors[index % colors.length], // Usamos colores de forma cíclica
     }))
   : [];
+  
 
   const valueFormatterPercentage = (item) => `${item.value.toFixed(2)}%`;
 // Función para calcular el valor total
@@ -94,7 +95,6 @@ const normalizedProductos = productos.map((producto) => ({
   numero: producto.value,
   
 }));
-
   const { products, isLoading, error, refetch } = useGetProductoSinStock();
   const [productsList, setProductsList] = useState([]);
 
@@ -178,14 +178,26 @@ const normalizedProductos = productos.map((producto) => ({
           ) : (
             <PieChart
               series={[
-                {
+                /*{
                   data: productos,
                   highlightScope: { fade: 'global', highlight: 'item' },
                   faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
                   valueFormatterPercentage, // Mostrar como porcentaje
+                  
+                },*/
+                {
+                  data: normalizedProductos,
+                  highlightScope: { fade: 'global', highlight: 'item' },
+                  faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                  valueFormatter: (value,numero, item) =>
+                    `(${valueFormatterPercentage(value)})`, 
+ 
                 },
               ]}
               height={200}
+              legend={{
+                hidden: true, // Ocultar la leyenda
+              }}
             />
           )}
         </Grid>

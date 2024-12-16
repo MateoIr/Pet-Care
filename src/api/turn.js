@@ -88,6 +88,19 @@ const getContarTurnos = async ({ fechaDesde, fechaHasta }) => {
   }
 };
 
+const getContarCuposPorRango = async ({ fechaDesde, fechaHasta }) => {
+  try {
+    const response = await apiClient.post("/turno/contarPorRangoDeFechaCupo", {
+      fechaInicio: fechaDesde,
+      fechaFinal: fechaHasta,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error recuperando info de cupos:", error);
+    throw error;
+  }
+};
+
 const getTurn = async (id) => {
   try {
     const response = await apiClient.get(`/turno/idturno/${id}`);
@@ -125,7 +138,6 @@ const getReportYearTurno = async (anio) => {
 const getReportYearPedido =async (anio) => {
   try {
     const response = await apiClient.get(`turno/reporteventasporanio/${anio}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw new Error(
@@ -249,6 +261,7 @@ export {
   checkCupos,
   getReportYearPedido,
   getReportYearTurno,
+  getContarCuposPorRango,
 };
 
 
