@@ -57,7 +57,6 @@ const GeneralReports = ({ setUser }) => {
       refetchTurnos(); // Consulta de turnos
       refetchPedidos(); // Consulta de pedidos
   
-      console.log({ anio: selectedYear });
     };
     const monthsInSpanish = [
         "Ene", "Feb", "Mar", "Abr", "May", "Jun",
@@ -66,9 +65,7 @@ const GeneralReports = ({ setUser }) => {
 
 
     useEffect(() => {
-      // Log the data for debugging purposes
-      //console.log("Pedidos:", pedidos);
-      //console.log("Turnos:", turnos);
+      
       
       if (pedidos && pedidos.length > 0 && turnos && turnos.length > 0) {
         const xAxisData = Array.from(new Set([...pedidos.map(item => item["mes:"]), ...turnos.map(item => item["mes:"])])); // Combine and deduplicate months
@@ -80,13 +77,13 @@ const GeneralReports = ({ setUser }) => {
           series: [
             {
               data: pedidosSeriesData,
-              label: "Pedidos",
+              label: "Productos",
               color: "#42a5f5",
               
             },
             {
               data: turnosSeriesData,
-              label: "Turnos",
+              label: "Servicios",
               color: "#ff7043", 
             },
           ],
@@ -140,7 +137,7 @@ const GeneralReports = ({ setUser }) => {
             <CustomButton onClick={handleSubmit(onSubmit)} text="Buscar" />
           </Grid>
           </Grid>
-          <Box className="titlePage">Montos anuales de turnos y pedidos</Box>
+          <Box className="titlePage">Montos anuales de servicios y productos</Box>
           <Grid container spacing={2}>
             <Grid item xs={10} md={10}>
             <Stack
@@ -164,11 +161,7 @@ const GeneralReports = ({ setUser }) => {
                   
                     }]}
                     yAxis={[{ label: "Montos en $",
-                        labelStyle:{transform:"translateX(-10px) !important;"}, 
-                        position: 'outside',
-                        labelAlign:"end",
                         valueFormatter: (v) => (v === null ? '' : currencyFormatter(v)),
-                        tickPlacement:'middle',
                     }]} 
                     series={ chartData.series.map((series) => ({
                         ...series,

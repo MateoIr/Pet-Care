@@ -143,13 +143,18 @@ const ReportsTurn = ({ setUser }) => {
             <PieChart
               series={[
                 {
-                  data: turnos,
+                  data: normalizedTurnos,
                   highlightScope: { fade: 'global', highlight: 'item' },
                   faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
-                  valueFormatterPercentage, // Mostrar como porcentaje
+                  valueFormatter: (value,numero, item) =>
+                    `(${valueFormatterPercentage(value)})`, 
+ 
                 },
               ]}
               height={200}
+              legend={{
+                hidden: true, // Ocultar la leyenda
+              }}
             />
           )}
         </Grid>
