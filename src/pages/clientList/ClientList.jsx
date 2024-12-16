@@ -138,17 +138,17 @@ const ClientList = ({ setUser }) => {
                       client.estado && (
                         <TableRow key={index}>
                           <TableCell className="tableCell">
-                            {client.idpersona.nombre}
+                            {client.idpersona?.nombre}
                           </TableCell>
                           <TableCell className="tableCell">
-                            {client.idpersona.apellido}
+                            {client.idpersona?.apellido}
                           </TableCell>
                           <TableCell className="tableCell">
-                            {client.idpersona.email}
+                            {client.idpersona?.email}
                           </TableCell>
                           <TableCell className="tableCell">
                             <Box className="containerOptions">
-                              <Link to={`/client/updateClient/${client.id}`}>
+                              <Link to={`/client/updateClient/${client?.id}`}>
                                 <IconButton aria-label="edit">
                                   <EditIcon />
                                 </IconButton>

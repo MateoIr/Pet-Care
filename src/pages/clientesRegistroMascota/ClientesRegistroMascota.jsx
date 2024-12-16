@@ -135,7 +135,7 @@ const ClientesRegistroMascota = ({ setUser }) => {
                   valueKey="id"
                   labelKey="descripcion"
                 />
-                <p className="errorText">{errors.race?.message}</p>
+                <p className="errorText">{errors.raza?.message}</p>
               </Grid>
 
               <Grid item xs={5} md={2} className="textInput">

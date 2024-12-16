@@ -52,10 +52,11 @@ const schema = yup.object().shape({
   ),
 });
 
+
 const Home = ({ setUser }) => {
   const ayer = new Date();
   ayer.setDate(ayer.getDate() - 1); // Restamos un día a la fecha actual
-  const fechaAyer = ayer.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  const fechaAyer = ayer.toISOString().split("T")[0]; // Formato YYYY-MM-DD
   const { cupo } = useGetCupoDay(fechaAyer);
 
   const total = 35;
@@ -113,6 +114,7 @@ const Home = ({ setUser }) => {
       });
     }
   }, [reporte]); // Solo se ejecutará cuando 'reporte' cambie
+
 
 
   function createTurnoData(id, fechaTurno, nombreMascota, tipoTurno, estado, horarioDesde, horarioHasta, costoTotal, nombreCliente, apellidoCliente) {
@@ -191,6 +193,7 @@ const Home = ({ setUser }) => {
           Cargando...
         </Grid>
       </Grid>
+
     )
   }
 
@@ -211,10 +214,12 @@ const Home = ({ setUser }) => {
           </Box>
         </Grid>
         <Grid item xs={12} sm={10} className="homeContainer">
+
           Error al cargar los turnos: {error.message}, intente nuevamente más tarde
         </Grid>
       </Grid>
     )
+
   }
 
   const formatFecha = (fecha) => {
@@ -226,6 +231,7 @@ const Home = ({ setUser }) => {
     const [year, month, day] = fecha.split("-");
     return new Date(year, month - 1, day); // Los meses son indexados desde 0 en JavaScript
   };
+
 
   // Obtener la fecha de hoy
   const yesterday = new Date();
@@ -243,6 +249,7 @@ const Home = ({ setUser }) => {
         // Formatear y parsear la fecha
         const formattedFecha = formatFecha(turno.turno.fechaturno);
         const parsedFecha = parseFechaToDate(turno.turno.fechaturno);
+
 
         // Validar que la fecha parseada sea válida
         if (isNaN(parsedFecha)) {
@@ -283,7 +290,6 @@ const Home = ({ setUser }) => {
   const numberFormatter = new Intl.NumberFormat().format;
   return (
     <>
-
       <Grid
         container
         sx={{
@@ -298,6 +304,7 @@ const Home = ({ setUser }) => {
             <CustomNavBar setUser={setUser} />
           </Box>
         </Grid>
+
 
         <Grid item xs={12} sm={10}  className="homeContainer">
           <Grid container rowGap={3} className="listadoTurnos">
@@ -422,8 +429,7 @@ const Home = ({ setUser }) => {
                       height={300}
                       padding={{ left: 30, right: 30, top: 30, bottom: 30 }}
                       margin={{ left: 150 }}
-                      
-
+                     
                     />
                   )}
                 </Box>
@@ -433,7 +439,6 @@ const Home = ({ setUser }) => {
           </Grid>
         </Grid>
       </Grid>
-
     </>
   );
 };
