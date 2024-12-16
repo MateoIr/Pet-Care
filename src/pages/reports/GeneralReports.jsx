@@ -77,15 +77,20 @@ const GeneralReports = ({ setUser }) => {
   ];
 
   useEffect(() => {
-    if (pedidos && pedidos.length > 0 && turnos && turnos.length > 0) {
+    if (pedidos && turnos) {
       const xAxisData = Array.from(
         new Set([
           ...pedidos.map((item) => item["mes:"]),
           ...turnos.map((item) => item["mes:"]),
         ])
-      ); // Combine and deduplicate months
-      const pedidosSeriesData = pedidos.map((item) => item["total:$"]);
-      const turnosSeriesData = turnos.map((item) => item["total:$"]);
+      ).sort(); // Asegúrate de que los meses estén en orden
+
+      const pedidosSeriesData = xAxisData.map(
+        (mes) => pedidos.find((item) => item["mes:"] === mes)?.["total:$"] || 0
+      );
+      const turnosSeriesData = xAxisData.map(
+        (mes) => turnos.find((item) => item["mes:"] === mes)?.["total:$"] || 0
+      );
 
       setChartData({
         xAxis: xAxisData,
