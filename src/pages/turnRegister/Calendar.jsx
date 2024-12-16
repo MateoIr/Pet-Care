@@ -14,26 +14,33 @@ const Calendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
-
-const { turnos, isLoading, error } = useGetDaycareServices(); // Llamada al API
+  const { turnos, isLoading, error } = useGetDaycareServices(); // Llamada al API
 
   const transformEvents = (turnos) => {
-    return turnos.map((event) => ({
-      idturno: `${event.turno.id}`.trim(),
-      idtipo: `${event.turno.idtipoTurno.id}`.trim(),
-      nombre: `${event.turno.idmascota.nombre} para ${event.turno.idtipoTurno.nombreTurno} a las ${event.turno.horarioturnodesde} `,
-      numero: `${event.turno.idmascota.idcliente.idpersona.telefono}`,
-      title: `${event.turno.idmascota.nombre} - ${event.turno.idtipoTurno.nombreTurno}`, // Título combinado de la mascota y el tipo de turno
-      start: `${event.turno.fechaturno}T${event.turno.horarioturnodesde}`, // Fecha y hora de inicio en formato ISO 8601
-      end: `${event.turno.fechaturno}T${event.turno.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
-      horario:
-        event.turno.idtipoTurno.id == 1
-          ? `${event.turno.fechaturno} \n Horario de ingreso: ${event.turno.horarioturnodesde} \n Día de egreso: ${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`
-          : `${event.turno.fechaturno} \n Horario de inicio: ${event.turno.horarioturnodesde} \n Horario de fin: ${event.turno.horarioturnohasta}`,
-      description: event.turno.idtipoTurno.id
-        ? `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-            event.turno.idtipoTurno.nombreTurno
-          }. 
+    return turnos.flatMap((event) => {
+      const observaciones = event.turno.descripcion
+        ? `\n Observaciones: ${event.turno.descripcion}`
+        : "";
+      const formaDePago = event.turno.formadepago
+        ? `\n Forma de pago: ${event.turno.formadepago}`
+        : "";
+      // Evento principal (Ingreso)
+      const mainEvent = {
+        idturno: `${event.turno.id}`.trim(),
+        idtipo: `${event.turno.idtipoTurno.id}`.trim(),
+        nombre: `${event.turno.idmascota.nombre} para ${event.turno.idtipoTurno.nombreTurno} a las ${event.turno.horarioturnodesde} `,
+        numero: `${event.turno.idmascota.idcliente.idpersona.telefono}`,
+        title: `${event.turno.idmascota.nombre} - ${event.turno.idtipoTurno.nombreTurno}`, // Título combinado de la mascota y el tipo de turno
+        start: `${event.turno.fechaturno}T${event.turno.horarioturnodesde}`, // Fecha y hora de inicio en formato ISO 8601
+        end: `${event.turno.fechaturno}T${event.turno.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
+        horario:
+          event.turno.idtipoTurno.id == 1
+            ? `${event.turno.fechaturno} \n Horario de ingreso: ${event.turno.horarioturnodesde} \n Día de salida: ${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`
+            : `${event.turno.fechaturno} \n Horario de inicio: ${event.turno.horarioturnodesde} \n Horario de fin: ${event.turno.horarioturnohasta}`,
+        description: event.turno.idtipoTurno.id
+          ? `Turno de ${event.turno.idmascota.nombre} con el servicio ${
+              event.turno.idtipoTurno.nombreTurno
+            }. 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    \n Costo total: $${event.turno.costototal} 
                    \n Detalle de turno: ${event.detalles.map(
@@ -42,113 +49,60 @@ const { turnos, isLoading, error } = useGetDaycareServices(); // Llamada al API
                    \n Dirección: ${
                      event.turno.idmascota.idcliente.idpersona.iddireccion.calle
                    } ${
-            event.turno.idmascota.idcliente.idpersona.iddireccion.numero
-          }, ${event.turno.idmascota.idcliente.idpersona.iddireccion.barrio}
-                   \n Forma de pago y observaciones: ${event.turno.formadepago} 
-                   \n Observaciones:  ${event.turno.descripcion}`
-        : `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-            event.turno.idtipoTurno.nombreTurno
-          }. 
-                   \n Estado: ${event.turno.idestado.descripcion} 
-                   \n Costo total: $${event.turno.costototal} 
-
-                   \n Detalle de turno: ${event.detalles.map(detalle=> detalle.tipoServicio.nombre)}`
-                   ,
-      backgroundColor: event.turno.idtipoTurno.id==1?`#e5af3d`: event.turno.idtipoTurno.id==2?`#66a2d1`:event.turno.idtipoTurno.id==3?`#378006`:`#8B0000`,
-      borderColor:event.turno.idtipoTurno.id==1?`#e5af3d`: event.turno.idtipoTurno.id==2?`#66a2d1`:`#378006`,
-    }
-  ));
-};
-
-*/
-const transformEvents = (turnos) => {
-  return turnos.flatMap((event) => {
-    const observaciones = event.turno.descripcion
-      ? `\n Observaciones: ${event.turno.descripcion}`
-      : "";
-    const formaDePago = event.turno.formadepago
-      ? `\n Forma de pago: ${event.turno.formadepago}`
-      : "";
-    // Evento principal (Ingreso)
-    const mainEvent = {
-      idturno: `${event.turno.id}`.trim(),
-      idtipo: `${event.turno.idtipoTurno.id}`.trim(),
-      nombre: `${event.turno.idmascota.nombre} para ${event.turno.idtipoTurno.nombreTurno} a las ${event.turno.horarioturnodesde} `,
-      numero: `${event.turno.idmascota.idcliente.idpersona.telefono}`,
-      title: `${event.turno.idmascota.nombre} - ${event.turno.idtipoTurno.nombreTurno}`, // Título combinado de la mascota y el tipo de turno
-      start: `${event.turno.fechaturno}T${event.turno.horarioturnodesde}`, // Fecha y hora de inicio en formato ISO 8601
-      end: `${event.turno.fechaturno}T${event.turno.horarioturnohasta}`, // Fecha y hora de fin en formato ISO 8601
-      horario:event.turno.idtipoTurno.id==1?`${event.turno.fechaturno} \n Horario de ingreso: ${event.turno.horarioturnodesde} \n Día de salida: ${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`:
-      `${event.turno.fechaturno} \n Horario de inicio: ${event.turno.horarioturnodesde} \n Horario de fin: ${event.turno.horarioturnohasta}`,
-      description: event.turno.idtipoTurno.id
-        ? `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-            event.turno.idtipoTurno.nombreTurno
-          }. 
-                   \n Estado: ${event.turno.idestado.descripcion} 
-                   \n Costo total: $${event.turno.costototal} 
-                   \n Detalle de turno: ${event.detalles.map(
-                     (detalle) => detalle.tipoServicio.nombre
-                   )}
-                   \n Dirección: ${
-                     event.turno.idmascota.idcliente.idpersona.iddireccion.calle
-                   } ${
-            event.turno.idmascota.idcliente.idpersona.iddireccion.numero
-          }, ${event.turno.idmascota.idcliente.idpersona.iddireccion.barrio}
+              event.turno.idmascota.idcliente.idpersona.iddireccion.numero
+            }, ${event.turno.idmascota.idcliente.idpersona.iddireccion.barrio}
                     ${formaDePago}${observaciones}`
-        : `Turno de ${event.turno.idmascota.nombre} con el servicio ${
-            event.turno.idtipoTurno.nombreTurno
-          }. 
+          : `Turno de ${event.turno.idmascota.nombre} con el servicio ${
+              event.turno.idtipoTurno.nombreTurno
+            }. 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    \n Costo total: $${event.turno.costototal} 
 
                    \n Detalle de turno: ${event.detalles.map(
                      (detalle) => detalle.tipoServicio.nombre
                    )}`,
-      backgroundColor:
-        event.turno.idtipoTurno.id == 1
-          ? `#e5af3d`
-          : event.turno.idtipoTurno.id == 2
-          ? `#66a2d1`
-          : event.turno.idtipoTurno.id == 3
-          ? `#378006`
-          : `#8B0000`,
-      borderColor:
-        event.turno.idtipoTurno.id == 1
-          ? `#e5af3d`
-          : event.turno.idtipoTurno.id == 2
-          ? `#66a2d1`
-          : `#378006`,
+        backgroundColor:
+          event.turno.idtipoTurno.id == 1
+            ? `#e5af3d`
+            : event.turno.idtipoTurno.id == 2
+            ? `#66a2d1`
+            : event.turno.idtipoTurno.id == 3
+            ? `#378006`
+            : `#A100BD`,
+        borderColor:
+          event.turno.idtipoTurno.id == 1
+            ? `#e5af3d`
+            : event.turno.idtipoTurno.id == 2
+            ? `#66a2d1`
+            : event.turno.idtipoTurno.id == 3
+            ? `#378006`
+            : "#A100BD",
+      };
 
-    };
-
-    // Evento adicional (Egreso)
-    const egresoEvent =
-      event.turno.idtipoTurno.id == 1
-        ? {
-            idturno: `${event.turno.id}`.trim(), // Mismo id para ingreso y egreso
-            idtipo: `${event.turno.idtipoTurno.id}`.trim(),
-            tipoEvento: 'egreso', // Propiedad adicional para distinguir eventos
-            title: `${event.turno.idmascota.nombre} - Salida Guardería`, 
-            horario: `${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`,
-            start: `${event.turno.idficha.fechaegreso}T${event.turno.horarioturnohasta}`,
-            end: `${event.turno.idficha.fechaegreso}T${event.turno.horarioturnohasta}`,
-            description: `Egreso programado para ${event.turno.idmascota.nombre} el ${event.turno.idficha.fechaegreso} a las ${event.turno.horarioturnohasta}.
+      // Evento adicional (Egreso)
+      const egresoEvent =
+        event.turno.idtipoTurno.id == 1
+          ? {
+              idturno: `${event.turno.id}`.trim(), // Mismo id para ingreso y egreso
+              idtipo: `${event.turno.idtipoTurno.id}`.trim(),
+              tipoEvento: "egreso", // Propiedad adicional para distinguir eventos
+              title: `${event.turno.idmascota.nombre} - Salida Guardería`,
+              horario: `${event.turno.idficha.fechaegreso} Horario de salida: ${event.turno.horarioturnohasta}`,
+              start: `${event.turno.idficha.fechaegreso}T${event.turno.horarioturnohasta}`,
+              end: `${event.turno.idficha.fechaegreso}T${event.turno.horarioturnohasta}`,
+              description: `Egreso programado para ${event.turno.idmascota.nombre} el ${event.turno.idficha.fechaegreso} a las ${event.turno.horarioturnohasta}.
                     \n Servicio: ${event.turno.idtipoTurno.nombreTurno} 
                    \n Estado: ${event.turno.idestado.descripcion} 
                    ${formaDePago}${observaciones}`,
-            backgroundColor: '#FFA07A', // Color específico para egreso
-            borderColor: '#FF4500',
-          }
-        : null;
+              backgroundColor: "#FFA07A", // Color específico para egreso
+              borderColor: "#FF4500",
+            }
+          : null;
 
-    // Devuelve el evento principal y el de egreso si aplica
-    return egresoEvent ? [mainEvent, egresoEvent] : [mainEvent];
-  });
-};
-
-const transformedEvents = turnos && turnos.length > 0  ? transformEvents(turnos) : [];
-//console.log('Eventos transformados:', transformedEvents);
-
+      // Devuelve el evento principal y el de egreso si aplica
+      return egresoEvent ? [mainEvent, egresoEvent] : [mainEvent];
+    });
+  };
 
   const transformedEvents =
     turnos && turnos.length > 0 ? transformEvents(turnos) : [];
