@@ -323,7 +323,7 @@ const Home = ({ setUser }) => {
 
         <Grid item xs={12} sm={10} className="homeContainer">
           <Grid container rowGap={3} className="listadoTurnos">
-            <Grid item md={10} rowGap={3} style={{ marginTop: "2rem" }}>
+            <Grid item md={12} sm={12} rowGap={3} style={{ marginTop: "1rem" }}>
               <Box className="titlePage">
                 Cupos asignados actualmente en la guardería:{" "}
               </Box>

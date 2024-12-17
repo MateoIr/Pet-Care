@@ -184,7 +184,7 @@ const PetList = ({ setUser }) => {
                             {pet.nombre}
                           </TableCell>
                           <TableCell className="tableCell">
-                            {pet.sexo}
+                            {pet.raza}
                           </TableCell>
                           <TableCell className="tableCell">
                             {pet.duenio}

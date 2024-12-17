@@ -20,26 +20,24 @@
   rotate: -10deg;
 }
 .homeContainer {
-  height: 100vh;
   width: 100vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: ce;
+  justify-content: start;
   flex-flow: column;
-  padding-top: 60px;
 }
 
 .calendarContainer {
   width: 100vw;
   margin-bottom: 30vh;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: right;
   flex-flow: column;
   padding-bottom: 60px;
 }
 
-.listadoTurnos{
-  margin-top: 20px;
+.listadoTurnos {
+  margin-top: -20px;
   justify-content: center;
 }
