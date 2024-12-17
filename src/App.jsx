@@ -39,10 +39,9 @@ import TrunRegister from "./pages/turnRegister/TrunRegister";
 import UpdateTurn from "./pages/updateTurn/UpdateTurn";
 import { CalendarSection } from "./pages/nav/calendar/CalendarSection";
 import ServiceList from "./pages/serviceList/ServiceList";
-import ReportSection  from "./pages/nav/reportsSection/ReportSection";
+import ReportSection from "./pages/nav/reportsSection/ReportSection";
 
 import SignaturePage from "./pages/signaturePage/SignaturePage";
-
 
 function App() {
   const [user, setUser] = useLocalStorage("token");
@@ -52,9 +51,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
-          // element={
-          //   <ProtectedRoute canActivate={user} redirectPath="/login" />
-          // }
+            element={
+              <ProtectedRoute canActivate={user} redirectPath="/login" />
+            }
           >
             <Route path="/home" element={<Home setUser={setUser} />} />
             <Route
@@ -141,9 +140,9 @@ function App() {
               element={<CalendarSection setUser={setUser} />}
             />
             <Route
-            path="/home/reports/turn"
-            element={<ReportSection setUser={setUser} />}
-          />
+              path="/home/reports/turn"
+              element={<ReportSection setUser={setUser} />}
+            />
             <Route
               path="/serviceList"
               element={<ServiceList setUser={setUser} />}
@@ -205,7 +204,6 @@ function App() {
           />
           <Route path="/turn/updateTurn/:idtipo/:id" element={<UpdateTurn />} />
 
-          
           <Route
             element={
               <ProtectedRoute canActivate={!user} redirectPath="/home" />
